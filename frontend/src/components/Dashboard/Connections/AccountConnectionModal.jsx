@@ -11,23 +11,7 @@ import { motion } from "framer-motion";
 
 const AccountConnectionModal = () => {
   const [showModal, setShowModal] = useState(false);
-  const [paypalConnected, setPaypalConnected] = useState(false);
 
-  // PayPal Connection Handler
-  const handlePayPalConnect = () => {
-    try {
-      const clientId = import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID;
-      const redirectUri = encodeURIComponent(`${window.location.origin}/paypal/callback`);
-      const scope = encodeURIComponent('openid email profile');
-      
-      const authUrl = `https://www.sandbox.paypal.com/signin/authorize?client_id=${clientId}&response_type=code&scope=${scope}&redirect_uri=${redirectUri}`;
-      
-      window.location.href = authUrl;
-    } catch (error) {
-      console.error('PayPal connection error:', error);
-      // Handle error state here
-    }
-  };
 
   // Disable scrolling when the modal is open
   useEffect(() => {
@@ -46,8 +30,8 @@ const AccountConnectionModal = () => {
     { 
       name: 'PayPal', 
       icon: Paypal,
-      action: handlePayPalConnect,
-      connected: paypalConnected
+      action: '',
+      connected: ''
     },
     { name: 'Flutterwave', icon: flutter },
     { name: 'Stripe', icon: stripe },
