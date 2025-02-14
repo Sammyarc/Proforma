@@ -1,0 +1,119 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Satoshi';
+    font-weight: normal;
+    font-style: normal;
+    src: url('./assets/Fonts/Satoshi-Regular.otf') format('opentype');
+  }
+
+  @font-face {
+    font-family: 'Clash-Display';
+    font-weight: normal;
+    font-style: normal;
+    src: url('./assets/Fonts/ClashDisplay-Variable.ttf') format('truetype');
+  }
+}
+
+
+body{
+  background-color: #F5F5F2;
+}
+
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+
+@keyframes move-up {
+  from {
+    transform: translateY(0.5rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-moveUp {
+  animation: move-up 0.3s ease-out;
+}
+
+/* Seamless scrolling animation */
+@keyframes scroll {
+  0%  {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-111.1%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 20s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-reverse {
+  display: flex;
+  animation: scroll 20s linear infinite reverse;
+  white-space: nowrap;
+}
+
+.animate-scroll-reverse:hover {
+  animation-play-state: paused;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+
+.Toastify__toast-container {
+  width: auto; 
+  margin: 0 auto;
+}
+
+.Toastify__close-button > svg {
+  width: 1.2vw !important;
+  height: 1.2vw !important;
+}
+
+.Toastify__toast {
+  width: 100%; /* Ensures each toast takes full width */
+  font-family: 'Satoshi';
+}
+
+
+/* Hide increment/decrement arrows for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide increment/decrement arrows for Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+.box {
+  box-shadow: 0 5px 0 0 rgb(0, 0, 0);
+}
+
