@@ -1,4 +1,4 @@
-# InvoiceGen - Open Source Invoice Generator
+# Proforma - Open Source Invoice Generator
 
 🚀 A modern, user-friendly invoice generator web application built with React that allows users to create, customize, and send professional invoices with integrated payment tracking.
 
