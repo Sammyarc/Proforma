@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
     const fontSizes = ["1", "2", "3", "4", "5", "6", "7"];
 
     useEffect(() => {
-      const apiKey = 'AIzaSyBGVK0dYBpADbzQ9n_3IDGwE2CVeKCv2ws';
+      const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
       const apiUrl = `https://www.googleapis.com/webfonts/v1/webfonts?key=${apiKey}`;
   
       fetch(apiUrl)
