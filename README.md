@@ -40,7 +40,7 @@
 1. Clone the repository
 ```bash
 git clone https://github.com/sammyarc/proforma.git
-cd invoicegen
+cd proforma
 ```
 
 2. Install dependencies
