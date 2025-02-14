@@ -50,18 +50,7 @@ npm install
 yarn install
 ```
 
-3. Set up environment variables
-```bash
-cp .env.example .env
-```
-Fill in your environment variables:
-```
-NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id
-STRIPE_SECRET_KEY=your_stripe_secret_key
-SQUARE_ACCESS_TOKEN=your_square_access_token
-```
-
-4. Start the development server
+3. Start the development server
 ```bash
 npm run dev
 # or
