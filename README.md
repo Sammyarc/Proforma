@@ -15,15 +15,18 @@
 ### Payment Integrations
 - Stripe
 - PayPal
-- Square
+- Flutterwave
+- Paystack
+- Skrill
+- GooglePay
 
 ## Tech Stack
 
 - **Frontend:** React, TailwindCSS, Framer Motion
 - **Payment Processing:** Stripe API, PayPal API, Square API
-- **Authentication:** (To be implemented)
-- **Email Service:** (To be implemented)
-- **Database:** (To be implemented)
+- **Authentication:** Google OAuth
+- **Email Service:** Google Mail Service API and NodeMailer
+- **Database:** MongoDB
 
 ## Getting Started
 
@@ -36,7 +39,7 @@
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/invoicegen.git
+git clone https://github.com/sammyarc/proforma.git
 cd invoicegen
 ```
 
@@ -116,22 +119,6 @@ git checkout -b feature/your-feature-name
 
 ## Project Structure
 
-```
-invoicegen/
-├── src/
-│   ├── components/
-│   │   ├── invoice/
-│   │   ├── payment/
-│   │   └── shared/
-│   ├── pages/
-│   ├── styles/
-│   ├── utils/
-│   └── services/
-├── public/
-├── tests/
-└── docs/
-```
-
 ## Setting Up Payment Providers
 
 ### Stripe Setup
@@ -147,12 +134,7 @@ invoicegen/
 4. Configure OAuth scopes
 5. Add credentials to environment variables
 
-### Square Setup
-1. Create a Square Developer account
-2. Create an application
-3. Get Access Token
-4. Configure webhook endpoints
-5. Add credentials to environment variables
+and so on...
 
 ## Running Tests
 ```bash
