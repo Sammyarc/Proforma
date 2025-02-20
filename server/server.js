@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from "dotenv";
 import { connectDB } from './db/connectDB.js';
-import authRoutes from "./api/auth.js"
-import emailRoutes from "./api/email.js"
-import paypalRoutes from "./api/paypal.js"
+import authRoutes from './routes/auth.routes.js';
+import emailRoutes from './mails/email.routes.js';
+import paypalRoutes from './routes/paypal.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
