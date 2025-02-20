@@ -72,7 +72,7 @@ router.get('/callback', async (req, res) => {
     // Send success message back to opener window
     res.send(`
       <script>
-        window.opener.postMessage({ type: 'PAYPAL_CONNECTION_SUCCESS' }, '${process.env.APP_URL}');
+        window.opener.postMessage({ type: 'PAYPAL_CONNECTION_SUCCESS' }, '${process.env.FRONTEND_URL}');
       </script>
     `);
   } catch (error) {
