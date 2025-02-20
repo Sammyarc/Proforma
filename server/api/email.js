@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import createTransporter from './email.config.js';
+import createTransporter from '../mails/email.config.js';
 
 const router = express.Router();
 
