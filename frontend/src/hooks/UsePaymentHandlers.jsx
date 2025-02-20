@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 const API_URL =
   import.meta.env.MODE === "development"
     ? "https://afe5-105-113-33-172.ngrok-free.app"
-    : "https://proforma-gen.vercel.app";
+    : "https://proforma-backend-sigma.vercel.app";
 
 export const UsePaymentHandlers = () => {
   const [connections, setConnections] = useState({
@@ -24,9 +24,7 @@ export const UsePaymentHandlers = () => {
       const clientId = import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID;
       const userId = user._id; // Getting the MongoDB ObjectId
       const stateObj = { userId };
-      console.log('State object before encoding:', stateObj);
       const state = encodeURIComponent(JSON.stringify(stateObj));
-      console.log('Encoded state:', state);
       const redirectUri = encodeURIComponent(`${API_URL}/paypal/callback`);
       const scope = encodeURIComponent('openid email profile')
       
