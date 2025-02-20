@@ -9,8 +9,8 @@ import {createPortal} from 'react-dom';
 import { LiaSpinnerSolid } from "react-icons/lia";
 
 const API_URL = import.meta.env.MODE === 'development'
-    ? 'http://localhost:5000/api'
-    : '';
+    ? 'http://localhost:3000/api'
+    : 'https://proforma-backend-sigma.vercel.app/api';
 
 axios.defaults.withCredentials = true;
 
@@ -80,7 +80,7 @@ const EmailInput = ({onClose, toggleStaticMode}) => {
     return createPortal(
         <div className="relative">
             <div
-                className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm w-full h-full flex justify-center items-center z-[99999]">
+                className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm w-full h-full flex justify-center items-center z-[99999]">
                 <motion.div
                     initial={{
                         opacity: 0,

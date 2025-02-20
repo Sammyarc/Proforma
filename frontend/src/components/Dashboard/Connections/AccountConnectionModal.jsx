@@ -8,12 +8,13 @@ import skrill from "../../../assets/Images/Account Icons/Skrill.svg";
 import googlepay from "../../../assets/Images/Account Icons/GooglePay.svg";
 import { GoShieldLock } from 'react-icons/go';
 import { motion } from "framer-motion";
+import { UsePaymentHandlers } from '../../../hooks/UsePaymentHandlers';
 
 const AccountConnectionModal = () => {
   const [showModal, setShowModal] = useState(false);
+  const { connections, handlers } = UsePaymentHandlers();
 
-
-  // Disable scrolling when the modal is open
+  // Disable scrolling when modal is open
   useEffect(() => {
     if (showModal) {
       document.body.style.overflow = "hidden";
@@ -30,22 +31,48 @@ const AccountConnectionModal = () => {
     { 
       name: 'PayPal', 
       icon: Paypal,
-      action: '',
-      connected: ''
+      action: handlers.handlePayPalConnect,
+      connected: connections.paypal
     },
-    { name: 'Flutterwave', icon: flutter },
-    { name: 'Stripe', icon: stripe },
-    { name: 'Paystack', icon: paystack },
-    { name: 'Skrill', icon: skrill },
-    { name: 'Google Pay', icon: googlepay }
+    { 
+      name: 'Flutterwave', 
+      icon: flutter,
+      action: handlers.handleFlutterwaveConnect,
+      connected: connections.flutterwave
+    },
+    { 
+      name: 'Stripe', 
+      icon: stripe,
+      action: handlers.handleStripeConnect,
+      connected: connections.stripe
+    },
+    { 
+      name: 'Paystack', 
+      icon: paystack,
+      action: handlers.handlePaystackConnect,
+      connected: connections.paystack
+    },
+    { 
+      name: 'Skrill', 
+      icon: skrill,
+      action: handlers.handleSkrillConnect,
+      connected: connections.skrill
+    },
+    { 
+      name: 'Google Pay', 
+      icon: googlepay,
+      action: handlers.handleGooglePayConnect,
+      connected: connections.googlePay
+    }
   ];
+
 
   return (
     <>
       {/* Connect Account Button */}
       <button 
         onClick={() => setShowModal(true)}
-        className='py-[0.5vw] px-[1.5vw] box font-medium font-satoshi border border-neutral-500 rounded-xl mr-[1vw]'
+        className='py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border border-neutral-500 rounded-xl mr-[1vw]'
       >
         Connect Account
       </button>

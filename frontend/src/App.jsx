@@ -5,9 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./hooks/ProtectedRoute";
+
 
 const App = () => {
-
+  
     return (
         <Router>
             <Routes>
@@ -15,7 +17,7 @@ const App = () => {
                 <Route path="/" element={<Home />}/>
                 <Route path="/signup" element={<Signup />}/> 
                 {/* Protected dashboard Route */}
-                <Route path="/dashboard/*" element={<Dashboard />}/> 
+                <Route path="/dashboard/*" element={ <ProtectedRoute> <Dashboard />  </ProtectedRoute>  }/> 
                 {/* Error Pages */}
                 <Route path="*" element={<Home />}/>
             </Routes>

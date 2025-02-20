@@ -4,15 +4,15 @@ import axios from "axios";
 // Set the API URL based on the environment
 const API_URL =
   import.meta.env.MODE === "development"
-    ? "http://localhost:5000/api/auth"
-    : "https://echobazar.onrender.com/api/auth";
+    ? "http://localhost:3000/api/auth"
+    : "https://proforma-backend-sigma.vercel.app/api/auth";
 
 axios.defaults.withCredentials = true;
 
 // Zustand store with persist
 export const useAuthStore = create((set) => ({
   user: null,  
-  isAuthenticated: false, 
+  isAuthenticated: true, 
   error: null,        
   isLoading: false,  
   isCheckingAuth: false,
@@ -49,7 +49,6 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await axios.post(`${API_URL}/google-signin`, { token });
       const user = response.data.user;
-
       set({
         user,
         isAuthenticated: true,
@@ -74,13 +73,11 @@ export const useAuthStore = create((set) => ({
         password,
       });
       const user = response.data.user;
-
       set({
         isAuthenticated: true,
         user,
         isLoading: false,
       });
-      return user;
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error logging in",
@@ -111,6 +108,7 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       const user = response.data.user;
+      console.log(user);
       set({
         user,
         isAuthenticated: true,

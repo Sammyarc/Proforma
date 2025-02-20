@@ -7,6 +7,7 @@ import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import {useAuthStore} from "../../store/authStore";
 import{GoogleLogin} from "@react-oauth/google"
 import { LucideLoader2 } from 'lucide-react';
+import { MdErrorOutline } from 'react-icons/md';
 
 
 const Signin = () => {
@@ -15,6 +16,7 @@ const Signin = () => {
         googleSignIn,
         login,
         isLoading,
+        error,
         clearError
     } = useAuthStore();
     const [email, setEmail] = useState('');
@@ -186,6 +188,11 @@ const handleGoogleLoginError = () => {
                 </div>
             </div>
 
+            {/* Show error only for the specific mode */}
+            {
+                error && <p
+                        className='text-red-500 flex items-center gap-1 font-medium text-[4vw] md:text-[1vw] mt-2 font-satoshi'><MdErrorOutline className='text-[5vw] md:text-[1.2vw]'/> {error}</p>
+            }
 
             {/* Password Strength Meter only in register mode */}
             {isRegister && <PassStrengthMeter password={password}/>}
@@ -231,8 +238,8 @@ const handleGoogleLoginError = () => {
             {/* Submit button */}
             <button
                 className={`mt-[4vw] md:mt-[1vw] ${isLoading || (isRegister && !termsAccepted)
-                    ? 'bg-Disabled cursor-not-allowed'
-                    : 'bg-Gray800'} text-White font-satoshi h-[11vw] md:h-[2.5vw] rounded-lg`}
+                    ? 'bg-gray-400 cursor-not-allowed '
+                    : 'bg-cyan-800'} text-white font-satoshi h-[15vw] border border-neutral-400 md:h-[2.5vw] rounded-xl box`}
                 onClick={() => {
                     if (isRegister) {
                         handleRegister();
@@ -264,20 +271,22 @@ const handleGoogleLoginError = () => {
 
             <div className="flex flex-col mt-[4vw] md:mt-[1vw]">
                 <div className="flex items-center mb-[4vw] md:mb-[1vw]">
-                    <div className="flex-1 border-t border-Gray800 mr-2"></div>
+                    <div className="flex-1 border-t border-neutral-400 mr-2"></div>
                     <span className='text-Gray800 text-[3.5vw] md:text-[1vw] font-satoshi'>OR</span>
-                    <div className="flex-1 border-t border-Gray900 ml-2"></div>
+                    <div className="flex-1 border-t border-neutral-400 ml-2"></div>
                 </div>
-            {/* Sign in with Google button */}
-            <GoogleLogin
-                    onSuccess={handleGoogleLoginSuccess}
-                    onError={handleGoogleLoginError}
-                    useOneTap={true}
-                    cookiePolicy={'single_host_origin'}
-                    theme="outline"
-                    text="Sign in with Google"
-                    shape="rectangular"/>
-
+                    {/* Sign in with Google button */}
+                    <GoogleLogin
+  onSuccess={handleGoogleLoginSuccess}
+  onError={handleGoogleLoginError}
+  useOneTap={false} // Disable One-Tap auto sign-in
+  cookiePolicy={'single_host_origin'}
+  theme="outline"
+  text="signin_with"
+  shape="rectangular"
+  prompt="select_account" // Force account selection
+  auto_select={false} // Disable auto-selection
+/>
             </div>
 
             {/* Switch mode button */}

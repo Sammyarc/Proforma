@@ -1,18 +1,17 @@
 import {useState} from 'react';
-import {Filter, CheckCircle, Settings, LogOut} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {Filter, CheckCircle } from 'lucide-react';
 import Logo from "../../assets/Images/P-removebg-preview.png";
-import {FaCheck} from "react-icons/fa6";
 import {GoSearch} from "react-icons/go";
-import {FaBell} from 'react-icons/fa';
-import {VscAccount} from "react-icons/vsc";
-import {useAuthStore} from '../../store/authStore';
+import { CiBellOn } from "react-icons/ci";
 import AccountConnectionModal from './Connections/AccountConnectionModal';
+import { useAuthStore } from '../../store/authStore';
 
-const Header = () => {
 
+const Header = () => { 
     const [isAlertsOpen, setIsAlertsOpen] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [animate, setAnimate] = useState(false);
+    const navigate = useNavigate();
 
     const toggleAlerts = () => {
         setIsAlertsOpen(!isAlertsOpen);
@@ -22,25 +21,32 @@ const Header = () => {
         setTimeout(() => setAnimate(false), 500); // Remove class after animation duration
     };
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
 
-    const {logout} = useAuthStore();
+    const { user } = useAuthStore();
+
+    const getInitials = (name) => {
+        if (!name) return "";
+        const words = name.trim().split(" ");
+        if (words.length === 1) return words[0].charAt(0).toUpperCase();
+        // Use first letter of first and last words for initials
+        return (
+          words[0].charAt(0).toUpperCase() +
+          words[words.length - 1].charAt(0).toUpperCase()
+        );
+    };
+      
 
     return (
         <div className='relative'>
             <div className="fixed top-0 left-0 right-0 z-[50] bg-[#F5F5F2]">
             <div className="flex items-center justify-between p-2">
                 {/* Logo */}
-                <div>
-                    <a href="#" className="flex items-center">
+                <div className='flex items-center'>
                         <img
                             src={Logo}
                             alt='Profoma Logo'
                             className='w-[10vw] h-[3vw] md:w-[5vw] md:h-[5vw]'/>
                         <span className='font-clash text-[4vw] text-black md:text-[1.5vw]'>Proforma</span>
-                    </a>
                 </div>
 
                 {/* Search */}
@@ -56,21 +62,19 @@ const Header = () => {
 
 
                 {/* Right side buttons */}
-                <div className="flex items-center">
-                    
-                    {/* Connect account button */}
-                    <AccountConnectionModal />
+                <div className="flex items-center gap-[0.8vw]">
 
                     {/* Alerts Button */}
                     <div className="relative">
                         <button
                             title="What's New"
-                            className="p-2 bg-neutral-600 box rounded-lg"
+                            className="w-10 h-10 flex justify-center items-center border border-neutral-500 box rounded-lg"
                             onClick={toggleAlerts}
                             aria-haspopup="true"
                             aria-expanded={isAlertsOpen}>
-                            <FaBell
-                                className={`text-white ${animate
+                            <CiBellOn
+                            size={27}
+                                className={` ${animate
                                     ? "shake"
                                     : ""}`}/>
                         </button>
@@ -95,72 +99,19 @@ const Header = () => {
                         }
                     </div>
 
-                    {/* User Menu */}
-                    <div className="relative">
+                    {/* User Profile */}
                         <button
-                            className="flex items-center space-x-2 p-2"
-                            onClick={toggleMenu}
-                            aria-haspopup="true"
-                            aria-expanded={isMenuOpen}>
+                            title="User Profile"
+                            className="w-10 h-10 flex justify-center items-center border border-neutral-500 box rounded-lg"
+                            onClick={() => navigate('/dashboard/settings')}>
                             <span
-                                className="bg-neutral-600 box text-[4vw] font-satoshi text-white rounded-lg w-8 h-8 flex items-center justify-center md:text-[0.9vw]">
-                                JD
+                                className="text-[4vw] font-satoshi font-bold md:text-[1.1vw]">
+                                {getInitials(user?.name) || ""}
                             </span>
-                            <span className="font-satoshi text-[4vw] md:text-[1.1vw]">John Doe</span>
                         </button>
-                        {
-                            isMenuOpen && (
-                                <div
-                                    className="absolute right-0 mt-2 w-64 bg-white text-black rounded-md shadow-lg md:w-[20vw] md:rounded-lg animate-moveUp">
-                                    <div className="p-4 border-b flex items-center justify-between">
-                                        <div className="flex items-center space-x-2">
-                                            <span
-                                                className="bg-neutral-600 box text-[4vw] font-satoshi text-white rounded-md w-8 h-8 flex items-center justify-center md:text-[0.9vw]">
-                                                JD
-                                            </span>
-                                            <div>
-                                                <p className="font-semibold font-satoshi">John Doe</p>
-                                                <p className="text-sm text-gray-600 font-satoshi">johndoe@gmail.com</p>
-                                            </div>
-                                        </div>
-                                        <FaCheck size={20} className='text-green-600'/>
-                                    </div>
-                                    <ul className="py-[0.5vw]">
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2 font-satoshi">
-                                                <VscAccount size={22}/>
-                                                <span>Account</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2 font-satoshi">
-                                                <Settings size={22}/>
-                                                <span>Settings</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    logout();
-                                                    window.location.href = "/signup";
-                                                }}
-                                                className="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2 font-satoshi text-red-600">
-                                                <LogOut size={22}/>
-                                                <span>Logout</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )
-                        }
-                    </div>
-
+                        
+                    {/* Connect account button */}
+                    <AccountConnectionModal />
                 </div>
             </div>
         </div>

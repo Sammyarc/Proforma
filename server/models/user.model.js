@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+
+		paypal: {
+			accessToken: { type: String },
+			refreshToken: { type: String },
+			tokenExpiry: { type: Date }
+		},
+
 		companyName: {
 			type: String,
 		}, // Optional: The name of the user's business/company

@@ -65,14 +65,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 style={{
                     width: sidebarWidth,
                     paddingTop: isOpen ? '0.5vw' : '0.5vw'
-                }}
-            >
+                }}>
 
-                    <button onClick={toggleSidebar} className="text-[6vw] md:text-[1.2vw] rounded-full bg-MilkWhite w-[2vw] h-[2vw] flex justify-center items-center ml-auto"
+                <button onClick={toggleSidebar} className="text-[6vw] md:text-[1.2vw] rounded-full border border-neutral-500 w-[2vw] h-[2vw] flex justify-center items-center ml-auto"
                     title={isOpen ? 'Close Sidebar' : 'Open Sidebar'}
                     >  
                         {isOpen ? <IoChevronBack /> : <IoChevronForward />}
-                    </button>
+                </button>
                 {/* Sidebar Items */}
                 <div style={{
                     marginTop : sidebarLinkTop

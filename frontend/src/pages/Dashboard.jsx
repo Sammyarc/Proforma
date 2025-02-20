@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar";
 import Header from "../components/Dashboard/Header";
 import Overview from "./Overview";
@@ -12,8 +12,8 @@ const Dashboard = () => {
 
     const year = new Date().getFullYear();
     const [isSidebarOpen, setIsSidebarOpen] = useState('false');
-
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
 
     // Update window width on resize
     useEffect(() => {
