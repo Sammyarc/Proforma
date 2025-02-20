@@ -106,7 +106,7 @@ const handleGoogleLoginError = () => {
         }
 
         if (user) {
-            navigate("/dashboard"); // Navigate to the admin dashboard
+            navigate("/dashboard"); // Navigate to the dashboard
         } 
 
         // Scroll to the top of the page after navigation
