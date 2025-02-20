@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   "http://localhost:5173", // Dev
-  "https://proforma-backend-sigma.vercel.app", // Prod
+  "https://proforma-gen.vercel.app", // Prod
 ];
 
 app.use(
