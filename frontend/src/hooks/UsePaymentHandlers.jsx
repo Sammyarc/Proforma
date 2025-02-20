@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 
+const API_URL =
+  import.meta.env.MODE === "development"
+    ? "https://afe5-105-113-33-172.ngrok-free.app"
+    : "https://proforma-gen.vercel.app";
 
 export const UsePaymentHandlers = () => {
   const [connections, setConnections] = useState({
@@ -23,7 +27,7 @@ export const UsePaymentHandlers = () => {
       console.log('State object before encoding:', stateObj);
       const state = encodeURIComponent(JSON.stringify(stateObj));
       console.log('Encoded state:', state);
-      const redirectUri = encodeURIComponent(' https://41f3-197-211-63-41.ngrok-free.app/paypal/callback');
+      const redirectUri = encodeURIComponent(`${API_URL}/paypal/callback`);
       const scope = encodeURIComponent('openid email profile')
       
       // Use PayPal's OAuth flow for merchant/seller account connection
