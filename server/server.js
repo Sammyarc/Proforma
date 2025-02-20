@@ -7,7 +7,6 @@ import paypalRoutes from './routes/paypal.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,15 +23,26 @@ app.use(
   })
 );
 
-app.use(express.json()); // allows us to parse incoming requests:req.body
-app.use(cookieParser()); // allows us to parse incoming cookies
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api", emailRoutes);
 app.use("/paypal", paypalRoutes);
 
+// Connect to database first, then start server
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log("Database connected successfully");
+    
+    app.listen(PORT, () => {
+      console.log("Server listening on port:", PORT);
+    });
+  } catch (error) {
+    console.error("Failed to connect to database:", error);
+    process.exit(1);
+  }
+};
 
-app.listen(PORT, () => {
-    connectDB();
-    console.log("listening on port: ", PORT);
-});
+startServer();
