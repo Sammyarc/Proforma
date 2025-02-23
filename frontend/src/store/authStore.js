@@ -12,6 +12,9 @@ axios.defaults.withCredentials = true;
 // Zustand store with persist
 export const useAuthStore = create((set) => ({
   user: null,  
+  connections: {
+    paypal: false,
+  },
   isAuthenticated: true, 
   error: null,        
   isLoading: false,  
@@ -108,9 +111,10 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       const user = response.data.user;
-      console.log(user);
+      const connections = response.data.connections; // Extract connection status from the response
       set({
         user,
+        connections,
         isAuthenticated: true,
         isCheckingAuth: false,
       });
