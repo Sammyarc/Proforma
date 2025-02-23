@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {HiOutlineMenuAlt3} from "react-icons/hi";
+import {HiArrowRight, HiOutlineMenuAlt3} from "react-icons/hi";
 import Logo from "../../assets/Images/P-removebg-preview.png";
 import { useNavigate } from "react-router-dom";
 
@@ -17,9 +17,9 @@ const Navbar = () => {
 
 
     return (
-        <nav className=" text-Gray800 bg-[#F5F5F2] fixed top-0 left-0 w-full z-[20]">
+        <nav className="text-Gray800 bg-[#F5F5F2] fixed top-0 left-0 w-full z-[20]">
             <div
-                className="container mx-auto flex items-center justify-between p-4 my-[0.1vw]">
+                className="container mx-auto flex items-center justify-between p-3 my-[0.1vw]">
                 {/* Logo */}
                 <div>
                     <a href="/" className="flex items-center">
@@ -57,7 +57,7 @@ const Navbar = () => {
                         <a
                             href=""
                             className="hover:text-gray-600 text-Gray800 font-satoshi">
-                            Help
+                            Contact
                         </a>
                     </li>
                     <li>
@@ -72,16 +72,9 @@ const Navbar = () => {
                 <button
                 onClick={handleGenerate}
                     type="submit"
-                    className="flex justify-center gap-2 items-center shadow-xl text-[1.2vw] font-satoshi bg-gray-50 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-Gray800 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-4 py-2 overflow-hidden border-2 rounded-full group">
+                    className="px-[1.5vw] py-[0.5vw] flex gap-x-[0.5vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box">
                     Generate
-                    <svg
-                        className="w-8 h-8 justify-end group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45"
-                        viewBox="0 0 16 19"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"
-                            className="fill-gray-800 group-hover:fill-gray-800"/>
-                    </svg>
+                    <HiArrowRight size={18}/>
                 </button>
 
             </div>
@@ -111,32 +104,32 @@ const Navbar = () => {
                 <ul className="space-y-8 text-2xl font-semibold">
                     <li>
                         <a
-                            href="#home"
-                            className="hover:text-green-500 font-satoshi"
+                            href=""
+                            className="font-satoshi"
                             onClick={toggleMenu}>
                             Home
                         </a>
                     </li>
                     <li>
                         <a
-                            href="#about"
-                            className="hover:text-green-500 font-satoshi"
+                            href=""
+                            className="font-satoshi"
                             onClick={toggleMenu}>
                             About
                         </a>
                     </li>
                     <li>
                         <a
-                            href="#projects"
-                            className="hover:text-green-500 font-satoshi"
+                            href=""
+                            className="font-satoshi"
                             onClick={toggleMenu}>
                             Projects
                         </a>
                     </li>
                     <li>
                         <a
-                            href="#contact"
-                            className="hover:text-green-500 font-satoshi"
+                            href=""
+                            className="font-satoshi"
                             onClick={toggleMenu}>
                             Contact
                         </a>
