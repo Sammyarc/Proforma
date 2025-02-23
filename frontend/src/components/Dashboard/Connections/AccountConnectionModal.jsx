@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Paypal from "../../../assets/Images/Account Icons/Logotype.svg";
+import Paypal from "../../../assets/Images/Account Icons/PayPal_Logo_Icon_2014.svg";
 import flutter from "../../../assets/Images/Account Icons/full.svg";
 import stripe from "../../../assets/Images/Account Icons/Logotype (1).svg";
 import paystack from "../../../assets/Images/Account Icons/images (1).png";
@@ -9,10 +9,17 @@ import googlepay from "../../../assets/Images/Account Icons/GooglePay.svg";
 import { GoShieldLock } from 'react-icons/go';
 import { motion } from "framer-motion";
 import { UsePaymentHandlers } from '../../../hooks/UsePaymentHandlers';
+import { useAuthStore } from '../../../store/authStore';
+
 
 const AccountConnectionModal = () => {
   const [showModal, setShowModal] = useState(false);
-  const { connections, handlers } = UsePaymentHandlers();
+  const { handlers } = UsePaymentHandlers();
+  const { connections } = useAuthStore();
+
+  // Determine if any connection is active
+  const anyConnected = Object.values(connections).some((connected) => connected === true);
+
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -70,11 +77,14 @@ const AccountConnectionModal = () => {
   return (
     <>
       {/* Connect Account Button */}
-      <button 
+      <button
         onClick={() => setShowModal(true)}
-        className='py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border border-neutral-500 rounded-xl mr-[1vw]'
+        disabled={anyConnected}
+        className={`py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border border-neutral-500 rounded-xl mr-[1vw] ${
+          anyConnected ? "cursor-not-allowed bg-teal-100" : ""
+        }`}
       >
-        Connect Account
+        {anyConnected ? "Connected" : "Connect Account"}
       </button>
 
       {/* Modal Overlay */}
@@ -108,16 +118,19 @@ const AccountConnectionModal = () => {
                   onClick={option.action}  // Add action handler here
                   className={`w-full flex items-center p-3 rounded-lg transition-colors border ${
                     option.connected 
-                      ? 'border-green-500 bg-green-50 hover:bg-green-100'
+                      ? 'border-green-500 bg-green-50 hover:bg-green-100 cursor-not-allowed'
                       : 'border-neutral-300 hover:bg-neutral-50'
                   }`}
                   disabled={option.connected}
                 >
+                  <div className='w-12 h-8 mr-3'>
                   <img 
                     src={option.icon} 
                     alt={option.name}
-                    className="w-10 h-8 mr-3 object-cover" 
+                    className="w-full h-full object-contain" 
                   />
+                  </div>
+                  
                   <span className="font-medium text-[4vw] font-satoshi md:text-[1vw]">
                     {option.connected ? `${option.name} Connected` : `Connect with ${option.name}`}
                   </span>
