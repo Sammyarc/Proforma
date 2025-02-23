@@ -167,7 +167,15 @@ export const checkAuth = async (req, res) => {
 			return res.status(400).json({ success: false, message: "User not found" });
 		}
 
-		res.status(200).json({ success: true, user });
+		 // Return the user's connection status (e.g., PayPal connection)
+		 res.status(200).json({
+			success: true,
+			user,
+			connections: {
+			  paypal: user.paypal && user.paypal.accessToken ? true : false,
+			  // Add any other connections here if needed.
+			}
+		  });
 	} catch (error) {
 		console.log("Error in checkAuth ", error);
 		res.status(400).json({ success: false, message: error.message });
