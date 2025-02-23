@@ -21,7 +21,6 @@ async function savePayPalCredentials(userId, tokenData) {
       },
       { new: true }
     );
-    console.log('PayPal credentials updated for user:', updatedUser);
     return updatedUser;
   } catch (error) {
     console.error('Error saving PayPal credentials:', error);
@@ -31,7 +30,6 @@ async function savePayPalCredentials(userId, tokenData) {
 
 
 router.get('/callback', async (req, res) => {
-  console.log('All query parameters:', req.query);
   const { state, code } = req.query;
   
   if (!state) {
@@ -69,17 +67,26 @@ router.get('/callback', async (req, res) => {
     // Store the merchant's PayPal credentials securely
     await savePayPalCredentials(userId, tokenData);
     
-    // Send success message back to opener window
-    res.send(`
-      <script>
-        window.opener.postMessage({ type: 'PAYPAL_CONNECTION_SUCCESS' }, '${process.env.FRONTEND_URL}');
-      </script>
-    `);
+    // After successfully saving, redirect the user back to the dashboard.
+    res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
   } catch (error) {
     console.error('PayPal callback error:', error);
     res.status(500).send('Connection failed');
   }
 });
+
+router.post('/disconnect', async (req, res) => {
+  const { userId } = req.body;
+  try {
+    // e.g. remove the paypal field from user
+    await User.findByIdAndUpdate(userId, { $unset: { paypal: "" } });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Error disconnecting PayPal:", error);
+    res.status(500).json({ success: false, message: "Failed to disconnect PayPal" });
+  }
+});
+
 
 
 export default router;
