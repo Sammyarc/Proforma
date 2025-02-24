@@ -1,4 +1,4 @@
-import HeroImage from "../../assets/Images/Proforma-dashboard.png"
+import HeroImage from "../../assets/Images/proforma-dashboard.jpg";
 import HeroRating from "../Ratings/HeroRating";
 import {IoPlaySkipForwardSharp} from "react-icons/io5";
 
@@ -45,7 +45,7 @@ const Hero = () => {
                 <img
                     src={HeroImage}
                     alt="proforma dashboard"
-                    className="mt-[1vw] flex justify-center items-center mx-auto border border-gray-200 rounded-lg md:w-[70vw]"/>
+                    className="mt-[1vw] flex justify-center items-center mx-auto border box border-neutral-500 rounded-3xl md:w-[70vw]"/>
             </div>
         </section>
 
