@@ -106,7 +106,7 @@ const Settings = () => {
                             <div
                                 className="flex items-center border border-neutral-500 px-[0.9vw] py-[0.3vw] rounded-full">
                                 <div
-                                    className="w-4 h-4 flex justify-center items-center bg-green-500 rounded-full mr-2">
+                                    className="w-4 h-4 flex justify-center items-center bg-green-600 rounded-full mr-2">
                                     <IoCheckmarkOutline size={10}/>
                                 </div>
                                 <span className="text-[4vw] font-satoshi md:text-[1vw]">Connected</span>
@@ -114,6 +114,7 @@ const Settings = () => {
                         </div>
                         {/* Disconnect Button */}
                         <button
+                           title="Disconnect Payment Account"
                            onClick={() => handleDisconnect(option)}
                             disabled={isDisconnecting}
                             className={`px-[1vw] py-[0.4vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-[1vw] ${isDisconnecting ? "font-normal text-gray-400 cursor-not-allowed" : "text-neutral-800 font-semibold"}`}>
