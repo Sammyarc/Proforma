@@ -80,8 +80,8 @@ const AccountConnectionModal = () => {
       <button
         onClick={() => setShowModal(true)}
         disabled={anyConnected}
-        className={`py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border border-neutral-500 rounded-xl mr-[1vw] ${
-          anyConnected ? "cursor-not-allowed bg-teal-100" : ""
+        className={`py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border  rounded-xl mr-[1vw] ${
+          anyConnected ? "cursor-not-allowed bg-green-200 border-neutral-200 text-gray-600" : "border-neutral-500"
         }`}
       >
         {anyConnected ? "Connected" : "Connect Account"}
