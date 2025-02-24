@@ -24,20 +24,6 @@ const userSchema = new mongoose.Schema(
 			refreshToken: { type: String },
 			tokenExpiry: { type: Date }
 		},
-
-		companyName: {
-			type: String,
-		}, // Optional: The name of the user's business/company
-		companyLogo: {
-			type: String, // URL of the company logo for branding invoices
-		},
-		taxId: {
-			type: String,
-		}, // Optional: Tax identification number for invoicing
-		preferredCurrency: {
-			type: String,
-			default: "USD", // Default currency for invoices
-		},
 		lastLogin: {
 			type: Date,
 			default: Date.now,
@@ -54,32 +40,6 @@ const userSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
-		phone: {
-			type: String,
-		},
-		address: {
-			street: {
-				type: String,
-			},
-			city: {
-				type: String,
-			},
-			state: {
-				type: String,
-			},
-			zipCode: {
-				type: String,
-			},
-			country: {
-				type: String,
-			},
-		},
-		dateOfBirth: {
-			type: Date,
-		}, // Optional
-		gender: {
-			type: String,
-		}, // Optional: Male/Female/Other
 		profileImage: {
 			type: String, // URL of the profile picture
 		},
@@ -110,20 +70,6 @@ const userSchema = new mongoose.Schema(
 				},
 			},
 		], // Notifications for overdue payments, reminders, etc.
-		defaultInvoiceSettings: {
-			dueDateDays: {
-				type: Number,
-				default: 30, // Default due date (e.g., 30 days)
-			},
-			taxRate: {
-				type: Number,
-				default: 0, // Default tax rate
-			},
-			footerNote: {
-				type: String,
-				default: "Thank you for your business!", // Default footer on invoices
-			},
-		}, // Default settings applied to generated invoices
 	},
 	{ timestamps: true }
 );
