@@ -5,7 +5,7 @@ import { useAuthStore } from '../store/authStore';
 
 const API_URL =
   import.meta.env.MODE === "development"
-    ? "https://b14c-197-211-58-193.ngrok-free.app"
+    ? "https://1ec7-197-211-52-177.ngrok-free.app"
     : "https://proforma-backend-sigma.vercel.app";
 
 const API_URL2 =
@@ -23,7 +23,8 @@ export const UsePaymentHandlers = () => {
     try {
       const clientId = import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID;
       const userId = user._id; // Getting the MongoDB ObjectId from your auth store's user
-      const stateObj = { userId };
+      const currentUrl = window.location.href; // Get the full current URL, which includes the route
+      const stateObj = { userId, redirect: currentUrl };
       const state = encodeURIComponent(JSON.stringify(stateObj));
       const redirectUri = encodeURIComponent(`${API_URL}/paypal/callback`);
       const scope = encodeURIComponent('openid email profile');
