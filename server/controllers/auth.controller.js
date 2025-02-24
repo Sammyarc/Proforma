@@ -173,7 +173,6 @@ export const checkAuth = async (req, res) => {
 			user,
 			connections: {
 			  paypal: user.paypal && user.paypal.accessToken ? true : false,
-			  // Add any other connections here if needed.
 			}
 		  });
 	} catch (error) {
