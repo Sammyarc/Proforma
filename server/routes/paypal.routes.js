@@ -1,4 +1,5 @@
 // paypalRoutes.js
+import bcrypt from "bcryptjs";
 import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -9,21 +10,32 @@ const router = express.Router();
 
 async function savePayPalCredentials(userId, tokenData) {
   try {
+    // Calculate token expiry date
     const expiryDate = new Date(Date.now() + tokenData.expires_in * 1000);
+    
+    // Define number of salt rounds for hashing
+    const saltRounds = 10;
+    
+    // Hash the access and refresh tokens
+    const hashedAccessToken = await bcrypt.hash(tokenData.access_token, saltRounds);
+    const hashedRefreshToken = await bcrypt.hash(tokenData.refresh_token, saltRounds);
+    
+    // Update the user's PayPal credentials in the database with hashed tokens
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         paypal: {
-          accessToken: tokenData.access_token,
-          refreshToken: tokenData.refresh_token,
-          tokenExpiry: expiryDate
-        }
+          accessToken: hashedAccessToken,
+          refreshToken: hashedRefreshToken,
+          tokenExpiry: expiryDate,
+        },
       },
       { new: true }
     );
+    
     return updatedUser;
   } catch (error) {
-    console.error('Error saving PayPal credentials:', error);
+    console.error("Error saving PayPal credentials:", error);
     throw error;
   }
 }
@@ -38,11 +50,12 @@ router.get('/callback', async (req, res) => {
   }
 
   
-  // Parse the state parameter to extract user information
-  let userId;
+  // Parse the state parameter to extract user information and the redirect URL
+  let userId, redirectUrl;
   try {
     const parsedState = JSON.parse(decodeURIComponent(state));
     userId = parsedState.userId;
+    redirectUrl = parsedState.redirect; // Full URL from the frontend
   } catch (err) {
     console.error('State parameter error:', err);
     console.error('Raw state value:', state);
@@ -67,8 +80,8 @@ router.get('/callback', async (req, res) => {
     // Store the merchant's PayPal credentials securely
     await savePayPalCredentials(userId, tokenData);
     
-    // After successfully saving, redirect the user back to the dashboard.
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+     // Redirect back to the URL provided by the frontend (e.g. the full dashboard route)
+     res.redirect(redirectUrl);
   } catch (error) {
     console.error('PayPal callback error:', error);
     res.status(500).send('Connection failed');
