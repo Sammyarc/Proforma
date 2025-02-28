@@ -140,7 +140,7 @@ const handleGoogleLoginError = () => {
                             type="text"
                             placeholder="Full Name"
                             value={name}
-                            className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] focus:border-Gray800'
+                            className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700'
                             onChange={(e) => setName(e.target.value)}/>
                         <div
                             className="absolute inset-y-0 right-[3vw] md:right-[1vw] flex items-center">
@@ -158,7 +158,7 @@ const handleGoogleLoginError = () => {
                     placeholder="Email"
                     autoComplete="on"
                     value={email}
-                    className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] focus:border-Gray800'
+                    className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700'
                     onChange={(e) => setEmail(e.target.value)}
                     onBlur={() => setEmail(email.toLowerCase())}/>
                 <div
@@ -175,7 +175,7 @@ const handleGoogleLoginError = () => {
                         : 'password'}
                     placeholder="Password"
                     value={password}
-                    className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] focus:border-Gray800'
+                    className='w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700'
                     onChange={(e) => setPassword(e.target.value)}/>
                 <div
                     className="absolute inset-y-0 right-[3vw] md:right-[1vw] flex items-center cursor-pointer"
