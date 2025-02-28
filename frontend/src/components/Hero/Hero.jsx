@@ -7,6 +7,7 @@ const Hero = () => {
     return (
         <section
             className="relative pt-[30vw] pb-[10vw] text-center md:pt-[12vw] md:pb-[4vw]">
+                <div className="light-effect"></div>
 
             {/* Grid Background */}
             <div
@@ -45,7 +46,7 @@ const Hero = () => {
                 <img
                     src={HeroImage}
                     alt="proforma dashboard"
-                    className="mt-[1vw] flex justify-center items-center mx-auto border box border-neutral-500 rounded-3xl md:w-[70vw]"/>
+                    className="mt-[1vw] flex justify-center items-center mx-auto border box border-neutral-500 rounded-3xl md:w-[80vw]"/>
             </div>
         </section>
 
