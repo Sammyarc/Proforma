@@ -6,6 +6,7 @@ import Pricing from "../components/Pricing/Pricing"
 import FaQ from "../components/FaQ/FaQ"
 import Testimonial from "../components/Testimonials/Testimonial"
 import Footer from "../components/Footer/Footer"
+import NewsletterSubscription from "../components/Newsletter/NewsletterSubscription"
 
 
 const Home = () => {
@@ -17,8 +18,9 @@ const Home = () => {
       <Features />
       <HowItWorks />
       <Pricing />
-      <FaQ />
       <Testimonial />
+      <FaQ />
+      <NewsletterSubscription />
     </main>
     <footer>
       <Footer />
