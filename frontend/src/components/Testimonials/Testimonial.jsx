@@ -1,3 +1,6 @@
+import Svg from "../../assets/Images/SVG Icons/Group (5).svg"
+import Svg2 from "../../assets/Images/SVG Icons/Group (4).svg"
+
 const testimonials = [
     {
         quote: "This tool has completely transformed the way I manage invoices. It's fast, eff" +
@@ -28,7 +31,13 @@ const testimonials = [
 
 const Testimonial = () => {
     return (
-        <section className="py-16">
+        <section className="py-16 relative">
+            <div className="absolute left-0 -bottom-[3.5vw]">
+            <img src={Svg} alt="Icon" className="w-[10vw] h-[10vw]" />
+            </div>
+            <div className="absolute right-0 -top-[3vw]">
+            <img src={Svg2} alt="Icon" className="w-[10vw] h-[10vw]" />
+            </div>
             <div>
                 <h2
                     className="text-[6vw] text-center font-bold font-satoshi mb-8 text-gray-900 md:text-[3vw]">
