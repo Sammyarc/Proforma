@@ -60,13 +60,6 @@ const Navbar = () => {
                             Contact
                         </a>
                     </li>
-                    <li>
-                        <a
-                            href=""
-                            className="hover:text-gray-600 text-Gray800 font-satoshi">
-                            Resources
-                        </a>
-                    </li>
                 </ul>
 
                 <button
