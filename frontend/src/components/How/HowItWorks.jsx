@@ -1,49 +1,84 @@
-import { FaCheckCircle } from "react-icons/fa";
+import {HiArrowRight} from "react-icons/hi";
+import Step1 from "../../assets/Images/proforma-dashboard.jpg"
+import {useNavigate} from "react-router-dom";
 
 const HowItWorks = () => {
-  return (
-    <section className="container mx-auto my-[5vw] md:my-[4vw]">
-        <h1 className="text-[5vw] font-bold font-satoshi text-center mb-2 md:text-[3vw]">How Proforma Works</h1>
-        <div className="flex items-center justify-between mt-[2vw]">
-            <div className="w-45vw flex flex-col mx-auto justify-center">
-                <h1 className="text-[4vw] font-bold font-satoshi mb-2 md:text-[1.5vw]">Invoicing made simple, seamless, and stress-free.</h1>
-                <ul className="space-y-[1vw] mt-[1vw] px-[0.5vw]">
-      <li className="flex items-center space-x-3">
-        <FaCheckCircle className="text-Gray800" size={22} />
-        <p className="text-gray-700 font-satoshi font-medium">
-          Create an account
-        </p>
-      </li>
-      <li className="flex items-center space-x-3">
-        <FaCheckCircle className="text-Gray800" size={22} />
-        <p className="text-gray-700 font-satoshi font-medium">
-          Customize Your Invoice
-        </p>
-      </li>
-      <li className="flex items-center space-x-3">
-        <FaCheckCircle className="text-Gray800" size={22} />
-        <p className="text-gray-700 font-satoshi font-medium">
-          Send and Track Payments
-        </p>
-      </li>
-    </ul>
-            </div>
-            <div className="w-[35vw] h-[40vw]">
-            <video
-  autoPlay 
-  loop 
-  muted 
-  playsInline 
-  className="w-full h-full object-cover"
->
-  <source src="https://res.cloudinary.com/diwj3q9hg/video/upload/v1734769414/Proforma_Login_Guide_fbj6ws.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+    const navigate = useNavigate();
+    const steps = [
+        {
+            id: 1,
+            title: "Customize Your Invoice",
+            description: "Input your business details, add line items, set payment terms, and customize " +
+                    "the design to match your brand identity.",
+            imageAlt: "Create invoice illustration",
+            imageSrc: Step1
+        }, {
+            id: 2,
+            title: "Review and Generate",
+            description: "Preview your invoice, make any necessary adjustments, add notes or terms, and " +
+                    "generate a professional PDF with one click.",
+            imageAlt: "Review invoice illustration",
+            imageSrc: Step1
+        }, {
+            id: 3,
+            title: "Send to Client",
+            description: "Automatically email the invoice to your client, track when they view it, and r" +
+                    "eceive notifications when payment is made.",
+            imageAlt: "Send invoice illustration",
+            imageSrc: Step1
+        }
+    ];
 
-            </div>
-        </div>
-    </section>
-  )
-}
+    const handleGenerate = () => {
+        navigate('/signup');
+    };
 
-export default HowItWorks
+    return (
+        <section className="py-16 relative overflow-hidden">
+            <h2 className="text-center text-[4vw] font-bold mb-[6vw] font-clash md:text-[3vw]">How It Works</h2>
+            <div>
+                <div className="flex flex-col space-y-16 md:space-y-24">
+                    {
+                        steps.map((step, index) => (
+                            <div
+                                key={step.id}
+                                className={`flex flex-col ${index % 2 !== 0
+                                    ? 'md:flex-row-reverse ml-[10vw]'
+                                    : 'md:flex-row mr-[10vw]'} items-center gap-[5vw]`}>
+                                <div
+                                    className={`w-full md:w-1/2 md:h-[25vw] overflow-hidden border border-neutral-300  ${index % 2 !== 0
+                                        ? 'rounded-l-[1vw]'
+                                        : 'rounded-r-[1vw]'}`}>
+                                    <img
+                                        src={step.imageSrc}
+                                        className="w-[90vw] h-full object-cover"
+                                        alt={step.imageAlt}/>
+                                </div>
+
+                                <div className="w-full md:w-1/2 text-left">
+                                    <div className="relative text-gray-600 border-b border-gray-600 w-32">
+                                        <span className="text-[4vw] font-satoshi">0</span>
+                                        <span className="absolute text-[3.5vw] top-[2vw] font-clash">{step.id}</span>
+                                    </div>
+
+                                    <h3 className="font-bold text-[4vw] mb-1 mt-[1vw] font-clash md:text-[2vw]">
+                                        {step.title}
+                                    </h3>
+                                    <p className="text-gray-800 font-satoshi mb-4">{step.description}</p>
+                                    <button
+                                        onClick={handleGenerate}
+                                        className="px-[1.5vw] py-[0.5vw] flex gap-x-[0.5vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box">
+                                        Learn More
+                                        <HiArrowRight size={18}/>
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default HowItWorks;
