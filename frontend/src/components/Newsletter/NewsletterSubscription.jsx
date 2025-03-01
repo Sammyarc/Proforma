@@ -20,7 +20,7 @@ const NewsletterSubscription = () => {
     };
 
     return (
-        <section className="bg-neutral-700 mx-[3vw] rounded-[2vw] py-12 px-4">
+        <section className="bg-neutral-700 mx-[3vw] rounded-[1vw] py-12 px-4">
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
                 {/* Left column - Form */}
                 <div className="p-6">
@@ -59,7 +59,7 @@ const NewsletterSubscription = () => {
                         </div>
                         {
                             isSubmitted && (
-                                <p className="mt-2 text-sm text-green-600">
+                                <p className="mt-2 text-sm font-satoshi text-green-600">
                                     Thanks for subscribing!
                                 </p>
                             )
@@ -69,7 +69,7 @@ const NewsletterSubscription = () => {
 
                 {/* Right column - Text content */}
                 <div className="flex flex-col justify-center">
-                    <h2 className="text-[5vw] font-bold text-white font-clash mb-2 md:text-[2vw]">
+                    <h2 className="text-[5vw] font-bold text-white font-satoshi mb-2 md:text-[2vw]">
                         Stay Updated with Our Newsletter
                     </h2>
                     <p className="text-gray-300 font-satoshi mb-4">
