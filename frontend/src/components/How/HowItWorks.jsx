@@ -35,7 +35,7 @@ const HowItWorks = () => {
 
     return (
         <section className="py-16 relative overflow-hidden">
-            <h2 className="text-center text-[4vw] font-bold mb-[6vw] font-clash md:text-[3vw]">How It Works</h2>
+            <h2 className="text-center text-[4vw] font-bold mb-[6vw] font-satoshi md:text-[3vw]">How It Works</h2>
             <div>
                 <div className="flex flex-col space-y-16 md:space-y-24">
                     {
