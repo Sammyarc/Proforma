@@ -245,16 +245,16 @@ const InvoiceGenerator = () => {
                 </div>
             </div>
 
-            <div className='flex justify-between mx-[1vw] space-x-[2vw]'>
+            <div className='flex justify-between mr-[1vw] space-x-[2vw]'>
                 {/* Invoice Templates */}
-                <div className='sticky top-[25vh] h-[70vh] mt-[5vw] border border-neutral-400 rounded-3xl box overflow-y-scroll scrollbar-hide'>
+                <div className='sticky w-1/4 top-[25vh] h-[70vh] mt-[5vw] border border-neutral-400 rounded-3xl box overflow-y-scroll scrollbar-hide'>
                    <div className='sticky top-0 z-[1] bg-[#F5F5F2]'>
                     <h1 className="text-[4vw] text-center font-bold font-satoshi py-3 md:text-[1.3vw]">Choose an Invoice Template</h1>
                    </div>
                   <InvoiceTemplateSelector onSelectTemplate={handleTemplateSelection} />
                 </div>
                 {/* Invoice Canvass */}
-                <div ref={invoiceRef} id='invoice' className='w-[58vw] mx-auto mt-[5vw] p-[2vw] bg-white shadow-lg'>
+                <div ref={invoiceRef} id='invoice' className='w-3/4 mx-auto mt-[5vw] p-[2vw] bg-white shadow-lg'>
                 {selectedTemplate ? (
                 <selectedTemplate.component isStaticMode={isStaticMode} 
                 setIsStaticMode={setIsStaticMode}/>

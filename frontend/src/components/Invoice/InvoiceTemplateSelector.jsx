@@ -73,7 +73,7 @@ const InvoiceTemplateSelector = ({ onSelectTemplate }) => {
   const [hoveredTemplate, setHoveredTemplate] = useState(null);
 
   return (
-    <div className="grid grid-cols-2 gap-4 px-3 pb-6 w-[20vw]">
+    <div className="grid grid-cols-2 gap-3 px-3 pb-6 w-full">
       {templates.map((template) => (
         <div
           key={template.id}
@@ -82,7 +82,7 @@ const InvoiceTemplateSelector = ({ onSelectTemplate }) => {
           onMouseLeave={() => setHoveredTemplate(null)}
           onClick={() => onSelectTemplate(template)}
         >
-          <img src={template.image} alt={template.name} className="w-[12vw] h-[12vw] object-cover" />
+          <img src={template.image} alt={template.name} className="w-[12vw] h-[13.5vw] object-cover" />
           {hoveredTemplate === template.id && (
             <div className="absolute inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 transition-opacity">
               <button className="bg-transparent text-white border border-gray-300 w-[5vw] h-[2vw] text-[0.8vw] font-satoshi font-medium shadow-md">
