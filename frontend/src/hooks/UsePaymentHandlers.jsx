@@ -28,7 +28,7 @@ export const UsePaymentHandlers = () => {
       const scope = encodeURIComponent("openid email profile");
 
       // Construct the OAuth URL
-      const authUrl = `${PAYPAL_AUTH_URL}client_id=${clientId}&response_type=code&scope=${scope}&redirect_uri=${redirectUri}&state=${state}`;
+      const authUrl = `${PAYPAL_AUTH_URL}?client_id=${clientId}&response_type=code&scope=${scope}&redirect_uri=${redirectUri}&state=${state}`;
 
       // Redirect the current window to PayPal's OAuth flow
       window.location.href = authUrl;
