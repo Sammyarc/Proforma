@@ -86,7 +86,7 @@ router.get('/callback', async (req, res) => {
      // Redirect back to the URL provided by the frontend (e.g. the full dashboard route)
      res.redirect(redirectUrl);
   } catch (error) {
-    console.error('PayPal callback error:', error);
+    console.error('PayPal callback error:', error?.response?.data || error.message);
     res.status(500).send('Connection failed');
   }
 });
