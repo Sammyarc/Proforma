@@ -16,10 +16,25 @@ const allowedOrigins = [
   "https://proforma-gen.vercel.app", // Prod
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+// Middleware to set the Access-Control-Allow-Origin header
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // Optional: Handle preflight requests (important for CORS)
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
 
 app.use(express.json());
 app.use(cookieParser());
