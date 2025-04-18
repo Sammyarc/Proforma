@@ -44,50 +44,80 @@ async function savePayPalCredentials(userId, tokenData) {
 
 router.get('/callback', async (req, res) => {
   const { state, code } = req.query;
-  
+
+  // Step 1: Validate state param
   if (!state) {
-    console.error('No state parameter received');
+    console.error('❌ No state parameter received');
     return res.status(400).send('Missing state parameter');
   }
 
-  
-  // Parse the state parameter to extract user information and the redirect URL
+  // Step 2: Parse state (userId + redirect)
   let userId, redirectUrl;
   try {
     const parsedState = JSON.parse(decodeURIComponent(state));
     userId = parsedState.userId;
-    redirectUrl = parsedState.redirect; // Full URL from the frontend
+    redirectUrl = parsedState.redirect;
+
+    console.log('✅ Parsed state:', { userId, redirectUrl });
   } catch (err) {
-    console.error('State parameter error:', err);
-    console.error('Raw state value:', state);
+    console.error('❌ Failed to parse state parameter:', err);
+    console.error('Raw state:', state);
     return res.status(400).send('Invalid state parameter');
   }
-  
-  try {
 
+  // Step 3: Validate code param
+  if (!code) {
+    console.error('❌ No code parameter received');
+    return res.status(400).send('Missing authorization code');
+  }
+
+  try {
     const PAYPAL_BASE_URL = process.env.PAYPAL_API_URL;
-    // Exchange authorization code for access token
+    const clientId = process.env.PAYPAL_CLIENT_ID;
+    const clientSecret = process.env.PAYPAL_SECRET;
+
+    if (!PAYPAL_BASE_URL || !clientId || !clientSecret) {
+      console.error('❌ Missing PayPal environment variables');
+      return res.status(500).send('Server misconfiguration');
+    }
+
+    console.log('🔁 Attempting to exchange code for token...');
+    console.log('📡 PayPal API URL:', `${PAYPAL_BASE_URL}/v1/oauth2/token`);
+    console.log('🔑 Client ID:', clientId.slice(0, 6) + '...');
+    console.log('🔐 Code received:', code);
+
     const tokenResponse = await axios.post(
       `${PAYPAL_BASE_URL}/v1/oauth2/token`,
       `grant_type=authorization_code&code=${code}`,
       {
         headers: {
-          'Authorization': `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`).toString('base64')}`,
+          'Authorization': `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }
     );
-    
+
     const tokenData = tokenResponse.data;
-    
-    // Store the merchant's PayPal credentials securely
+    console.log('✅ Token exchange success:', {
+      scope: tokenData.scope,
+      access_token: '***',
+      expires_in: tokenData.expires_in
+    });
+
+    // Step 4: Store PayPal tokens securely
     await savePayPalCredentials(userId, tokenData);
-    
-     // Redirect back to the URL provided by the frontend (e.g. the full dashboard route)
-     res.redirect(redirectUrl);
+    console.log('✅ PayPal credentials saved for user:', userId);
+
+    // Step 5: Redirect back to frontend
+    return res.redirect(redirectUrl);
   } catch (error) {
-    console.error('PayPal callback error:', error?.response?.data || error.message);
-    res.status(500).send('Connection failed');
+    console.error('❌ PayPal callback error:', {
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      data: error?.response?.data,
+      message: error.message
+    });
+    return res.status(500).send('Connection failed');
   }
 });
 
