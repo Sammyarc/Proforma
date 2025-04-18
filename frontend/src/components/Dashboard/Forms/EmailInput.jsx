@@ -19,7 +19,17 @@ const EmailInput = ({onClose, toggleStaticMode}) => {
     const [recipientEmail, setRecipientEmail] = useState("");
     const [emailSubject, setEmailSubject] = useState("");
     const [emailBody, setEmailBody] = useState("");
-    const [isSendingEmail, setIsSendingEmail] = useState(false);
+    const [isSendingEmail, setIsSendingEmail] = useState(false); 
+
+    const getInvoiceAmount = () => {
+        const invoiceElement = document.getElementById("invoice");
+        const totalAmountEl = invoiceElement?.querySelector('[data-total="true"]');
+        return totalAmountEl?.innerText.trim() || "0.00";
+    };
+      
+    const invoiceAmount = getInvoiceAmount();
+    console.log("Total invoice amount:", invoiceAmount);
+
 
     const toggleShowSending = () => {
         setIsSendingEmail(!isSendingEmail);
@@ -44,13 +54,16 @@ const EmailInput = ({onClose, toggleStaticMode}) => {
             const response = await axios.post(`${API_URL}/send-email`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
-                }
+                },
+                withCredentials: true
             });
 
             console.log("Email sent:", response.data);
             toast.success("Email sent successfully!"); // Success notification
             onClose(); // Close the modal after successful send
         } catch (error) {
+            toggleShowSending();
+            onClose();
             console.error("Error sending email:", error);
             toast.error("Failed to send email. Please try again."); // Error notification
         } finally {
