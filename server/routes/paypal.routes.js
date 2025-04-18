@@ -8,6 +8,7 @@ dotenv.config();
 
 const router = express.Router();
 
+
 async function savePayPalCredentials(userId, tokenData) {
   try {
     // Calculate token expiry date
@@ -63,9 +64,11 @@ router.get('/callback', async (req, res) => {
   }
   
   try {
+
+    const PAYPAL_BASE_URL = process.env.PAYPAL_API_URL;
     // Exchange authorization code for access token
     const tokenResponse = await axios.post(
-      'https://api-m.sandbox.paypal.com/v1/oauth2/token',
+      `${PAYPAL_BASE_URL}/v1/oauth2/token`,
       `grant_type=authorization_code&code=${code}`,
       {
         headers: {
