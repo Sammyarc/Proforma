@@ -4,15 +4,15 @@
     { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
+    { 
+      "src": "/api/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://proforma-gen.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      },
+      "dest": "/server.js"
+    },
     { "src": "/(.*)", "dest": "/server.js" }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://proforma-gen.vercel.app" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST" }
-      ]
-    }
   ]
 }
