@@ -12,22 +12,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://proforma-gen.vercel.app",
+  "http://localhost:5173", // Dev
+  "https://proforma-gen.vercel.app", // Prod
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+  origin: allowedOrigins,
+  credentials: true
 }));
-
-app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
