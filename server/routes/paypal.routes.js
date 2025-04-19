@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { encrypt } from '../utils/encrypt.js';
 import { User } from "../models/user.model.js";
 dotenv.config();
 
@@ -11,32 +12,28 @@ const router = express.Router();
 
 async function savePayPalCredentials(userId, tokenData) {
   try {
-    // Calculate token expiry date
     const expiryDate = new Date(Date.now() + tokenData.expires_in * 1000);
-    
-    // Define number of salt rounds for hashing
-    const saltRounds = 10;
-    
-    // Hash the access and refresh tokens
-    const hashedAccessToken = await bcrypt.hash(tokenData.access_token, saltRounds);
-    const hashedRefreshToken = await bcrypt.hash(tokenData.refresh_token, saltRounds);
-    
-    // Update the user's PayPal credentials in the database with hashed tokens
+
+    // Encrypt the access and refresh tokens
+    const encryptedAccessToken = encrypt(tokenData.access_token);
+    const encryptedRefreshToken = encrypt(tokenData.refresh_token);
+
+    // Save encrypted tokens to the database
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         paypal: {
-          accessToken: hashedAccessToken,
-          refreshToken: hashedRefreshToken,
+          accessToken: encryptedAccessToken,
+          refreshToken: encryptedRefreshToken,
           tokenExpiry: expiryDate,
         },
       },
       { new: true }
     );
-    
+
     return updatedUser;
   } catch (error) {
-    console.error("Error saving PayPal credentials:", error);
+    console.error("Error saving encrypted PayPal credentials:", error);
     throw error;
   }
 }
@@ -47,7 +44,6 @@ router.get('/callback', async (req, res) => {
 
   // Step 1: Validate state param
   if (!state) {
-    console.error('❌ No state parameter received');
     return res.status(400).send('Missing state parameter');
   }
 
@@ -58,16 +54,13 @@ router.get('/callback', async (req, res) => {
     userId = parsedState.userId;
     redirectUrl = parsedState.redirect;
 
-    console.log('✅ Parsed state:', { userId, redirectUrl });
   } catch (err) {
-    console.error('❌ Failed to parse state parameter:', err);
     console.error('Raw state:', state);
     return res.status(400).send('Invalid state parameter');
   }
 
   // Step 3: Validate code param
   if (!code) {
-    console.error('❌ No code parameter received');
     return res.status(400).send('Missing authorization code');
   }
 
@@ -77,14 +70,8 @@ router.get('/callback', async (req, res) => {
     const clientSecret = process.env.PAYPAL_SECRET;
 
     if (!PAYPAL_BASE_URL || !clientId || !clientSecret) {
-      console.error('❌ Missing PayPal environment variables');
       return res.status(500).send('Server misconfiguration');
     }
-
-    console.log('🔁 Attempting to exchange code for token...');
-    console.log('📡 PayPal API URL:', `${PAYPAL_BASE_URL}/v1/oauth2/token`);
-    console.log('🔑 Client ID:', clientId.slice(0, 6) + '...');
-    console.log('🔐 Code received:', code);
 
     const tokenResponse = await axios.post(
       `${PAYPAL_BASE_URL}/v1/oauth2/token`,
@@ -98,20 +85,14 @@ router.get('/callback', async (req, res) => {
     );
 
     const tokenData = tokenResponse.data;
-    console.log('✅ Token exchange success:', {
-      scope: tokenData.scope,
-      access_token: '***',
-      expires_in: tokenData.expires_in
-    });
 
     // Step 4: Store PayPal tokens securely
     await savePayPalCredentials(userId, tokenData);
-    console.log('✅ PayPal credentials saved for user:', userId);
 
     // Step 5: Redirect back to frontend
     return res.redirect(redirectUrl);
   } catch (error) {
-    console.error('❌ PayPal callback error:', {
+    console.error('PayPal callback error:', {
       status: error?.response?.status,
       statusText: error?.response?.statusText,
       data: error?.response?.data,
