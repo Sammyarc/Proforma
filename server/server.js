@@ -26,6 +26,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.options('*', cors()); // Enable pre-flight requests for all routes
 app.use("/api/auth", authRoutes);
 app.use("/api", emailRoutes);
 app.use("/paypal", paypalRoutes);
