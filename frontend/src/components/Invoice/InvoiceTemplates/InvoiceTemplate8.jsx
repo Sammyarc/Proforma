@@ -131,7 +131,7 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
   const total = subtotal + tax;
 
   return (
-    <div id="invoice">
+    <div>
       {/* Header */}
       <div className="flex justify-between mb-[5vw]">
         <div className="flex flex-row items-center space-x-[1vw]">

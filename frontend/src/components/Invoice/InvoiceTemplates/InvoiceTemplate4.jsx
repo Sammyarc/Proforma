@@ -120,7 +120,7 @@ const InvoiceTemplate4 = ({ isStaticMode }) => {
   };
 
   return (
-    <div id="invoice">
+    <div>
       {/* Header */}
       <div className="flex justify-between mb-12">
         <div className="space-y-4">

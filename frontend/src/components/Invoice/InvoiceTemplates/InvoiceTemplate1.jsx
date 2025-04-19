@@ -123,7 +123,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
   };
 
   return (
-    <div id="invoice">
+    <div>
       <div
         className="relative group w-[8vw] h-[8vw] rounded-md flex items-center justify-center cursor-pointer"
         onClick={() => document.getElementById("fileInput").click()}

@@ -104,7 +104,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
   };
 
   return (
-    <div id="invoice">
+    <div>
       {/* Header */}
       <div className="flex justify-between items-start mb-12">
         <h1 className="text-[4vw] font-clash font-extrabold md:text-[2vw]">
