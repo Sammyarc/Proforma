@@ -26,7 +26,8 @@ const App = () => {
             autoClose={5000}
             hideProgressBar={false}
             closeOnClick
-            theme="light"
+                theme="light"
+                style={{ zIndex: 99999 }}
           />
         </Router>
     );
