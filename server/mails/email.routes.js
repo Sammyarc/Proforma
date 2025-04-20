@@ -10,7 +10,7 @@ const upload = multer({ storage });
 
 // Email sending route
 router.post('/send-email', upload.single('pdf'), async (req, res) => {
-    const { userEmail, recipientEmail, emailSubject, emailBody } = req.body;
+    const { userEmail, recipientEmail, emailSubject, emailBody, invoiceAmount } = req.body;
     const pdfBuffer = req.file?.buffer; // Get PDF file buffer
 
     if (!pdfBuffer) {
