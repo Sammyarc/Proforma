@@ -170,6 +170,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
           <div
             contentEditable
             className="block text-[5vw] w-full font-bold font-satoshi focus:outline-none py-1 border-b border-transparent hover:border-gray-300 md:text-[1.5vw]"
+            data-invoice-field="companyName"
             onInput={(e) =>
               handleFieldChange("companyName", e.target.textContent)
             }
@@ -180,11 +181,12 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
           <div
             contentEditable
             className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none py-1 border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+            data-invoice-field="companyAddress"
             onInput={(e) =>
               handleFieldChange("companyAddress", e.target.textContent)
             }
           >
-            Company&apos;s Address
+            Company&apos;s email address
           </div>
           <div
             contentEditable
@@ -218,6 +220,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
           <div
             contentEditable
             className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none py-1 border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+            data-invoice-field="clientName"
             onInput={(e) =>
               handleFieldChange("clientName", e.target.textContent)
             }
@@ -228,11 +231,12 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
           <div
             contentEditable
             className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none py-1 border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+            data-invoice-field="clientAddress"
             onInput={(e) =>
               handleFieldChange("clientAddress", e.target.textContent)
             }
           >
-            Client&apos;s Address
+            Client&apos;s email address
           </div>
 
           <div
@@ -263,6 +267,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="focus:outline-none border-b border-transparent py-1 hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
+              data-invoice-field="invoiceNumber"
               onInput={(e) =>
                 handleFieldChange("invoiceNumber", e.target.textContent)
               }
@@ -276,7 +281,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
               Invoice Date:
             </div>
             {isStaticMode ? (
-              <div className="text-[4vw] font-satoshi md:text-[1vw]">
+              <div className="text-[4vw] font-satoshi md:text-[1vw]" data-invoice-field="invoiceDate">
                 {invoiceData.invoiceDate || ""}
               </div>
             ) : (
@@ -297,7 +302,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
             </div>
 
             {isStaticMode ? (
-              <div className="text-[4vw] font-satoshi md:text-[1vw]">
+              <div className="text-[4vw] font-satoshi md:text-[1vw]" data-invoice-field="dueDate">
                 {invoiceData.dueDate || ""}
               </div>
             ) : (
@@ -341,7 +346,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
             <tr key={index} className="border-b group relative">
               <td>
                 {isStaticMode ? (
-                  <p className="text-[4vw] w-[35vw] p-2 font-satoshi md:text-[1vw]">
+                  <p className="text-[4vw] w-[35vw] p-2 font-satoshi md:text-[1vw]" data-invoice-field="description">
                     {item.description || ""}
                   </p>
                 ) : (
@@ -462,7 +467,7 @@ const InvoiceTemplate1 = ({ isStaticMode }) => {
           </div>
           <div className="flex justify-between font-extrabold text-[4vw] font-satoshi md:text-[1vw]">
             <span>TOTAL:</span>
-            <span className="invoice-amount" data-total="true">${calculateTotal().toFixed(2)}</span>
+            <span  data-invoice-field="invoiceAmount">${calculateTotal().toFixed(2)}</span>
           </div>
         </div>
       </div>

@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 const InvoiceTemplate8 = ({ isStaticMode }) => {
   const [invoiceData, setInvoiceData] = useState({
     companyLogo: null,
-    businessName: "",
-    businessEmail: "",
+    companyName: "",
+    companyAddress: "",
     businessContactInfo: "",
     businessCountry: "",
     businessCity: "",
     businessTaxInfo: "",
-    companyName: "",
-    companyAddress: "",
+    clientName: "",
+    clientAddress: "",
     cityCountry: "",
     phone: "",
     invoiceNumber: "",
@@ -179,8 +179,9 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="block text-[5vw] text-gray-900 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1.5vw]"
+              data-invoice-field="companyName"
               onInput={(e) =>
-                handleFieldChange("businessName", e.target.textContent)
+                handleFieldChange("companyName", e.target.textContent)
               }
             >
               Your Business Name
@@ -188,11 +189,12 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+              data-invoice-field="companyAddress"
               onInput={(e) =>
-                handleFieldChange("businessEmail", e.target.textContent)
+                handleFieldChange("companyAddress", e.target.textContent)
               }
             >
-              hello@email.com
+              Your email address
             </div>
             <div
               contentEditable
@@ -210,7 +212,7 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             Invoice
           </h1>
           {isStaticMode ? (
-            <p className="text-[4vw] text-gray-600 font-satoshi md:text-[1vw]">
+            <p className="text-[4vw] text-gray-600 font-satoshi md:text-[1vw]" data-invoice-field="invoiceNumber">
               {" "}
               {invoiceData.invoiceNumber || "#AB2324-01"}{" "}
             </p>
@@ -238,21 +240,23 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="block text-[5vw] w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1.2vw]"
+              data-invoice-field="clientName"
               onInput={(e) =>
-                handleFieldChange("companyName", e.target.textContent)
+                handleFieldChange("clientName", e.target.textContent)
               }
             >
-              Company&apos;s Name
+              Client&apos;s Name
             </div>
 
             <div
               contentEditable
               className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+              data-invoice-field="clientAddress"
               onInput={(e) =>
-                handleFieldChange("companyAddress", e.target.textContent)
+                handleFieldChange("clientAddress", e.target.textContent)
               }
             >
-              Company&apos;s Address
+              Client&apos;s email address
             </div>
             <div
               contentEditable
@@ -281,14 +285,14 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             </h2>
             <div>
               {isStaticMode ? (
-                <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]">
+                <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]" data-invoice-field="invoiceDate">
                   {invoiceData.invoiceDate || ""}
                 </p>
               ) : (
                 <input
                   type="date"
                   className="focus:outline-none w-[7.5vw] border-b border-transparent bg-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
-                  value={invoiceData.date}
+                  value={invoiceData.invoiceDate}
                   onChange={(e) =>
                     handleFieldChange("invoiceDate", e.target.value)
                   }
@@ -302,7 +306,7 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             </h2>
             <div>
               {isStaticMode ? (
-                <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]">
+                <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]" data-invoice-field="dueDate">
                   {invoiceData.dueDate || ""}
                 </p>
               ) : (
@@ -358,7 +362,7 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             <tr key={index} className="border-b group relative">
               <td>
                 {isStaticMode ? (
-                  <p className="text-[4vw] w-[35vw] p-2 font-satoshi md:text-[1vw]">
+                  <p className="text-[4vw] w-[35vw] p-2 font-satoshi md:text-[1vw]" data-invoice-field="description">
                     {item.description || ""}
                   </p>
                 ) : (
@@ -462,7 +466,7 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
       {/* Total */}
       <div className="flex justify-between font-extrabold text-[4vw] font-satoshi md:text-[1vw]">
         <span>TOTAL:</span>
-        <span className="invoice-amount" data-total="true">${formatCurrency(total)}</span>
+        <span data-invoice-field="invoiceAmount">${formatCurrency(total)}</span>
       </div>
       <p className="text-gray-600 my-2 text-[4vw] font-satoshi md:text-[0.9vw]">
         Please pay within 15 days of receiving this invoice.

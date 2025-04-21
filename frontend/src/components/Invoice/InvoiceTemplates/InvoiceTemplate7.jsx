@@ -8,15 +8,15 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
     invoiceNumber: "",
     date: "",
     dueDate: "",
-    companyName: "",
-    companyAddress: "",
+    clientName: "",
+    clientAddress: "",
     cityCountry: "",
     phone: "",
-    businessName: "",
+    companyName: "",
     businessCountry: "",
     businessCity: "",
     businessTaxInfo: "",
-    email: "",
+    companyAddress: "",
     contactPhone: "",
     bankDetails: {
       bankName: "",
@@ -132,7 +132,7 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
             Invoice
           </h1>
           {isStaticMode ? (
-            <p className="text-[4vw] text-gray-600 font-satoshi md:text-[1vw]">
+            <p className="text-[4vw] text-gray-600 font-satoshi md:text-[1vw]" data-invoice-field="invoiceNumber">
               {" "}
               {invoiceData.invoiceNumber || "#AB2324-01"}{" "}
             </p>
@@ -200,7 +200,7 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
               Issued:
             </div>
             {isStaticMode ? (
-              <p className="text-[4vw] font-satoshi md:text-[1vw]">
+              <p className="text-[4vw] font-satoshi md:text-[1vw]" data-invoice-field="invoiceDate">
                 {invoiceData.date || ""}
               </p>
             ) : (
@@ -217,7 +217,7 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
               Due:
             </p>
             {isStaticMode ? (
-              <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]">
+              <p className="text-[4vw] font-satoshi -mt-[0.7vw] md:text-[1vw]" data-invoice-field="dueDate">
                 {invoiceData.dueDate || ""}
               </p>
             ) : (
@@ -240,21 +240,23 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="block text-[4vw] text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+              data-invoice-field="clientName"
               onInput={(e) =>
-                handleFieldChange("companyName", e.target.textContent)
+                handleFieldChange("clientName", e.target.textContent)
               }
             >
-              Company&apos;s Name
+              Client&apos;s Name
             </div>
 
             <div
               contentEditable
               className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+              data-invoice-field="clientAddress"
               onInput={(e) =>
-                handleFieldChange("companyAddress", e.target.textContent)
+                handleFieldChange("clientAddress", e.target.textContent)
               }
             >
-              Company&apos;s Address
+              Client&apos;s email address
             </div>
             <div
               contentEditable
@@ -285,8 +287,9 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
             <div
               contentEditable
               className="block text-[4vw] text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
+              data-invoice-field="companyName"
               onInput={(e) =>
-                handleFieldChange("businessName", e.target.textContent)
+                handleFieldChange("companyName", e.target.textContent)
               }
             >
               Your Business Name
@@ -357,7 +360,7 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
               <tr key={index} className="border-b group relative">
                 <td>
                   {isStaticMode ? (
-                    <p className="text-[4vw] w-[35vw] px-4 py-2 font-satoshi md:text-[1vw]">
+                    <p className="text-[4vw] w-[35vw] px-4 py-2 font-satoshi md:text-[1vw]" data-invoice-field="description">
                       {item.description || ""}
                     </p>
                   ) : (
@@ -482,7 +485,7 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
           <span className="w-[9vw] text-[4vw] font-bold font-satoshi md:text-[1vw]">
             Total
           </span>
-          <span className="w-[9vw] text-right text-[4vw] font-bold font-satoshi md:text-[1vw] invoice-amount" data-total="true">
+          <span className="w-[9vw] text-right text-[4vw] font-bold font-satoshi md:text-[1vw]" data-invoice-field="invoiceAmount">
             {formatCurrency(total)}
           </span>
         </div>
@@ -510,16 +513,16 @@ const InvoiceTemplate7 = ({ isStaticMode }) => {
         </div>
         <div className="flex justify-end items-center space-x-[1vw]">
           {isStaticMode ? (
-            <p className="text-gray-600 text-[4vw] font-satoshi md:text-[1vw]">
-              {invoiceData.email || "hello@email.com"}
+            <p className="text-gray-600 text-[4vw] font-satoshi md:text-[1vw]" data-invoice-field="companyAddress">
+              {invoiceData.companyAddress || "hello@email.com"}
             </p>
           ) : (
             <span
               contentEditable
               className="text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-[1vw]"
-              onInput={(e) => handleFieldChange("email", e.target.textContent)}
+              onInput={(e) => handleFieldChange("companyAddress", e.target.textContent)}
             >
-              hello@email.com
+              Your email address
             </span>
           )}
           <div className="w-[0.1vw] bg-gray-300 h-[1.2vw]"></div>
