@@ -9,7 +9,7 @@ import {PiExportLight} from 'react-icons/pi';
 import InvoiceTemplateSelector from './InvoiceTemplateSelector';
 import InvoiceTemplate1 from './InvoiceTemplates/InvoiceTemplate1';
 import Export from '../Dashboard/Popups/Export';
-import EmailInput from '../Dashboard/Forms/EmailInput';
+import SendingEmailModal from '../Dashboard/Forms/SendingEmailModal';
 
 const InvoiceGenerator = () => {
 
@@ -19,7 +19,7 @@ const InvoiceGenerator = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const invoiceRef = useRef(null);
     const [isExportOpen, setIsExportOpen] = useState(false);
-    const [showEmailForm, setShowEmailForm] = useState(false);
+    const [showSendingModal, setSendingModal] = useState(false);
     const [isExporting, setIsExporting] = useState(false);
 
     const toggleStaticMode = () => {
@@ -34,18 +34,18 @@ const InvoiceGenerator = () => {
         setIsDownloadOpen(!isDownloadOpen);
     };
 
-    const handleShowEmailForm = () => {
-        setShowEmailForm(true);
+    const handleSendingEmailModal = () => {
+        setSendingModal(true);
         toggleExport();
     }
 
-    const handleEmailFormClose = () => {
-        setShowEmailForm(false);
+    const handleEmailModalClose = () => {
+        setSendingModal(false);
     };
 
     // Disable scrolling when the modal is open
     useEffect(() => {
-        if (showEmailForm) {
+        if (showSendingModal) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
@@ -55,7 +55,7 @@ const InvoiceGenerator = () => {
         return () => {
             document.body.style.overflow = "auto";
         };
-    }, [showEmailForm]);
+    }, [showSendingModal]);
 
     const handleTemplateSelection = (template) => {
         setSelectedTemplate(template);
@@ -235,11 +235,11 @@ const InvoiceGenerator = () => {
                         </button>
                         {
                                 isExportOpen && (
-                                    <Export onExportPDF={exportToPDF} onExportEmail={handleShowEmailForm} isExporting={isExporting}/>
+                                    <Export onExportPDF={exportToPDF} onExportEmail={handleSendingEmailModal} isExporting={isExporting}/>
                                 )
                         }
                         </div>
-                        {showEmailForm && (<EmailInput onClose={handleEmailFormClose} toggleStaticMode={toggleStaticMode}/>)}
+                        {showSendingModal && (<SendingEmailModal onClose={handleEmailModalClose} toggleStaticMode={toggleStaticMode}/>)}
                     </div>
 
                 </div>
