@@ -24,7 +24,16 @@ export default {
         MilkWhite: "#F8FAFC",
         Gray900: "#393646",
         Gray800: "#3C3D37",
-    },
+      },
+      animation: {
+        'scale-in': 'scaleIn 0.3s ease-out forwards',
+      },
+      keyframes: {
+        scaleIn: {
+          '0%': { transform: 'scale(0)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
