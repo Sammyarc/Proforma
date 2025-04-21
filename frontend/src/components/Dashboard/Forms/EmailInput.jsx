@@ -35,6 +35,77 @@ const EmailInput = ({ onClose, toggleStaticMode }) => {
     setIsSendingEmail(!isSendingEmail);
   };
 
+  // Generate the PDF blob from the invoice DOM
+  const createPDF = async () => {
+    toggleStaticMode(true);
+    const invoiceElement = document.getElementById("invoice");
+    if (!invoiceElement) throw new Error("Invoice element not found");
+    
+    // Create a new PDF document with compression enabled
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm", 
+      format: "a4",
+      compress: true
+    });
+    
+    // Use a lower scale factor for the HTML to canvas conversion
+    const canvas = await html2canvas(invoiceElement, { 
+      scale: 1.5,  // Reduced from 2 for smaller image size
+      useCORS: true,
+      logging: false,
+      imageTimeout: 0
+    });
+    
+    const imgData = canvas.toDataURL("image/jpeg", 0.8); // Use JPEG instead of PNG with 80% quality
+    
+    const imgWidth = 210; // A4 width
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+    // Add image with compression options
+    pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+    
+    const blob = pdf.output("blob");
+    toggleStaticMode(false);
+    return blob;
+  };
+
+  // Upload the blob to Cloudinary
+  const uploadPDFToCloudinary = async (pdfBlob) => {
+    setSendStatus("uploading");
+
+    // Ensure environment variables are defined
+    const cloudinaryPreset = import.meta.env.VITE_CLOUDINARY_PRESET;
+    const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+
+    if (!cloudinaryPreset || !cloudinaryCloudName) {
+      throw new Error("Cloudinary environment variables are not set");
+    }
+
+    const form = new FormData();
+    form.append("file", pdfBlob);
+    form.append("upload_preset", cloudinaryPreset); // ← your preset
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/auto/upload`,
+        {
+          method: "POST",
+          body: form,
+        }
+      );
+      if (!response.ok) throw new Error("Cloudinary upload failed");
+      const json = await response.json();
+      console.log(json);
+      if (!json.secure_url) throw new Error("Cloudinary upload failed");
+      return { url: json.secure_url, bytes: json.bytes };
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
+      throw new Error("Cloudinary upload failed");
+    }
+  };
+
+  // Main handler for sending the email
+  // This function will be called when the user clicks the "Send Email" button
   const handleSendEmail = async () => {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,41 +119,42 @@ const EmailInput = ({ onClose, toggleStaticMode }) => {
       return;
     }
 
-    let timeout; // Declare timeout outside try block
+    toggleShowSending();
+    setSendStatus("generating");
 
     try {
-      toggleShowSending();
-      setSendStatus("generating");
-
-      timeout = setTimeout(() => {
-        setSendStatus("waiting");
-      }, 60000); // 60 seconds before switching to "Please wait..."
 
       // Ensure invoice element exists
       const pdfBlob = await createPDF();
+
+      // upload PDF
+      const { url: invoiceUrl, bytes } = await uploadPDFToCloudinary(pdfBlob,);
+      const fileSizeMB = (bytes / 1024 / 1024).toFixed(2);
+      console.log("PDF uploaded to Cloudinary:", invoiceUrl, fileSizeMB);
+
       setSendStatus("sending");
-      if (!pdfBlob) {
-        throw new Error("Failed to generate PDF.");
-      }
+      // send to your backend
+      await axios.post(
+        `${API_URL}/send-email`,
+        {
+          userEmail,
+          recipientEmail,
+          emailSubject,
+          emailBody,
+          invoiceAmount,
+          invoiceUrl,
+          invoiceFileName: "invoice.pdf",
+          invoiceFileSize: `${fileSizeMB} MB`,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
 
-      // Prepare form data
-      const formData = new FormData();
-      formData.append("pdf", pdfBlob, "invoice.pdf");
-      formData.append("userEmail", userEmail);
-      formData.append("recipientEmail", recipientEmail);
-      formData.append("emailSubject", emailSubject);
-      formData.append("emailBody", emailBody);
-      formData.append("invoiceAmount", invoiceAmount);
-
-      // Send email
-      const response = await axios.post(`${API_URL}/send-email`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
-
-      console.log("Email sent:", response.data);
       toast.success("Email sent successfully!");
       onClose(); // Close modal on success
+      toggleStaticMode(false);
     } catch (error) {
       onClose(); // Close modal on error as well
       console.error("Error sending email:", error);
@@ -90,33 +162,7 @@ const EmailInput = ({ onClose, toggleStaticMode }) => {
     } finally {
       toggleShowSending();
       setSendStatus("");
-      if (timeout) clearTimeout(timeout); // Safely clear timeout
     }
-  };
-
-  const createPDF = async () => {
-    toggleStaticMode(true);
-    const invoiceElement = document.getElementById("invoice");
-
-    if (!invoiceElement) {
-      console.error("Invoice element not found.");
-      toggleStaticMode(false);
-      return null;
-    }
-
-    const canvas = await html2canvas(invoiceElement, { scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const imgWidth = 210; // A4 width in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-
-    const pdfBlob = pdf.output("blob"); // Generate the Blob
-    toggleStaticMode(false);
-
-    return pdfBlob; // Return the Blob for email sending
   };
 
   return createPortal(
@@ -235,7 +281,7 @@ const EmailInput = ({ onClose, toggleStaticMode }) => {
                 !emailBody ||
                 isSendingEmail
               }
-              className={`box font-satoshi ml-auto text-white px-[3vw] py-2 rounded-xl ${
+              className={`box font-satoshi ml-auto text-white px-[2.5vw] py-2 rounded-xl ${
                 isSendingEmail ||
                 !userEmail ||
                 !recipientEmail ||
@@ -250,8 +296,8 @@ const EmailInput = ({ onClose, toggleStaticMode }) => {
                   <LiaSpinnerSolid className="animate-spin" size={30} />
                   <span>
                     {sendStatus === "generating" && "Generating invoice..."}
+                    {sendStatus === "uploading" && "Uploading invoice..."}
                     {sendStatus === "sending" && "Sending email..."}
-                    {sendStatus === "waiting" && "Please wait..."}
                   </span>
                 </div>
               ) : (
