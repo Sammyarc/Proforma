@@ -20,10 +20,11 @@ const InvoiceGenerator = () => {
     const invoiceRef = useRef(null);
     const [isExportOpen, setIsExportOpen] = useState(false);
     const [showSendingModal, setSendingModal] = useState(false);
+    const [sendModalKey, setSendModalKey] = useState(0);
     const [isExporting, setIsExporting] = useState(false);
 
     const toggleStaticMode = () => {
-        setIsStaticMode(!isStaticMode);
+        setIsStaticMode(prev => !prev);
     };
 
     const toggleExport =() => {
@@ -37,6 +38,7 @@ const InvoiceGenerator = () => {
     const handleSendingEmailModal = () => {
         setSendingModal(true);
         toggleExport();
+        setSendModalKey((prev) => prev + 1); // triggers remount
     }
 
     const handleEmailModalClose = () => {
@@ -239,7 +241,7 @@ const InvoiceGenerator = () => {
                                 )
                         }
                         </div>
-                        {showSendingModal && (<SendingEmailModal onClose={handleEmailModalClose} toggleStaticMode={toggleStaticMode}/>)}
+                        {showSendingModal && (<SendingEmailModal  key={sendModalKey} onClose={handleEmailModalClose} toggleStaticMode={toggleStaticMode}/>)}
                     </div>
 
                 </div>
