@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 
 const API_URL =
   import.meta.env.MODE === "development"
-    ? "http://localhost:3000"
+    ? "https://9503-2c0f-2a80-e2-b810-7194-8a81-6ca9-f340.ngrok-free.app"
     : "https://proforma-backend-sigma.vercel.app";
 
 const API_URL2 =
