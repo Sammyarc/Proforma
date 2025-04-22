@@ -218,7 +218,8 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
             </p>
           ) : (
             <p
-              contentEditable
+                contentEditable
+                data-invoice-field="invoiceNumber"
               className="focus:outline-none border-b border-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi mt-[0.5vw] md:text-[1vw]"
               onInput={(e) =>
                 handleFieldChange("invoiceNumber", e.target.textContent)
@@ -290,7 +291,8 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
                 </p>
               ) : (
                 <input
-                  type="date"
+                    type="date"
+                    data-invoice-field="invoiceDate"
                   className="focus:outline-none w-[7.5vw] border-b border-transparent bg-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
                   value={invoiceData.invoiceDate}
                   onChange={(e) =>
@@ -311,7 +313,8 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
                 </p>
               ) : (
                 <input
-                  type="date"
+                    type="date"
+                    data-invoice-field="dueDate"
                   className="focus:outline-none w-[7.5vw] border-b border-transparent bg-transparent mt-[0.3vw] hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
                   value={invoiceData.dueDate}
                   onChange={(e) => handleFieldChange("dueDate", e.target.value)}
@@ -367,7 +370,8 @@ const InvoiceTemplate8 = ({ isStaticMode }) => {
                   </p>
                 ) : (
                   <input
-                    type="text"
+                      type="text"
+                      data-invoice-field="description"
                     className="w-[35vw] px-2 py-3 focus:outline-none text-[4vw] font-satoshi md:text-[1vw]"
                     value={item.description}
                     placeholder="Enter a description"

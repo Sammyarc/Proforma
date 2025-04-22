@@ -153,7 +153,8 @@ const InvoiceTemplate6 = ({ isStaticMode }) => {
             </div>
           ) : (
             <input
-              type="date"
+                type="date"
+                data-invoice-field="invoiceDate"
               className="focus:outline-none w-[7.5vw] border-b border-transparent bg-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
               value={invoiceData.date}
               onChange={(e) => handleFieldChange("date", e.target.value)}
@@ -282,7 +283,8 @@ const InvoiceTemplate6 = ({ isStaticMode }) => {
             </span>
           ) : (
             <input
-              type="date"
+                type="date"
+                data-invoice-field="dueDate"
               className="focus:outline-none w-[8vw] ml-[0.3vw] border-b border-transparent bg-transparent hover:border-gray-300 text-[4vw] text-pink-500 font-satoshi md:text-[1.1vw]"
               value={invoiceData.dueDate}
               onChange={(e) => handleFieldChange("dueDate", e.target.value)}
@@ -320,7 +322,8 @@ const InvoiceTemplate6 = ({ isStaticMode }) => {
                     </p>
                   ) : (
                     <input
-                      type="text"
+                        type="text"
+                        data-invoice-field="description"
                       className="w-[35vw] px-4 py-3 focus:outline-none bg-transparent text-[4vw] font-satoshi md:text-[1vw]"
                       value={item.description}
                       placeholder="Enter a description"
