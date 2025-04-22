@@ -3,7 +3,6 @@
 // The encryption key and IV are stored in environment variables for security reasons.
 
 // Importing required modules
-// encrypt.js
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 dotenv.config();
