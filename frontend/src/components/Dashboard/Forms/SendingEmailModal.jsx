@@ -95,17 +95,33 @@ const AnimatedEllipsis = () => {
   return <span className="animated-ellipsis">{dots}</span>;
 };
 
-  function getInvoiceFields() {
-    const fields = {};
-    document
-      .querySelectorAll("[data-invoice-field]")
-      .forEach(el => {
-        // use the attribute value as the key
-        const key = el.getAttribute("data-invoice-field");
-        fields[key] = el.innerText.trim() || el.getAttribute("href") || "";
-      });
-    return fields;
-  }
+function getInvoiceFields() {
+  const fields = {};
+  document
+    .querySelectorAll("[data-invoice-field]")
+    .forEach(el => {
+      const key = el.dataset.invoiceField;  // same as el.getAttribute("data-invoice-field")
+
+      let value = "";
+      // 1️ Anchor tags → take the href
+      if (el.tagName === "A" && el.href) {
+        value = el.href;
+      }
+      // 2️ Inputs or textareas → take the .value
+      else if ("value" in el) {
+        value = el.value.trim();
+      }
+      // 3️ Everything else → innerText
+      else {
+        value = el.innerText.trim();
+      }
+
+      fields[key] = value;
+    });
+
+  return fields;
+}
+
 
   // Generate the PDF blob from the invoice DOM
   const createPDF = async () => {
@@ -173,7 +189,7 @@ const AnimatedEllipsis = () => {
       if (!response.ok) throw new Error("Cloudinary upload failed");
       const json = await response.json();
       if (!json.secure_url) throw new Error("Cloudinary upload failed");
-      return { url: json.secure_url, bytes: json.bytes };
+      return { url: json.secure_url, };
     } catch (error) {
       console.error("Error uploading to Cloudinary:", error);
       throw new Error("Cloudinary upload failed");
@@ -193,9 +209,7 @@ const AnimatedEllipsis = () => {
       const pdfBlob = await createPDF();
 
       // upload PDF
-      const { url: invoiceUrl, bytes } = await uploadPDFToCloudinary(pdfBlob);
-      const fileSizeMB = (bytes / 1024 / 1024).toFixed(2);
-      console.log("PDF uploaded to Cloudinary:", invoiceUrl, fileSizeMB);
+      const { url: invoiceUrl } = await uploadPDFToCloudinary(pdfBlob);
 
       setSendStatus("sending");
       // send to your backend
@@ -204,7 +218,6 @@ const AnimatedEllipsis = () => {
         {
           invoiceUrl,
           invoiceFileName: "invoice.pdf",
-          invoiceFileSize: `${fileSizeMB} MB`,
           ...invoiceData,  // spreads in customerName, invoiceNumber, etc.
         },
         {
