@@ -3,25 +3,38 @@
 // The encryption key and IV are stored in environment variables for security reasons.
 
 // Importing required modules
+// encrypt.js
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const ALGO = 'aes-256-cbc';
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_SECRET; 
-const IV = process.env.ENCRYPTION_IV; // Initialization vector (must be 16 bytes for AES-256-CBC)
-const ALGORITHM = 'aes-256-cbc';
+
+const KEY = Buffer.from(process.env.ENCRYPTION_SECRET.trim(), 'hex');
+
 
 export function encrypt(text) {
-  const cipher = crypto.createCipheriv(ALGORITHM, ENCRYPTION_KEY, IV);
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return encrypted;
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(ALGO, KEY, iv);
+  // Use binary encoding throughout
+  const encrypted = Buffer.concat([
+    cipher.update(text, 'utf8'),
+    cipher.final()
+  ]);
+  return Buffer.concat([iv, encrypted]).toString('base64');
 }
 
-export function decrypt(encryptedText) {
-  const decipher = crypto.createDecipheriv(ALGORITHM, ENCRYPTION_KEY, IV);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+export function decrypt(encryptedB64) {
+  const buffer = Buffer.from(encryptedB64, 'base64');
+  const iv = buffer.subarray(0, 16);
+  const ciphertext = buffer.subarray(16);
+  const decipher = crypto.createDecipheriv(ALGO, KEY, iv);
+  // Directly process binary data
+  return Buffer.concat([
+    decipher.update(ciphertext),
+    decipher.final()
+  ]).toString('utf8');
 }
+
+
