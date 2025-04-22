@@ -2,7 +2,6 @@
 // It uses the crypto module from Node.js and dotenv for environment variable management.
 // The encryption key and IV are stored in environment variables for security reasons.
 
-// Importing required modules
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 dotenv.config();
