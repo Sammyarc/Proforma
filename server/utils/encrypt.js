@@ -1,6 +1,6 @@
 // Description: This file contains functions to encrypt and decrypt data using AES-256-CBC algorithm.
 // It uses the crypto module from Node.js and dotenv for environment variable management.
-// The encryption key and IV are stored in environment variables for security reasons.
+
 
 import crypto from 'crypto';
 import dotenv from 'dotenv';
