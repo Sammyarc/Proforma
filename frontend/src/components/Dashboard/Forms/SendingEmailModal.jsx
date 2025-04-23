@@ -287,6 +287,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       // Immediate payment method check
       if (!connections?.paypal) {
         toast.info("Please connect your Payment account to proceed.");
+        toggleStaticMode();
         setShowModal(true);
         return; // Stop execution here
       }
