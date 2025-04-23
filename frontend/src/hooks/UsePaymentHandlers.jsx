@@ -4,12 +4,12 @@ import { useAuthStore } from "../store/authStore";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "https://9503-2c0f-2a80-e2-b810-7194-8a81-6ca9-f340.ngrok-free.app"
-    : "https://proforma-backend-sigma.vercel.app";
+    : "https://proforma-h8qh.onrender.com";
 
 const API_URL2 =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000"
-    : "https://proforma-backend-sigma.vercel.app";
+    : "https://proforma-h8qh.onrender.com";
 
 const PAYPAL_AUTH_URL = import.meta.env.VITE_PAYPAL_AUTH;
 

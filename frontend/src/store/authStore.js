@@ -1,34 +1,41 @@
-import { create } from "zustand";
+import {
+  create
+} from "zustand";
 import axios from "axios";
 
 // Set the API URL based on the environment
 const API_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:3000/api/auth"
-    : "https://proforma-backend-sigma.vercel.app/api/auth";
+  import.meta.env.MODE === "development" ?
+  "http://localhost:3000/api/auth" :
+  "https://proforma-h8qh.onrender.com/api/auth";
 
 axios.defaults.withCredentials = true;
 
 // Zustand store with persist
 export const useAuthStore = create((set) => ({
-  user: null,  
+  user: null,
   connections: {
     paypal: false,
   },
-  isAuthenticated: true, 
-  error: null,        
-  isLoading: false,  
+  isAuthenticated: true,
+  error: null,
+  isLoading: false,
   isCheckingAuth: false,
   message: null,
 
   // Clear error state
   clearError: () => {
-    set({ error: null });
+    set({
+      error: null
+    });
   },
 
   // Signup function
   signup: async (email, password, name) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
       const response = await axios.post(`${API_URL}/signup`, {
         email,
@@ -36,7 +43,11 @@ export const useAuthStore = create((set) => ({
         name,
       });
       const user = response.data.user;
-      set({ user, isAuthenticated: true, isLoading: false });
+      set({
+        user,
+        isAuthenticated: true,
+        isLoading: false
+      });
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error signing up",
@@ -48,9 +59,14 @@ export const useAuthStore = create((set) => ({
 
   // Google Sign-In function
   googleSignIn: async (token) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
-      const response = await axios.post(`${API_URL}/google-signin`, { token });
+      const response = await axios.post(`${API_URL}/google-signin`, {
+        token
+      });
       const user = response.data.user;
       set({
         user,
@@ -59,8 +75,7 @@ export const useAuthStore = create((set) => ({
       });
     } catch (error) {
       set({
-        error:
-          error.response?.data?.message || "Error signing in with Google",
+        error: error.response?.data?.message || "Error signing in with Google",
         isLoading: false,
       });
       throw error;
@@ -69,7 +84,10 @@ export const useAuthStore = create((set) => ({
 
   // Login function
   login: async (email, password) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
       const response = await axios.post(`${API_URL}/login`, {
         email,
@@ -92,10 +110,17 @@ export const useAuthStore = create((set) => ({
 
   // Logout function
   logout: async () => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
       await axios.post(`${API_URL}/logout`);
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false
+      });
     } catch (error) {
       set({
         error: "Error logging out",
@@ -107,7 +132,10 @@ export const useAuthStore = create((set) => ({
 
   // Check authentication on app load
   checkAuth: async () => {
-    set({ isCheckingAuth: true, error: null });
+    set({
+      isCheckingAuth: true,
+      error: null
+    });
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       const user = response.data.user;
@@ -119,15 +147,23 @@ export const useAuthStore = create((set) => ({
         isCheckingAuth: false,
       });
     } catch {
-      set({ isCheckingAuth: false, isAuthenticated: false });
+      set({
+        isCheckingAuth: false,
+        isAuthenticated: false
+      });
     }
   },
 
   // Verify email
   verifyEmail: async (code) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
-      const response = await axios.post(`${API_URL}/verify-email`, { code });
+      const response = await axios.post(`${API_URL}/verify-email`, {
+        code
+      });
       const user = response.data.user;
 
       set({
@@ -148,17 +184,22 @@ export const useAuthStore = create((set) => ({
 
   // Forgot password
   forgotPassword: async (email) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
       const response = await axios.post(`${API_URL}/forgot-password`, {
         email,
       });
-      set({ message: response.data.message, isLoading: false });
+      set({
+        message: response.data.message,
+        isLoading: false
+      });
     } catch (error) {
       set({
         isLoading: false,
-        error:
-          error.response?.data?.message ||
+        error: error.response?.data?.message ||
           "Error sending reset password email",
       });
       throw error;
@@ -167,18 +208,24 @@ export const useAuthStore = create((set) => ({
 
   // Reset password
   resetPassword: async (token, password) => {
-    set({ isLoading: true, error: null });
+    set({
+      isLoading: true,
+      error: null
+    });
     try {
       const response = await axios.post(
-        `${API_URL}/reset-password/${token}`,
-        { password }
+        `${API_URL}/reset-password/${token}`, {
+          password
+        }
       );
-      set({ message: response.data.message, isLoading: false });
+      set({
+        message: response.data.message,
+        isLoading: false
+      });
     } catch (error) {
       set({
         isLoading: false,
-        error:
-          error.response?.data?.message || "Error resetting password",
+        error: error.response?.data?.message || "Error resetting password",
       });
       throw error;
     }

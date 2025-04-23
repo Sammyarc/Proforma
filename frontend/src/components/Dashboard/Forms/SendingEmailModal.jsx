@@ -24,7 +24,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api"
-    : "https://proforma-backend-sigma.vercel.app/api";
+    : "https://proforma-h8qh.onrender.com/api";
 
 axios.defaults.withCredentials = true;
 
@@ -334,7 +334,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       setTimeout(onClose, 2000); // Close after 2 seconds
     } catch (error) {
       onClose(); // Close modal on error
-      toggleStaticMode(); // Ensure static mode is toggled off  
+      toggleStaticMode(); // Ensure static mode is toggled off
       setIsComplete(false);
       console.error("Error sending email:", error);
       // Only show error if we actually attempted sending
