@@ -43,18 +43,6 @@ const userSchema = new mongoose.Schema(
 		profileImage: {
 			type: String, // URL of the profile picture
 		},
-		savedClients: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Client', // Reference to a Client schema
-			},
-		], // Clients frequently billed
-		savedInvoices: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Invoice', // Reference to an Invoice schema
-			},
-		], // Previously created invoices
 		notifications: [
 			{
 				message: {
