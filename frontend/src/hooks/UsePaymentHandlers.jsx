@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 
 const API_URL =
   import.meta.env.MODE === "development"
-    ? "https://9503-2c0f-2a80-e2-b810-7194-8a81-6ca9-f340.ngrok-free.app"
+    ? "https://5559-2c0f-2a80-e2-b810-822-a2d-c397-716f.ngrok-free.app"
     : "https://proforma-h8qh.onrender.com";
 
 const API_URL2 =
