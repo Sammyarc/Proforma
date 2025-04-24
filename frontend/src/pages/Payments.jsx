@@ -115,11 +115,11 @@ const Payments = () => {
               <tr key={invoice._id} className="border-b border-gray-800">
                 <td className="py-4 px-3">
                   <div className="relative w-24 h-16">
-                    <img src={invoice.image || "https://placehold.co/600x400/png"} className="w-full h-full object-cover rounded-md" alt="Invoice" />
+                    <img src={invoice.invoiceUrl || "https://placehold.co/600x400/png"} className="w-full h-full object-cover rounded-md" alt="Invoice" />
                   </div>
                 </td>
-                <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.client}</td>
-                <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.email}</td>
+                <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.clientName}</td>
+                <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.clientAddress}</td>
                 <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.invoiceNumber}</td>
                 <td className="py-2 px-3 font-satoshi text-gray-600 truncate max-w-[200px]">{invoice.description}</td>
                 <td className="py-4 px-3">
