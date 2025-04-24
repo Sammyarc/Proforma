@@ -331,8 +331,8 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
 
       // Success handling
       setIsComplete(true);
-      toast.success("Email sent successfully!");
-      setTimeout(onClose, 2000); // Close after 2 seconds
+      toggleStaticMode();
+      setTimeout(onClose, 3000); // Close after 3 seconds
     } catch (error) {
       onClose(); // Close modal on error
       toggleStaticMode(); // Ensure static mode is toggled off
