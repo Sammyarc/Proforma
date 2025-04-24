@@ -114,8 +114,8 @@ const Payments = () => {
             {invoices.map((invoice) => (
               <tr key={invoice._id} className="border-b border-gray-800">
                 <td className="py-4 px-3">
-                  <div className="relative w-24 h-full">
-                    <iframe src={invoice.invoiceUrl || "https://placehold.co/600x400/png"} className="w-full h-full object-cover rounded-md"  title="Invoice PDF"/>
+                  <div className="relative w-24 h-16 overflow-y-scroll scrollbar-hide rounded-md">
+                    <iframe src={invoice.invoiceUrl || "https://placehold.co/600x400/png"} className="w-full h-full object-cover rounded-md" alt="Invoice" />
                   </div>
                 </td>
                 <td className="py-2 px-3 font-satoshi text-gray-600">{invoice.clientName}</td>
