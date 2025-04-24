@@ -1,6 +1,7 @@
 import express from "express";
 import createTransporter from "./email.config.js";
 import { getValidAccessToken } from "../utils/paypalTokenManager.js";
+import Invoice from "../models/invoice.model.js";
 const router = express.Router();
 
 // Function to generate PayPal payment link
@@ -143,8 +144,7 @@ router.post("/send-email", async (req, res) => {
       console.log("Generated PayPal payment link:", paymentLink);
     } catch (paypalError) {
       console.error("Failed to generate PayPal payment link:", paypalError);
-      // If payment link generation fails, we'll continue with the email but without the payment link
-      paymentLink = null;
+      throw new Error("Failed to generate PayPal payment link");
     }
 
     const transporter = await createTransporter();
@@ -268,6 +268,29 @@ router.post("/send-email", async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+
+    // Convert string amount to numeric for database storage
+    const amountNumeric = parseFloat(invoiceAmount.replace(/[^0-9.]/g, ''));
+
+      // Store the invoice data in MongoDB
+      const invoiceData = new Invoice({
+        userId,
+        invoiceNumber,
+        clientName,
+        clientAddress,
+        companyName,
+        companyAddress,
+        description,
+        amountNumeric,
+        invoiceDate,
+        dueDate,
+        paymentLink,
+        invoiceUrl,
+        invoiceFileName: invoiceFileName || `Invoice-${invoiceNumber}.pdf`,
+        sentDate: new Date()
+      });
+    
+      await invoiceData.save();
 
     res.status(200).json({
       message: "Email sent successfully with invoice attachment",
