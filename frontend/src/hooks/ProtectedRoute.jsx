@@ -7,6 +7,27 @@ const ProtectedRoute = ({ children }) => {
   const { isCheckingAuth, checkAuth, isAuthenticated } = useAuthStore();
   const [minLoading, setMinLoading] = useState(true);
 
+
+  // Animated ellipsis component
+    const AnimatedEllipsis = () => {
+      const [dots, setDots] = useState("");
+  
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setDots((prevDots) => {
+            if (prevDots === "") return ".";
+            if (prevDots === ".") return "..";
+            if (prevDots === "..") return "...";
+            return "";
+          });
+        }, 600);
+  
+        return () => clearInterval(interval);
+      }, []);
+  
+      return <span className="animated-ellipsis">{dots}</span>;
+    };
+
   useEffect(() => {
     // Define an async function to run the auth check
     const initializeAuth = async () => {
@@ -28,7 +49,7 @@ const ProtectedRoute = ({ children }) => {
   return (
     <div className="flex flex-col justify-center items-center h-screen space-y-3">
       <TbLoader3 size={30} className="animate-spin text-teal-500" />
-      <p className="text-[4vw] font-satoshi md:text-[1vw]">Please wait while we load the content...</p>
+      <p className="text-[4vw] font-satoshi md:text-[1vw]">Please wait while we load the content<AnimatedEllipsis /></p>
     </div>
   );
 }
