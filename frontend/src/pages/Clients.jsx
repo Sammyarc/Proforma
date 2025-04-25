@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import axios from "axios"; // Make sure axios is installed
+import { TbLoader3 } from "react-icons/tb";
+import { useAuthStore } from "../store/authStore";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -42,32 +44,54 @@ const Clients = () => {
   const [totalClients, setTotalClients] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const { user } = useAuthStore();
+
   const navigate = useNavigate();
-  
+
   const sortDropdownRef = useClickOutside(() => setIsOpen(false));
   const pageDropdownRef = useClickOutside(() => setShowPageOption(false));
+
+  // Animated ellipsis component
+  const AnimatedEllipsis = () => {
+    const [dots, setDots] = useState("");
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setDots((prevDots) => {
+          if (prevDots === "") return ".";
+          if (prevDots === ".") return "..";
+          if (prevDots === "..") return "...";
+          return "";
+        });
+      }, 600);
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return <span className="animated-ellipsis">{dots}</span>;
+  };
+
+  const userId = user?._id;
 
   // Fetch client data from the API
   useEffect(() => {
     const fetchClientData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${API_URL}/invoices/clients`, { 
+        const response = await axios.get(`${API_URL}/invoices/clients`, {
           params: {
-            userId: "userId", // Replace with actual user ID from your auth store or context
+            userId
           },
-        }
-        );
-        
+        });
+
         if (response.data.success) {
           setClientData(response.data.clients);
           setTotalClients(response.data.totalClients);
         } else {
-          setError('Failed to fetch client data');
+          setError("Failed to fetch client data");
         }
       } catch (err) {
-        setError('Error connecting to server: ' + err.message);
+        setError("Error connecting to server: " + err.message);
       } finally {
         setLoading(false);
       }
@@ -80,7 +104,7 @@ const Clients = () => {
   useEffect(() => {
     if (clientData.length > 0) {
       let sortedData = [...clientData];
-      
+
       if (selected === "Sort by: Latest") {
         // Sort by most recent (assuming we'd have a date field)
         // For now just reverse the array to simulate this
@@ -88,7 +112,7 @@ const Clients = () => {
       } else if (selected === "Sort by: Oldest") {
         // Keep original order (simulating oldest first)
       }
-      
+
       setClientData(sortedData);
     }
   }, [selected]);
@@ -156,6 +180,10 @@ const Clients = () => {
     }
   };
 
+  const formatInvoiceText = (count) => {
+    return `${count} invoice${count === 1 ? "" : "s"}`;
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -211,9 +239,19 @@ const Clients = () => {
 
       <div className="w-full">
         {loading ? (
-          <div className="text-center py-10">Loading client data...</div>
+          <div className="flex flex-col justify-center items-center space-y-3">
+            <TbLoader3 size={30} className="animate-spin text-teal-500" />
+            <p className="text-[4vw] font-satoshi md:text-[1vw]">
+              Please wait while we load client&apos;s data
+              <AnimatedEllipsis />
+            </p>
+          </div>
         ) : error ? (
-          <div className="text-center py-10 text-red-500">{error}</div>
+          <div className="text-center py-10 text-red-500">
+            You haven&apos;t sent any invoice to a client
+            <br />
+            Send invoices to clients to display their details here.
+          </div>
         ) : (
           <table className="w-full">
             <thead>
@@ -240,7 +278,7 @@ const Clients = () => {
                     {client.clientAddress}
                   </td>
                   <td className="py-2 px-3 font-satoshi text-gray-600">
-                    {client.invoiceCount} invoices
+                    {formatInvoiceText(client.invoiceCount)}
                   </td>
                   <td className="py-4 px-3 relative">
                     <button
@@ -279,7 +317,9 @@ const Clients = () => {
 
       <div className="flex justify-between font-satoshi items-center mt-6">
         <div className="flex items-center">
-          <span>Page {currentPage} of {totalPages || 1}</span>
+          <span>
+            Page {currentPage} of {totalPages || 1}
+          </span>
           <span className="mx-3">•</span>
           <span>Showing:</span>
           <div
@@ -317,15 +357,19 @@ const Clients = () => {
           </div>
         </div>
         <div className="flex">
-          <button 
-            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          <button
+            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={goToPreviousPage}
             disabled={currentPage === 1}
           >
             ←
           </button>
-          <button 
-            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+          <button
+            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
           >
