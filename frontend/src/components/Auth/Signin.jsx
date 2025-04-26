@@ -78,7 +78,7 @@ const Signin = () => {
   const handleRegister = async () => {
     try {
       await signup(email, password, name);
-      navigate("/dashboard");
+      navigate("/verify-email");
       window.scrollTo(0, 0);
     } catch (error) {
       console.log(error);
@@ -139,7 +139,7 @@ const Signin = () => {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email Address"
             autoComplete="on"
             value={email}
             className="w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700"
@@ -192,7 +192,7 @@ const Signin = () => {
                 onChange={handleTermsAcceptance}
                 className="h-[4.5vw] w-[4.5vw] md:h-[1vw] md:w-[1vw] rounded-[0.2vw] accent-Gray800 cursor-pointer"
               />
-              <span className="text-[4vw] md:text-[1vw] text-Gray700 font-satoshi">
+              <span className="text-[4vw] md:text-[1vw] text-gray-700 font-satoshi">
                 I accept the Terms and Conditions
               </span>
             </label>
