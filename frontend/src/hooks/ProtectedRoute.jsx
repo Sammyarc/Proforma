@@ -4,7 +4,7 @@ import { useAuthStore } from "../store/authStore";
 import { TbLoader3 } from "react-icons/tb";
 
 const ProtectedRoute = ({ children }) => {
-  const { isCheckingAuth, checkAuth, isAuthenticated } = useAuthStore();
+  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
   const [minLoading, setMinLoading] = useState(true);
 
 
@@ -58,6 +58,10 @@ const ProtectedRoute = ({ children }) => {
   if (!isAuthenticated) {
     return <Navigate to="/signup" replace />;
   }
+
+  if (!user.isVerified) {
+		return <Navigate to='/verify-email' replace />;
+	}
 
   // Otherwise, render the protected children
   return children;
