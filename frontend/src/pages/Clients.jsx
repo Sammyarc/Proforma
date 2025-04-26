@@ -80,7 +80,7 @@ const Clients = () => {
         setLoading(true);
         const response = await axios.get(`${API_URL}/invoices/clients`, {
           params: {
-            userId
+            userId,
           },
         });
 
@@ -145,7 +145,6 @@ const Clients = () => {
   const handlePageSelect = (pageOption) => {
     setPageSelected(pageOption);
     setShowPageOption(false);
-    setCurrentPage(1); // Reset to first page when changing items per page
   };
 
   const handleSelect = (option) => {
@@ -247,7 +246,7 @@ const Clients = () => {
             </p>
           </div>
         ) : error ? (
-          <div className="text-center py-10 text-red-500">
+          <div className="text-center py-10">
             You haven&apos;t sent any invoice to a client
             <br />
             Send invoices to clients to display their details here.
@@ -255,7 +254,7 @@ const Clients = () => {
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-800">
+              <tr className="border-b border-gray-400">
                 <th className="text-left py-4 px-3 font-satoshi font-semibold">
                   Client Name
                 </th>
@@ -270,7 +269,7 @@ const Clients = () => {
             </thead>
             <tbody>
               {currentData.map((client, index) => (
-                <tr key={index} className="border-b border-gray-800">
+                <tr key={index} className="border-b border-gray-400">
                   <td className="py-2 px-3 font-satoshi text-gray-600">
                     {client.clientName}
                   </td>
