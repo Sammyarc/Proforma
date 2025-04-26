@@ -6,6 +6,10 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./hooks/ProtectedRoute";
+import EmailVerificationPage from "./pages/EmailVerificationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import RedirectAuthenticatedUser from "./hooks/RedirectAuthenticatedUser";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 const App = () => {
@@ -19,7 +23,23 @@ const App = () => {
                 {/* Protected dashboard Route */}
                 <Route path="/dashboard/*" element={ <ProtectedRoute> <Dashboard />  </ProtectedRoute>  }/> 
                 {/* Error Pages */}
-                <Route path="*" element={<Home />}/>
+                <Route path="*" element={<Home />} />
+                <Route path='/verify-email' element={<EmailVerificationPage />} />
+                <Route
+					path='/forgot-password'
+					element={
+							<ForgotPasswordPage />
+					}
+				/>
+
+				<Route
+					path='/reset-password/:token'
+					element={
+						<RedirectAuthenticatedUser>
+							<ResetPasswordPage />
+						</RedirectAuthenticatedUser>
+					}
+				/>
             </Routes>
 
             <ToastContainer
