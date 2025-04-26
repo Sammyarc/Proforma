@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes.js';
 import emailRoutes from './mails/email.routes.js';
 import paypalRoutes from './routes/paypal.routes.js';
 import invoiceRoutes from './routes/invoice.routes.js';
+import settingsRoutes from './routes/settings.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
@@ -36,6 +37,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", emailRoutes);
 app.use("/paypal", paypalRoutes);
 app.use('/api/invoice', invoiceRoutes);
+app.use("/settings", settingsRoutes);
 
 // Connect to database first, then start server
 const startServer = async () => {
