@@ -58,6 +58,24 @@ const userSchema = new mongoose.Schema(
 				},
 			},
 		], // Notifications for overdue payments, reminders, etc.
+		businessName: {
+			type: String
+		  },
+		  city: {
+			type: String
+		  },
+		  country: {
+			type: String
+		  },
+		  state: {
+			type: String
+		  },
+		  phoneNumber: {
+			type: String
+		  },
+		  logoUrl: {
+			type: String
+		  },
 	},
 	{ timestamps: true }
 );
