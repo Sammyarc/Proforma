@@ -31,8 +31,8 @@ const useClickOutside = (handler) => {
 
 const Payments = () => {
   const [invoices, setInvoices] = useState([]);
-  const [pagination, setPagination] = useState({ total: 0, page: 1, pages: 1 });
-  const [limit, setLimit] = useState(5);
+  const [pageSelected, setPageSelected] = useState("5");
+  const [currentPage, setCurrentPage] = useState(1);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showPageOption, setShowPageOption] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -68,12 +68,9 @@ const Payments = () => {
       const response = await axios.get(`${API_URL}/invoices`, {
         params: {
           userId,
-          page: pagination.page,
-          limit,
         },
       });
       setInvoices(response.data.invoices);
-      setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error fetching invoices:", error);
     }
@@ -89,14 +86,9 @@ const Payments = () => {
     };
 
     fetchData();
-  }, [limit, pagination.page, userId]);
+  }, [userId]);
 
-  const handlePageSelect = (value) => {
-    setLimit(Number(value));
-    setShowPageOption(false);
-  };
-
- useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (activeDropdown !== null) {
         const isClickOnButton = event.target.closest(
@@ -116,25 +108,37 @@ const Payments = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
- }, [activeDropdown]);
-  
- const toggleDropdown = (id) => {
-  if (activeDropdown === id) {
-    setActiveDropdown(null);
-  } else {
-    setActiveDropdown(id);
-  }
-};
+  }, [activeDropdown]);
 
-  const handlePrevious = () => {
-    if (pagination.page > 1) {
-      setPagination((prev) => ({ ...prev, page: prev.page - 1 }));
+  const toggleDropdown = (id) => {
+    if (activeDropdown === id) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(id);
     }
   };
 
-  const handleNext = () => {
-    if (pagination.page < pagination.pages) {
-      setPagination((prev) => ({ ...prev, page: prev.page + 1 }));
+  const handlePageSelect = (pageOption) => {
+    setPageSelected(pageOption);
+    setShowPageOption(false);
+  };
+
+  // Calculate pagination
+  const itemsPerPage = parseInt(pageSelected);
+  const totalPages = Math.ceil(invoices.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = invoices.slice(startIndex, endIndex);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -153,7 +157,7 @@ const Payments = () => {
             <AnimatedEllipsis />
           </p>
         </div>
-      ) : invoices.length === 0 ? (
+      ) : currentData.length === 0 ? (
         <div className="text-center py-10 text-gray-600 font-satoshi text-lg">
           You have not received any payments yet.
           <br />
@@ -164,7 +168,7 @@ const Payments = () => {
           <div className="w-full">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-gray-400">
                   <th></th>
                   <th className="py-4 px-3 text-left font-satoshi font-semibold">
                     Client Name
@@ -185,10 +189,10 @@ const Payments = () => {
                 </tr>
               </thead>
               <tbody>
-                {invoices.map((invoice) => (
-                  <tr key={invoice._id} className="border-b border-gray-800">
+                {currentData.map((invoice, index) => (
+                  <tr key={index} className="border-b border-gray-400">
                     <td className="py-4 px-3">
-                      <div className="relative w-24 h-24 overflow-hidden scrollbar-hide rounded-md">
+                      <div className="relative w-12 h-12 overflow-hidden scrollbar-hide rounded-md">
                         <CloudinaryPdfViewer
                           pdfUrl={
                             invoice.invoiceUrl ||
@@ -228,19 +232,19 @@ const Payments = () => {
                         className="focus:outline-1 p-2 rounded-md"
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleDropdown(invoice._id);
+                          toggleDropdown(index);
                         }}
                       >
                         <SlOptions />
                       </button>
-                      {activeDropdown === invoice._id && (
+                      {activeDropdown === index && (
                         <div className="absolute right-0 top-15 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
-                           <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
-                          View
-                        </div>
-                        <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
-                          Delete
-                        </div>
+                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
+                            View
+                          </div>
+                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
+                            Delete
+                          </div>
                         </div>
                       )}
                     </td>
@@ -253,7 +257,7 @@ const Payments = () => {
           <div className="flex justify-between font-satoshi items-center mt-6">
             <div className="flex items-center">
               <span>
-                Page {pagination.page} of {pagination.pages}
+                Page {currentPage} of {totalPages || 1}
               </span>
               <span className="mx-3">•</span>
               <span>Showing:</span>
@@ -263,24 +267,28 @@ const Payments = () => {
               >
                 <button
                   onClick={() => setShowPageOption(!showPageOption)}
-                  className="flex items-center justify-between text-sm font-satoshi px-2 py-1 rounded-md border border-gray-500"
+                  className="flex items-center justify-between w-full text-[4vw] md:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
                 >
-                  <span className="border-r pr-2">{limit}</span>
+                  <span className="border-r pr-[0.8vw] border-black h-full font-normal">
+                    {pageSelected}
+                  </span>
                   <IoIosArrowDown
-                    className={`transition-transform ${
+                    size={16}
+                    className={`transition-transform duration-300 ${
                       showPageOption ? "rotate-180" : "rotate-0"
                     }`}
                   />
                 </button>
+
                 {showPageOption && (
-                  <ul className="absolute z-10 bottom-10 bg-white border rounded-lg shadow-lg">
-                    {pageOptions.map((opt, idx) => (
+                  <ul className="absolute z-10 bottom-10 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
+                    {pageOptions.map((pageOption, idx) => (
                       <li
                         key={idx}
-                        onClick={() => handlePageSelect(opt)}
-                        className="cursor-pointer px-4 py-1 text-sm hover:bg-gray-100"
+                        onClick={() => handlePageSelect(pageOption)}
+                        className="cursor-pointer px-4 py-1 font-satoshi text-sm hover:bg-gray-100"
                       >
-                        {opt}
+                        {pageOption}
                       </li>
                     ))}
                   </ul>
@@ -289,14 +297,22 @@ const Payments = () => {
             </div>
             <div className="flex">
               <button
-                onClick={handlePrevious}
-                className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded mx-1"
+                className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={goToPreviousPage}
+                disabled={currentPage === 1}
               >
                 ←
               </button>
               <button
-                onClick={handleNext}
-                className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded mx-1"
+                className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+                  currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
               >
                 →
               </button>
