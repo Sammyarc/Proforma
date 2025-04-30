@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { User } from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import { OAuth2Client } from "google-auth-library";
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } from "../mails/emails.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
