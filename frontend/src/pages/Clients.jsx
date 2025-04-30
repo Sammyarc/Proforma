@@ -43,7 +43,6 @@ const Clients = () => {
   const [clientData, setClientData] = useState([]);
   const [totalClients, setTotalClients] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { user } = useAuthStore();
 
   const navigate = useNavigate();
@@ -88,10 +87,10 @@ const Clients = () => {
           setClientData(response.data.clients);
           setTotalClients(response.data.totalClients);
         } else {
-          setError("Failed to fetch client data");
+          throw new Error("Failed to fetch client data");
         }
       } catch (err) {
-        setError("Error connecting to server: " + err.message);
+        throw new Error(err.message);
       } finally {
         setLoading(false);
       }
@@ -245,136 +244,141 @@ const Clients = () => {
               <AnimatedEllipsis />
             </p>
           </div>
-        ) : error ? (
-          <div className="text-center py-10">
-            You haven&apos;t sent any invoice to a client
-            <br />
-            Send invoices to clients to display their details here.
+        ) : currentData.length === 0 ? (
+          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]">
+            No Client Data Available.
           </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-400">
-                <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                  Client Name
-                </th>
-                <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                  Client Address
-                </th>
-                <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                  No. of invoices sent
-                </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((client, index) => (
-                <tr key={index} className="border-b border-gray-400">
-                  <td className="py-2 px-3 font-satoshi text-gray-600">
-                    {client.clientName}
-                  </td>
-                  <td className="py-2 px-3 font-satoshi text-gray-600">
-                    {client.clientAddress}
-                  </td>
-                  <td className="py-2 px-3 font-satoshi text-gray-600">
-                    {formatInvoiceText(client.invoiceCount)}
-                  </td>
-                  <td className="py-4 px-3 relative">
-                    <button
-                      className="focus:outline-1 p-2 rounded-md"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleDropdown(index);
-                      }}
-                    >
-                      <SlOptions />
-                    </button>
-                    {activeDropdown === index && (
-                      <div className="absolute right-0 top-10 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
-                        <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
-                          View
-                        </div>
-                        <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
-                          Delete
-                        </div>
-                      </div>
-                    )}
-                  </td>
+          <>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-400">
+                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                    Client Name
+                  </th>
+                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                    Client Address
+                  </th>
+                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                    No. of invoices sent
+                  </th>
+                  <th></th>
                 </tr>
-              ))}
-              {currentData.length === 0 && !loading && (
-                <tr>
-                  <td colSpan="4" className="text-center py-4">
-                    No clients found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      <div className="flex justify-between font-satoshi items-center mt-6">
-        <div className="flex items-center">
-          <span>
-            Page {currentPage} of {totalPages || 1}
-          </span>
-          <span className="mx-3">•</span>
-          <span>Showing:</span>
-          <div
-            className="relative inline-block text-left ml-3"
-            ref={pageDropdownRef}
-          >
-            <button
-              onClick={() => setShowPageOption(!showPageOption)}
-              className="flex items-center justify-between w-full text-[4vw] md:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
-            >
-              <span className="border-r pr-[0.8vw] border-black h-full font-normal">
-                {pageSelected}
-              </span>
-              <IoIosArrowDown
-                size={16}
-                className={`transition-transform duration-300 ${
-                  showPageOption ? "rotate-180" : "rotate-0"
-                }`}
-              />
-            </button>
-
-            {showPageOption && (
-              <ul className="absolute z-10 bottom-10 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
-                {pageOptions.map((pageOption, idx) => (
-                  <li
-                    key={idx}
-                    onClick={() => handlePageSelect(pageOption)}
-                    className="cursor-pointer px-4 py-1 font-satoshi text-sm hover:bg-gray-100"
-                  >
-                    {pageOption}
-                  </li>
+              </thead>
+              <tbody>
+                {currentData.map((client, index) => (
+                  <tr key={index} className="border-b border-gray-400">
+                    <td className="py-2 px-3 font-satoshi text-gray-600">
+                      {client.clientName}
+                    </td>
+                    <td className="py-2 px-3 font-satoshi text-gray-600">
+                      {client.clientAddress}
+                    </td>
+                    <td className="py-2 px-3 font-satoshi text-gray-600">
+                      {formatInvoiceText(client.invoiceCount)}
+                    </td>
+                    <td className="py-4 px-3 relative">
+                      <button
+                        className="focus:outline-1 p-2 rounded-md"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleDropdown(index);
+                        }}
+                      >
+                        <SlOptions />
+                      </button>
+                      {activeDropdown === index && (
+                        <div className="absolute right-0 top-10 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
+                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
+                            View
+                          </div>
+                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
+                            Delete
+                          </div>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
                 ))}
-              </ul>
-            )}
-          </div>
-        </div>
-        <div className="flex">
-          <button
-            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={goToPreviousPage}
-            disabled={currentPage === 1}
-          >
-            ←
-          </button>
-          <button
-            className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={goToNextPage}
-            disabled={currentPage === totalPages}
-          >
-            →
-          </button>
-        </div>
+                {currentData.length === 0 && !loading && (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]"
+                    >
+                      No clients found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+
+            <div className="flex justify-between font-satoshi items-center mt-6">
+              <div className="flex items-center">
+                <span>
+                  Page {currentPage} of {totalPages || 1}
+                </span>
+                <span className="mx-3">•</span>
+                <span>Showing:</span>
+                <div
+                  className="relative inline-block text-left ml-3"
+                  ref={pageDropdownRef}
+                >
+                  <button
+                    onClick={() => setShowPageOption(!showPageOption)}
+                    className="flex items-center justify-between w-full text-[4vw] md:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
+                  >
+                    <span className="border-r pr-[0.8vw] border-black h-full font-normal">
+                      {pageSelected}
+                    </span>
+                    <IoIosArrowDown
+                      size={16}
+                      className={`transition-transform duration-300 ${
+                        showPageOption ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+
+                  {showPageOption && (
+                    <ul className="absolute z-10 bottom-10 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
+                      {pageOptions.map((pageOption, idx) => (
+                        <li
+                          key={idx}
+                          onClick={() => handlePageSelect(pageOption)}
+                          className="cursor-pointer px-4 py-1 font-satoshi text-sm hover:bg-gray-100"
+                        >
+                          {pageOption}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+              <div className="flex">
+                <button
+                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  ←
+                </button>
+                <button
+                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
+                    currentPage === totalPages
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
