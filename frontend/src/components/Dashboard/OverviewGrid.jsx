@@ -22,7 +22,7 @@ const OverviewGrid = () => {
                 <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Invoices Sent</h2>
                 <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
                     <LiaFileInvoiceSolid className="text-teal-600 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">10</p>
+                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
                 </div>
             </motion.div>
 
@@ -40,7 +40,7 @@ const OverviewGrid = () => {
                 <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Completed Payments</h2>
                 <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
                     <GiCheckMark className="text-green-500 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">10</p>
+                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
                 </div>
             </motion.div>
 
