@@ -11,6 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { FiUpload } from "react-icons/fi";
+import { RiLoader4Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -38,6 +40,9 @@ const Settings = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef(null);
+
+  // navigate function to redirect to another page
+  const navigate = useNavigate();
 
   // Load user data on component mount
   useEffect(() => {
@@ -136,10 +141,8 @@ const Settings = () => {
     try {
       setIsSaving(true);
 
-      // Combine form data with logo URL
       const updatedUserData = {
         ...formData,
-        logoUrl,
       };
 
       // Send data to API
@@ -152,6 +155,10 @@ const Settings = () => {
       setIsSaving(false);
     }
   };
+
+  const handleClick = () => {
+    navigate("/forgot-password");
+  }
 
   const paymentOptions = [
     {
@@ -226,209 +233,202 @@ const Settings = () => {
           Profile
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Logo Upload Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-4">
-              <div
-                onClick={triggerFileInput}
-                className={`w-32 h-32 flex flex-col items-center justify-center cursor-pointer rounded-md ${
-                  logoUrl
-                    ? "border-none"
-                    : "border-2 border-dashed border-gray-300 hover:bg-gray-50"
-                }`}
-              >
-                {logoUrl ? (
-                  <img
-                    src={logoUrl}
-                    alt="Business Logo"
-                    className="w-full h-full rounded-lg object-cover"
-                  />
-                ) : (
-                  <>
-                    <FiUpload size={24} className="text-gray-400" />
-                    <span className="text-[4vw] font-satoshi mt-1 text-gray-400 md:text-[1vw]">
-                      Upload Logo
-                    </span>
-                  </>
-                )}
-                {isUploading && (
-                  <div className="text-[4vw] font-satoshi mt-1 text-green-400 md:text-[1vw]">
-                    Uploading...
-                  </div>
-                )}
-              </div>
-
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleLogoUpload}
-                accept="image/*"
-                className="hidden"
-                disabled={isUploading}
-              />
-
-              {logoUrl && (
-                <button
-                  type="button"
-                  onClick={() => setLogoUrl("")}
-                  className="py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border rounded-xl"
-                >
-                  Remove Logo
-                </button>
+        {/* Logo Upload Section */}
+        <div className="mb-6">
+          <div className="flex items-center space-x-4">
+            <div
+              onClick={triggerFileInput}
+              className={`w-32 h-32 flex flex-col items-center justify-center cursor-pointer rounded-md ${
+                logoUrl
+                  ? "border-none"
+                  : "border-2 border-dashed border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt="Business Logo"
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              ) : (
+                <>
+                  <FiUpload size={24} className="text-gray-400" />
+                  <span className="text-[4vw] font-satoshi mt-1 text-gray-400 md:text-[1vw]">
+                    Upload Logo
+                  </span>
+                </>
+              )}
+              {isUploading && (
+                <div className="text-[4vw] font-satoshi mt-1 text-green-400 md:text-[1vw]">
+                  Uploading...
+                </div>
               )}
             </div>
-          </div>
 
-          <div className="flex flex-col md:flex-row gap-6 mb-6">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleLogoUpload}
+              accept="image/*"
+              className="hidden"
+              disabled={isUploading}
+            />
+
+            {logoUrl && (
+              <button
+                type="button"
+                onClick={() => setLogoUrl("")}
+                className="py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border rounded-xl"
+              >
+                Remove Logo
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 mb-6">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl w-full gap-6 md:w-3/5 md:grid-cols-2"
+          >
             {/* Business Details Form */}
-            <div className="grid grid-cols-1 px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl w-full gap-6 md:w-3/5 md:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="businessName"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  Business Name:
-                </label>
-                <input
-                  type="text"
-                  id="businessName"
-                  name="businessName"
-                  value={formData.businessName}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                  required
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  Email Address:
-                </label>
-                <input
-                  type="email"
-                  id="emailAddress"
-                  name="emailAddress"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                  required
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="city"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  City:
-                </label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  Country:
-                </label>
-                <input
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="state"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  State:
-                </label>
-                <input
-                  type="text"
-                  id="state"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
-                >
-                  Phone No:
-                </label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                  className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
-                />
-              </div>
+            <div>
+              <label
+                htmlFor="businessName"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                Business Name:
+              </label>
+              <input
+                type="text"
+                id="businessName"
+                name="businessName"
+                value={formData.businessName}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+                required
+              />
             </div>
-            <div className="w-full px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl md:w-2/5">
-              <h1 className="mb-[1vw] font-satoshi font-semibold text-[5vw] md:text-[1.2vw]">
-                Password
-              </h1>
-              <div className="flex flex-row items-center gap-[2vw] mb-[1.5vw]">
-                <button
-                  title="Change Password"
-                  onClick={() => {
-                    toast.info(
-                      "Change Password functionality is not implemented yet."
-                    );
-                  }}
-                  className="px-[1vw] py-[0.4vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-[1vw]"
-                >
-                  Change Password
-                </button>
-                <button
-                  title="Forgot Password"
-                  onClick={() => {
-                    toast.info(
-                      "Reset Password functionality is not implemented yet."
-                    );
-                  }}
-                  className="px-[1vw] py-[0.4vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-[1vw]"
-                >
-                  Forgot Password
-                </button>
-              </div>
-            </div>
-          </div>
 
-          {/* Submit Button */}
-          <div className="mt-8 flex justify-end">
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border rounded-xl"
-            >
-              {isSaving ? "Saving..." : "Save Changes"}
-            </button>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                Email Address:
+              </label>
+              <input
+                type="email"
+                id="emailAddress"
+                name="emailAddress"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="city"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                City:
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                Country:
+              </label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="state"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                State:
+              </label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="phoneNumber"
+                className="block text-[4vw] font-satoshi font-semibold text-gray-700 md:text-[1vw] mb-3"
+              >
+                Phone No:
+              </label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                className="w-full outline-none border border-gray-400 bg-transparent px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 md:px-[0.5vw] md:py-[0.4vw] md:rounded-[0.5vw]"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div>
+              <button
+                type="submit"
+                disabled={isSaving}
+                className={`py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border rounded-xl ${
+                  isSaving
+                    ? "opacity-50 cursor-not-allowed"
+                    : "opacity-100 cursor-pointer"
+                }`}
+              >
+                {isSaving ? (
+                  <div className="text-[4vw] flex items-center gap-2 md:text-[1vw]"><RiLoader4Line className="animate-spin" size={20}/><span>Saving...</span></div>
+                ) : (
+                    <span className="text-[4vw] md:text-[1vw]">Save Changes</span>
+                )}
+              </button>
+            </div>
+          </form>
+
+          <div className="w-full px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl md:w-2/5">
+            <h1 className="mb-[1vw] font-satoshi font-semibold text-[5vw] md:text-[1.2vw]">
+              Password
+            </h1>
+              <button
+                title="Change Password"
+                onClick={handleClick}
+                className="px-[1vw] py-[0.4vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-[1vw]"
+              >
+                Change Password
+              </button>
           </div>
-        </form>
+        </div>
       </div>
 
       <div className="border border-neutral-500 rounded-3xl p-4 box md:w-[25vw]">
