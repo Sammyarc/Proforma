@@ -158,10 +158,8 @@ const Payments = () => {
           </p>
         </div>
       ) : currentData.length === 0 ? (
-        <div className="text-center py-10 text-gray-600 font-satoshi text-lg">
+        <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]">
           You have not received any payments yet.
-          <br />
-          Send invoices to clients to track payments here.
         </div>
       ) : (
         <>
