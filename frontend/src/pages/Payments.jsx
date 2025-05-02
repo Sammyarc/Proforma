@@ -331,13 +331,13 @@ const Payments = () => {
                 </p>
               </div>
             </div>
-            <div className="w-[50vw]">
+            <div className="w-[50vw] h-[50vw]">
               <CloudinaryPdfViewer
                 pdfUrl={
                   selectedInvoiceView.invoiceUrl ||
                   "https://placehold.co/600x400/png"
                 }
-                className="w-full h-full object-cover rounded-md"
+                className="w-full h-full object-contain aspect-square rounded-md"
                 alt="Invoice"
               />
             </div>
