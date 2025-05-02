@@ -202,13 +202,13 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
 
       // Use a lower scale factor for the HTML to canvas conversion
       const canvas = await html2canvas(invoiceElement, {
-        scale: 2, // Reduced scale for better performance
+        scale: 2,
         useCORS: true,
         logging: false,
         imageTimeout: 0,
       });
 
-      const imgData = canvas.toDataURL("image/jpeg", 0.95); // Use JPEG with slight compression
+      const imgData = canvas.toDataURL("image/jpeg", 0.6); // Use JPEG with slight compression
 
       const imgWidth = 210; // A4 width
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
