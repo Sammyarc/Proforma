@@ -2,59 +2,157 @@ import { motion } from "framer-motion";
 import { GiCheckMark, GiPayMoney } from "react-icons/gi";
 import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { TfiReload } from "react-icons/tfi";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuthStore } from "../../store/authStore";
 
-const cardVariants = {
-    hidden: { opacity: 0, y: 10 }, // Start below with opacity 0
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-};
+const API_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3000/api/invoice"
+    : "https://proforma-h8qh.onrender.com/api/invoice";
 
-const OverviewGrid = () => {
-    return (
-        <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6 mb-[5vw] md:mb-[2vw]"
-            initial="hidden"
-            animate="visible"
-            variants={{ visible: { transition: { staggerChildren: 0.1 } } }} // Stagger effect
-        >
+axios.defaults.withCredentials = true;
 
-            {/* Invoices Sent */}
-            <motion.div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl" variants={cardVariants}>
-                <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Invoices Sent</h2>
-                <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
-                    <LiaFileInvoiceSolid className="text-teal-600 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
-                </div>
-            </motion.div>
+const OverviewGrid = ({ userId }) => {
+  const [stats, setStats] = useState({
+    totalInvoices: 0,
+    pendingPayments: { count: 0, amount: 0 },
+    completedPayments: { count: 0, amount: 0 },
+    recurringPayments: { count: 0, amount: 0 },
+    isLoading: true,
+  });
 
-            {/* Pending Payments */}
-            <motion.div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl" variants={cardVariants}>
-                <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Pending Payments</h2>
-                <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
-                    <GiPayMoney className="text-indigo-600 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
-                </div>
-            </motion.div>
+  // Format number as currency
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
 
-            {/* Completed Invoices */}
-            <motion.div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl" variants={cardVariants}>
-                <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Completed Payments</h2>
-                <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
-                    <GiCheckMark className="text-green-500 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
-                </div>
-            </motion.div>
+  const { user } = useAuthStore();
 
-            {/* Recurring Payments */}
-            <motion.div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl" variants={cardVariants}>
-                <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">Recurring Payments</h2>
-                <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
-                    <TfiReload className="text-red-500 text-[6vw] md:text-[2.5vw]"/>
-                    <p className="text-[4vw] md:text-[1vw] font-satoshi font-bold text-Gray700">0</p>
-                </div>
-            </motion.div>
+  useEffect(() => {
+    const userId = user?._id;
+    const fetchOverviewStats = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/invoices/stats/overview?userId=${userId}`
+        );
+        setStats({
+          ...response.data,
+          isLoading: false,
+        });
+      } catch (error) {
+        console.error("Error fetching invoice overview stats:", error);
+        setStats((prev) => ({ ...prev, isLoading: false }));
+      }
+    };
 
-        </motion.div>
-    );
+    if (userId) {
+      fetchOverviewStats();
+    }
+  }, [userId]);
+
+  // Skeleton loader for each card
+  const SkeletonLoader = () => (
+        <div className="h-[6vw] w-[6vw] animate-pulse md:h-[2.5vw] md:w-[2.5vw] bg-gray-200 rounded-lg"></div>
+  );
+
+  return (
+    <motion.div
+      className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6 mb-[5vw] md:mb-[2vw]"
+      initial="hidden"
+      animate="visible"
+      variants={{ visible: { transition: { staggerChildren: 0.1 } } }} // Stagger effect
+    >
+      {/* Invoices Sent */}
+      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
+        <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">
+          Invoices Sent:
+        </h2>
+
+        <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
+          <LiaFileInvoiceSolid className="text-teal-600 text-[6vw] md:text-[2.5vw]" />
+          {stats.isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <p className="text-[4vw] font-satoshi font-bold text-Gray700 md:text-[1vw]">
+              {stats.totalInvoices}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Pending Payments */}
+      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
+        <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">
+          Pending Payments
+        </h2>
+        <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
+          <GiPayMoney className="text-indigo-600 text-[6vw] md:text-[2.5vw]" />
+          {stats.isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div>
+              <p className="text-[4vw] font-satoshi font-bold text-Gray700 md:text-[1vw]">
+                {stats.pendingPayments.count}
+              </p>
+              <p className="text-[3.6vw] font-satoshi text-gray-500 md:text-[0.9vw]">
+                {formatCurrency(stats.pendingPayments.amount)}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Completed Invoices */}
+      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
+        <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">
+          Completed Payments
+        </h2>
+        <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
+          <GiCheckMark className="text-green-500 text-[6vw] md:text-[2.5vw]" />
+          {stats.isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div>
+              <p className="text-[4vw] font-satoshi font-bold text-Gray700 md:text-[1vw]">
+                {stats.completedPayments.count}
+              </p>
+              <p className="text-[3.6vw] font-satoshi text-gray-500 md:text-[0.9vw]">
+                {formatCurrency(stats.completedPayments.amount)}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Recurring Payments */}
+      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
+        <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">
+          Recurring Payments
+        </h2>
+        <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
+          <TfiReload className="text-red-500 text-[6vw] md:text-[2.5vw]" />
+          {stats.isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div>
+              <p className="text-[4vw] font-satoshi font-bold text-Gray700 md:text-[1vw]">
+                {stats.recurringPayments.count}
+              </p>
+              <p className="text-[3.6vw] font-satoshi text-gray-500 md:text-[0.9vw]">
+                {formatCurrency(stats.recurringPayments.amount)}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
 export default OverviewGrid;
