@@ -140,11 +140,6 @@ yarn test
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
-
-- Join our [Discord community](link-to-discord)
-- Check out the [Documentation](link-to-docs)
-- Report bugs via [Issues](link-to-issues)
 
 ## Acknowledgments
 
