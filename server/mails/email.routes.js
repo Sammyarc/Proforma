@@ -209,7 +209,6 @@ router.post("/send-email", async (req, res) => {
 
     // Save the initial invoice document
     const savedInvoice = await invoiceData.save();
-    console.log("Invoice saved with ID:", savedInvoice._id);
 
     // 2. NOW GENERATE PAYMENT LINK WITH THE _id
     let paymentLink;
