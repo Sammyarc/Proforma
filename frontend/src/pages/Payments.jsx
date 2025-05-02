@@ -222,17 +222,16 @@ const Payments = () => {
         <div>
           <button
             onClick={() => setSelectedInvoiceView(null)}
-            className="mt-4 flex items-center hover:underline"
+            className="mt-4 flex items-center hover:underline md:sticky md:top-[6vw]"
           >
-            {" "}
-            <IoIosArrowRoundBack size={24} />{" "}
+            <IoIosArrowRoundBack size={24} />
             <span className="text-[4vw] font-satoshi md:text-[1.1vw]">
               Back to payment list
             </span>
           </button>
 
           <div className="flex flex-col gap-3 mt-[2vw] md:flex-row">
-            <div className="grid grid-cols-2 gap-3 md:w-[30vw] md:h-[30vw]">
+            <div className="grid grid-cols-2 gap-3 md:sticky md:top-[10vw] md:w-[30vw] md:h-[30vw]">
               <div className="mb-[0.5vw] space-y-1">
                 <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
                   Client Name:
@@ -547,7 +546,7 @@ const Payments = () => {
                       setIsDeleteModalOpen(false);
                       setSelectedInvoiceId(null);
                     }}
-                    className="px-4 py-2 text-gray-600 border font-satoshi rounded-lg"
+                    className="px-4 py-2 text-gray-600 border bg-gray-200 font-satoshi rounded-lg"
                   >
                     Cancel
                   </button>
