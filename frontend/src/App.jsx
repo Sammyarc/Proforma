@@ -10,6 +10,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import RedirectAuthenticatedUser from "./hooks/RedirectAuthenticatedUser";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 
 
 const App = () => {
@@ -39,7 +41,16 @@ const App = () => {
 							<ResetPasswordPage />
 						</RedirectAuthenticatedUser>
 					}
-				/>
+                />
+                <Route path="/payment-success" element={
+                    <Success />
+                }
+                />
+
+                <Route path="/payment-error" element={
+                    <Cancel />
+                }
+                />
             </Routes>
 
             <ToastContainer
