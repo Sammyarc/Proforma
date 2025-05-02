@@ -44,9 +44,17 @@ const InvoiceSchema = new mongoose.Schema({
     required: true
   },
   invoiceFileName: String,
+  paymentId: String,
+  payerId: String,
+  paidAt: Date,
+  paymentMethod: {
+    type: String,
+    enum: ['paypal', 'credit_card', 'bank_transfer'],
+    default: 'paypal'
+  },
   status: {
     type: String,
-    enum: ['pending', 'paid', 'overdue'],
+    enum: ['pending', 'paid', 'cancelled', 'overdue'],
     default: 'pending'
   },
   sentDate: {
