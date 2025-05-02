@@ -6,7 +6,7 @@ import emailRoutes from './mails/email.routes.js';
 import paypalRoutes from './routes/paypal.routes.js';
 import invoiceRoutes from './routes/invoice.routes.js';
 import settingsRoutes from './routes/settings.routes.js';
-import { startPayPalTokenRefreshScheduler } from './services/paypalScheduler.js';
+import paymentRoutes from './routes/payment.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
@@ -32,8 +32,6 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 
-startPayPalTokenRefreshScheduler();
-
 
 app.options('*', cors()); // Enable pre-flight requests for all routes
 app.use("/api/auth", authRoutes);
@@ -41,6 +39,7 @@ app.use("/api", emailRoutes);
 app.use("/paypal", paypalRoutes);
 app.use('/api/invoice', invoiceRoutes);
 app.use("/settings", settingsRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Connect to database first, then start server
 const startServer = async () => {
