@@ -30,11 +30,11 @@ router.get('/success', async (req, res) => {
     );
 
     // 3. Redirect to frontend
-    res.redirect(`${process.env.FRONTEND_URL}/payment-success?invoice=${invoiceId}`);
+    res.redirect(`${process.env.FRONTEND_URL}/payment-success`);
     
   } catch (error) {
     console.error('Payment Error:', error);
-    res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=processing_failed`);
+    res.redirect(`${process.env.FRONTEND_URL}/payment-error`);
   }
 });
 
