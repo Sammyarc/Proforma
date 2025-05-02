@@ -112,22 +112,16 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
         </h1>
         <div className="flex space-x-[0.5vw] items-center">
           <p className="text-[2vw]">№</p>
-          {isStaticMode ? (
-            <div className="text-[4vw] font-satoshi md:text-[1vw] -mt-[0.5vw]" data-invoice-field="invoiceNumber">
-              {" "}
-              {invoiceData.invoiceNumber || ""}
-            </div>
-          ) : (
-            <div
+          <div
               contentEditable
-              className="focus:outline-none border-b border-transparent -pt-1 hover:border-gray-300 text-[4vw] font-satoshi md:text-[1vw]"
+              className="focus:outline-none border-b border-transparent py-1 hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
+              data-invoice-field="invoiceNumber"
               onInput={(e) =>
                 handleFieldChange("invoiceNumber", e.target.textContent)
               }
             >
-              A01
+              ******
             </div>
-          )}
         </div>
       </div>
 
@@ -171,7 +165,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                   className="focus:outline-none border-b border-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-[1vw]"
                   value={invoiceData.invoiceDate}
                   onChange={(e) =>
-                    handleFieldChange("issueDate", e.target.value)
+                    handleFieldChange("invoiceDate", e.target.value)
                   }
                 />
               )}
