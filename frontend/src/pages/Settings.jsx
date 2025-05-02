@@ -286,7 +286,7 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 mb-6">
+        <div className="flex flex-col md:flex-row gap-6 mb-[3vw]">
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl w-full gap-6 md:w-3/5 md:grid-cols-2"
