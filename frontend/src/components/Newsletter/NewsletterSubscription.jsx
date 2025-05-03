@@ -31,7 +31,7 @@ const NewsletterSubscription = () => {
                                 className="hidden text-[vw] font-medium text-white font-satoshi mb-1 md:text-[1vw] md:block">
                                 Email Address
                             </label>
-                            <div className='flex items-center gap-2'>
+                            <div className='flex flex-col md:items-center gap-2'>
                                 <div className="relative">
                                     <input
                                         type="email"
@@ -40,7 +40,7 @@ const NewsletterSubscription = () => {
                                         placeholder="your@email.com"
                                         autoComplete="on"
                                         value={email}
-                                        className='outline-none border bg-transparent text-white px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi pr-[9vw] hover:outline hover:outline-2 hover:outline-neutral-200 focus:outline focus:outline-2 focus:outline-neutral-200 md:w-[20vw] md:px-[1vw] md:py-[0.8vw] md:rounded-[0.5vw] md:pr-[3vw]'
+                                        className='w-full outline-none border bg-transparent text-white px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi pr-[9vw] hover:outline hover:outline-2 hover:outline-neutral-200 focus:outline focus:outline-2 focus:outline-neutral-200 md:w-[20vw] md:px-[1vw] md:py-[0.8vw] md:rounded-[0.5vw] md:pr-[3vw]'
                                         onChange={(e) => setEmail(e.target.value)}
                                         onBlur={() => setEmail(email.toLowerCase())}/>
                                     <div
@@ -51,7 +51,7 @@ const NewsletterSubscription = () => {
 
                                 <button
                                     type='submit'
-                                    className="px-[4vw] py-[2vw] flex gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.8vw] md:py-[0.8vw]">
+                                    className="px-[4vw] py-[2vw] mt-[3vw] w-[30vw] flex gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.8vw] md:py-[0.8vw] md:mt-0 md:w-full">
                                     Subscribe
                                     <HiArrowRight size={18}/>
                                 </button>
