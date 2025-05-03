@@ -28,7 +28,7 @@ const Hero = () => {
                     Create invoices in seconds, get paid faster
                 </h1>
                 <p
-                    className="text-Gray800 text-left text-[4vw] font-satoshi mt-[3vw] md:mt-[0.5vw] md:text-[1.3vw] md:max-w-[55vw] md:text-center">
+                    className="text-Gray800 text-left text-[4.5vw] font-satoshi mt-[3vw] md:mt-[0.5vw] md:text-[1.3vw] md:max-w-[55vw] md:text-center">
                     Streamline your billing process with Proforma, create professional, customizable invoices in seconds, automate
                     repetitive tasks, and ensure faster payments.
                 </p>

@@ -53,7 +53,7 @@ const NewsletterSubscription = () => {
                                     type='submit'
                                     className="px-[4vw] py-[2vw] mt-[3vw] w-[30vw] flex gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.8vw] md:py-[0.8vw] md:mt-0 md:w-full">
                                     Subscribe
-                                    <HiArrowRight size={18}/>
+                                    <HiArrowRight size={20} className='hidden md:flex'/>
                                 </button>
                             </div>
                         </div>
