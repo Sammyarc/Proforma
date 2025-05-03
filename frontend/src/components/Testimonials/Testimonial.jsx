@@ -31,7 +31,7 @@ const testimonials = [
 
 const Testimonial = () => {
     return (
-        <section className="py-16 relative">
+        <section className="relative pb-6 md:py-16 md:pb-0">
             <div className="absolute left-0 -bottom-[5.5vw]">
             <img src={Svg} alt="Icon" className="w-[10vw] h-[10vw]" />
             </div>
@@ -40,7 +40,7 @@ const Testimonial = () => {
             </div>
             <div>
                 <h2
-                    className="text-[6vw] text-center font-bold font-satoshi mb-8 text-gray-900 md:text-[3vw]">
+                    className="text-[8vw] text-center font-bold font-satoshi mb-8 text-gray-900 md:text-[3vw]">
                     What Our Users Say
                 </h2>
 
@@ -57,7 +57,7 @@ const Testimonial = () => {
                                     .map((testimonial, index) => (
                                         <div
                                             key={index}
-                                            className="bg-white shadow-lg rounded-xl p-6 md:p-8 mx-2 min-w-[300px] md:min-w-[400px]">
+                                            className="bg-white shadow-lg rounded-xl p-4 md:p-8 mx-2 min-w-[300px] md:min-w-[400px]">
                                             <p
                                                 className="whitespace-normal text-[4vw] font-satoshi text-gray-800 mb-4 md:text-lg">
                                                 “{testimonial.quote}”

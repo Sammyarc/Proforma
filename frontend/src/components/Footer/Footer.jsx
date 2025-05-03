@@ -7,17 +7,17 @@ const Footer = () => {
     return (
         <footer className="py-8 mt-[4vw]">
             <div className="container mx-auto px-6">
-                <div className="flex justify-between items-start">
+                <div className="md:flex md:justify-between md:items-start">
                     {/* About Section */}
-                    <div>
+                    <div className="mb-6 md:mb-0">
                         <span className="flex items-center">
                             <img
                                 src={Logo}
                                 alt='Profoma Logo'
-                                className='w-[10vw] h-[3vw] md:w-[5vw] md:h-[5vw]'/>
-                            <span className='font-clash text-[4vw] text-black md:text-[1.5vw]'>Proforma</span>
+                                className='w-[17vw] h-[17vw] md:w-[5vw] md:h-[5vw]'/>
+                            <span className='font-clash text-[6vw] text-black md:text-[1.5vw]'>Proforma</span>
                         </span>
-                        <p className="text-[4vw] w-[40ch] leading-relaxed font-satoshi md:text-[1vw]">
+                        <p className="text-[4vw] md:w-[40ch] leading-relaxed font-satoshi md:text-[1vw]">
                             Our invoice generator app simplifies the way businesses and freelancers manage
                             their billing needs. Create, send, and manage professional invoices seamlessly.
                         </p>
@@ -26,7 +26,7 @@ const Footer = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[6vw]">
                         {/* Quick Links */}
                         <div>
-                            <h3 className="text-lg font-bold font-satoshi mb-4">Quick Links</h3>
+                            <h3 className="text-[5vw] font-bold font-satoshi mb-4 md:text-[1.1vw]">Quick Links</h3>
                             <ul className="space-y-2">
                                 <li>
                                     <a
@@ -53,7 +53,7 @@ const Footer = () => {
 
                         {/* Social Media Section */}
                         <div>
-                            <h3 className="text-lg font-satoshi font-bold mb-4">Socials</h3>
+                            <h3 className="text-[5vw] font-bold font-satoshi mb-4 md:text-[1.1vw]">Socials</h3>
                             <div className="flex flex-col space-y-4">
                                 <a
                                     href="#"

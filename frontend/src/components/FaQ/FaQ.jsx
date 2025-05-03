@@ -30,11 +30,11 @@ const FaQ = () => {
 
   return (
     <section id="faq" className="container mx-auto">
-      <div className="w-[60vw] mx-auto h-full my-[8vw] md:my-[5vw]">
-        <h1 className="text-[6vw] text-center font-satoshi font-bold mb-[4vw] leading-tight md:text-[3vw] md:mb-[2vw]">
+      <div className="px-[2vw] h-full my-[8vw] md:my-[5vw] md:w-[60vw] md:mx-auto">
+        <h1 className="text-[7vw] text-center font-satoshi font-bold mb-[4vw] leading-tight md:text-[3vw] md:mb-[2vw]">
           Frequently Asked Questions
         </h1>
-        <div className="space-y-[7vw] md:space-y-[1vw]">
+        <div className="my-[8vw] space-y-[5vw] md:space-y-[1vw]">
           {faqs.map((faq, index) => (
             <div key={index} className={`border rounded-lg overflow-hidden ${openIndex === index ? 'border-gray-300 bg-White' : 'border-gray-300'}`}>
               <button

@@ -20,15 +20,15 @@ const NewsletterSubscription = () => {
     };
 
     return (
-        <section className="bg-neutral-700 mx-[3vw] rounded-[1vw] py-12 px-4">
+        <section className="bg-neutral-700 mx-[3vw] rounded-2xl py-6 px-8 md:rounded-[1vw] md:py-12 md:px-4">
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
                 {/* Left column - Form */}
-                <div className="p-6">
+                <div className="md:p-6">
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
+                        <div className="mb-2 md:mb-4">
                             <label
                                 htmlFor="email"
-                                className="block text-[4vw] font-medium text-white font-satoshi mb-1 md:text-[1vw]">
+                                className="hidden text-[vw] font-medium text-white font-satoshi mb-1 md:text-[1vw] md:block">
                                 Email Address
                             </label>
                             <div className='flex items-center gap-2'>
@@ -40,18 +40,18 @@ const NewsletterSubscription = () => {
                                         placeholder="your@email.com"
                                         autoComplete="on"
                                         value={email}
-                                        className='w-[20vw] outline-none border bg-transparent text-white px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-200 focus:outline focus:outline-2 focus:outline-neutral-200'
+                                        className='outline-none border bg-transparent text-white px-[2.5vw] py-[3vw] rounded-[1.5vw] font-satoshi pr-[9vw] hover:outline hover:outline-2 hover:outline-neutral-200 focus:outline focus:outline-2 focus:outline-neutral-200 md:w-[20vw] md:px-[1vw] md:py-[0.8vw] md:rounded-[0.5vw] md:pr-[3vw]'
                                         onChange={(e) => setEmail(e.target.value)}
                                         onBlur={() => setEmail(email.toLowerCase())}/>
                                     <div
                                         className="absolute inset-y-0 right-[3vw] md:right-[1vw] flex items-center">
-                                        <GoMail className="text-white md:text-[1.3vw]"/>
+                                        <GoMail className="text-white text-[6vw] md:text-[1.3vw]"/>
                                     </div>
                                 </div>
 
                                 <button
                                     type='submit'
-                                    className="px-[2.5vw] py-[3vw] md:px-[1.8vw] md:py-[0.8vw] flex gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box">
+                                    className="px-[4vw] py-[2vw] flex gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.8vw] md:py-[0.8vw]">
                                     Subscribe
                                     <HiArrowRight size={18}/>
                                 </button>
@@ -69,7 +69,7 @@ const NewsletterSubscription = () => {
 
                 {/* Right column - Text content */}
                 <div className="flex flex-col justify-center">
-                    <h2 className="text-[5vw] font-bold text-white font-satoshi mb-2 md:text-[2vw]">
+                    <h2 className="text-[6vw] font-bold text-white font-satoshi mb-2 md:text-[2vw]">
                         Stay Updated with Our Newsletter
                     </h2>
                     <p className="text-gray-300 font-satoshi mb-4">
