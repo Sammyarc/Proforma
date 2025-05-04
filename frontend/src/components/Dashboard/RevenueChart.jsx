@@ -35,6 +35,7 @@ const RevenueChart = ({ userId }) => {
   const [invoiceData, setInvoiceData] = useState({
     revenue: Array(12).fill(0),
     pending: Array(12).fill(0),
+    failed: Array(12).fill(0),
     total: 0,
     percentChange: 0,
     isPositiveChange: true,
@@ -59,6 +60,7 @@ const RevenueChart = ({ userId }) => {
         setInvoiceData({
           revenue: monthlyData.revenue,
           pending: monthlyData.pending,
+          failed:monthlyData.failed,
           total: totalPaid,
           percentChange: Math.abs(monthlyData.percentChange),
           isPositiveChange: monthlyData.percentChange >= 0,
@@ -83,7 +85,7 @@ const RevenueChart = ({ userId }) => {
 
   const isMobile = windowWidth < 768;
   const labelFontSize = isMobile ? 9 : 13;
-  const barThicknessSize = isMobile ? 25 : 30;
+  const barThicknessSize = isMobile ? 25 : 25;
 
   // Animated ellipsis component
   const AnimatedEllipsis = () => {
@@ -131,60 +133,43 @@ const RevenueChart = ({ userId }) => {
 
   const data = {
     labels: months,
-    datasets: [
+    datasets: [ 
       {
-        label: "Paid Invoices",
+        label: "Paid",
         data: invoiceData.revenue,
         backgroundColor: "#16a34a",
         hoverBackgroundColor: "#22c55e",
         barThickness: barThicknessSize,
         borderRadius: 5,
-        borderSkipped: false,
+        borderSkipped: "bottom",
         order: 1,
-      },
-      {
-        label: "", // Invisible padding dataset
-        data: Array(12).fill(0),
-        backgroundColor: "rgba(0,0,0,0)",
-        barThickness: barThicknessSize,
-        order: 2,
-      },
+        stack: "stack1",
+      }, 
       {
         label: "Pending",
         data: invoiceData.pending,
-        backgroundColor: "#d4d4d4",
-        hoverBackgroundColor: "#e5e7eb",
+        backgroundColor: "#facc15",
+        hoverBackgroundColor: "#fbbf24",
         barThickness: barThicknessSize,
         borderRadius: 5,
-        borderSkipped: false,
-        order: 3,
-      },
+        borderSkipped: "bottom",
+        order: 2,
+        stack: "stack2",
+      },    
       {
-        label: "", // Invisible padding dataset
-        data: Array(12).fill(0),
-        backgroundColor: "rgba(0,0,0,0)",
+        label: "Failed",
+        data: invoiceData.failed,
+        backgroundColor: "#dc2626",
+        hoverBackgroundColor: "#ef4444",
         barThickness: barThicknessSize,
-        order: 0,
-        },
-        {
-            label: "Overdue",
-            data: invoiceData.overdue,
-            backgroundColor: "#dc2626",
-            hoverBackgroundColor: "#f87171",
-            barThickness: barThicknessSize,
-            borderRadius: 5,
-            borderSkipped: false,
-            order: 5,
-        },
-        {
-            label: "", // Invisible padding dataset
-            data: Array(12).fill(0),
-            backgroundColor: "rgba(0,0,0,0)",
-            barThickness: barThicknessSize,
-            order: 4,
-          },
+        borderRadius: 5,
+        borderSkipped: "bottom",
+        order: 3,
+        stack: "stack3",
+      },
     ],
   };
+  
 
   const options = {
     responsive: true,
@@ -206,20 +191,24 @@ const RevenueChart = ({ userId }) => {
       },
       tooltip: {
         callbacks: {
-          label: (context) => `${formatCurrency(context.raw)}`,
+          label: (context) => {
+            const label = context.dataset.label || '';
+            const value = formatCurrency(context.raw);
+            return `${label}: ${value}`;
+          },
         },
         titleFont: { family: "satoshi", size: labelFontSize },
         bodyFont: { family: "satoshi", size: labelFontSize },
         backgroundColor: "#fff",
         titleColor: "#3C3D37",
         bodyColor: "#3C3D37",
-        padding: 15,
+        padding: 10,
         borderColor: "#525252",
         borderWidth: 1,
         caretSize: 5,
-        caretPadding: 30,
+        caretPadding: 10,
         displayColors: false,
-      },
+      }      
     },
     scales: {
       x: {
@@ -232,11 +221,9 @@ const RevenueChart = ({ userId }) => {
       },
       y: {
         beginAtZero: true,
-        display: false,
         stacked: true,
         grid: { display: false },
         ticks: {
-          callback: (value) => formatCurrency(value),
           font: { family: "satoshi", size: 12 },
           color: "#3C3D37",
         },
@@ -275,7 +262,7 @@ const RevenueChart = ({ userId }) => {
               <AnimatedEllipsis />
             </p>
           </div>
-        ) : !data || !data.datasets?.[0]?.data?.length ? (
+        ) : !invoiceData.revenue?.some((val) => val > 0) && !invoiceData.pending?.some((val) => val > 0) ? (
           <div className="flex justify-center items-center h-full">
             <p className="text-gray-500 text-[4vw] md:text-[1.2vw] font-satoshi">
               No content available

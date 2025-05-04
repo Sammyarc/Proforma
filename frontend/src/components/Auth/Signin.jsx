@@ -10,7 +10,7 @@ import { LucideLoader2 } from "lucide-react";
 import { MdErrorOutline } from "react-icons/md";
 
 const Signin = () => {
-  const { signup, googleSignIn, login, isLoading, error, clearError } =
+  const { signup, googleSignIn, login, isLoading, error, clearError} =
     useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -227,7 +227,7 @@ const Signin = () => {
             isLoading || (isRegister && !termsAccepted)
               ? "bg-gray-400 cursor-not-allowed "
               : "bg-cyan-800"
-          } text-white font-satoshi h-[15vw] border border-neutral-400 md:h-[2.5vw] rounded-xl box`}
+          } text-white font-satoshi h-[10vw] border border-neutral-400 md:h-[2.5vw] rounded-xl box`}
           onClick={() => {
             if (isRegister) {
               handleRegister();

@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+
 import { GiCheckMark, GiPayMoney } from "react-icons/gi";
 import { LiaFileInvoiceSolid } from "react-icons/lia";
-import { TfiReload } from "react-icons/tfi";
+import { AiOutlineWarning } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthStore } from "../../store/authStore";
@@ -18,7 +18,7 @@ const OverviewGrid = ({ userId }) => {
     totalInvoices: 0,
     pendingPayments: { count: 0, amount: 0 },
     completedPayments: { count: 0, amount: 0 },
-    recurringPayments: { count: 0, amount: 0 },
+    failedPayments: { count: 0, amount: 0 },
     isLoading: true,
   });
 
@@ -62,11 +62,8 @@ const OverviewGrid = ({ userId }) => {
   );
 
   return (
-    <motion.div
+    <div
       className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6 mb-[5vw] md:mb-[2vw]"
-      initial="hidden"
-      animate="visible"
-      variants={{ visible: { transition: { staggerChildren: 0.1 } } }} // Stagger effect
     >
       {/* Invoices Sent */}
       <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
@@ -133,25 +130,25 @@ const OverviewGrid = ({ userId }) => {
       {/* Recurring Payments */}
       <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
         <h2 className="text-[4vw] md:text-[1.2vw] text-Gray800 font-semibold font-satoshi">
-          Recurring Payments
+          Failed Payments
         </h2>
         <div className="flex items-center space-x-[2vw] md:space-x-2 mt-[1.5vw] md:mt-[0.5vw]">
-          <TfiReload className="text-red-500 text-[6vw] md:text-[2.5vw]" />
+          <AiOutlineWarning className="text-red-500 text-[6vw] md:text-[2.5vw]" />
           {stats.isLoading ? (
             <SkeletonLoader />
           ) : (
             <div>
               <p className="text-[4vw] font-satoshi font-bold text-Gray700 md:text-[1vw]">
-                {stats.recurringPayments.count}
+                {stats.failedPayments.count}
               </p>
               <p className="text-[3.6vw] font-satoshi text-gray-500 md:text-[0.9vw]">
-                {formatCurrency(stats.recurringPayments.amount)}
+                {formatCurrency(stats.failedPayments.amount)}
               </p>
             </div>
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
