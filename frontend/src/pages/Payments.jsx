@@ -415,11 +415,13 @@ const Payments = () => {
                         <td className="py-4 px-3">
                           <span
                             className={`px-4 py-1 rounded-lg inline-block font-satoshi border min-w-12 text-center text-sm
-                    ${
-                      invoice.status === "paid"
-                        ? "bg-green-300/20 text-green-600 border-green-300"
-                        : "bg-yellow-300/20 text-yellow-600 border-yellow-300"
-                    }`}
+                              ${
+                                invoice.status === "paid"
+                                  ? "bg-green-300/20 text-green-600 border-green-300"
+                                  : invoice.status === "pending"
+                                  ? "bg-yellow-300/20 text-yellow-600 border-yellow-300"
+                                  : "bg-red-300/20 text-red-600 border-red-300"
+                              }`}
                           >
                             {invoice.status}
                           </span>
