@@ -15,7 +15,9 @@ router.get("/invoices", async (req, res) => {
       const query = { userId };
       
       // Add status filter if provided
-      if (status) query.status = status;
+      if (status) {
+        query.status = { $in: Array.isArray(status) ? status : [status] };
+      }
   
       // Calculate pagination
       const skip = (parseInt(page) - 1) * parseInt(limit);
