@@ -24,6 +24,8 @@
     "grapesjs": "^0.22.5",
     "grapesjs-plugin-forms": "^2.0.6",
     "grapesjs-preset-webpage": "^1.0.3",
+    "highcharts": "^12.2.0",
+    "highcharts-react-official": "^3.2.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "lottie-web": "^5.12.2",
