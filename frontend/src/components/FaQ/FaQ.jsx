@@ -34,7 +34,7 @@ const FaQ = () => {
         <h1 className="text-[7vw] text-center font-satoshi font-bold mb-[4vw] leading-tight md:text-[3vw] md:mb-[2vw]">
           Frequently Asked Questions
         </h1>
-        <div className="my-[8vw] space-y-[5vw] md:space-y-[1vw]">
+        <div className="my-[8vw] space-y-[5vw] md:space-y-[1vw] md:my-[2vw]">
           {faqs.map((faq, index) => (
             <div key={index} className={`border rounded-lg overflow-hidden ${openIndex === index ? 'border-gray-300 bg-White' : 'border-gray-300'}`}>
               <button

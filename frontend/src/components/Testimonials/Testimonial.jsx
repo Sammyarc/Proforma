@@ -31,8 +31,8 @@ const testimonials = [
 
 const Testimonial = () => {
     return (
-        <section className="relative pb-6 md:py-16 md:pb-0">
-            <div className="absolute left-0 -bottom-[5.5vw]">
+        <section className="relative pb-6 md:py-16">
+            <div className="absolute left-0 -bottom-[5vw]">
             <img src={Svg} alt="Icon" className="w-[10vw] h-[10vw]" />
             </div>
             <div className="absolute right-0 -top-[3vw]">

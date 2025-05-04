@@ -31,7 +31,7 @@ const NewsletterSubscription = () => {
                                 className="hidden text-[vw] font-medium text-white font-satoshi mb-1 md:text-[1vw] md:block">
                                 Email Address
                             </label>
-                            <div className='flex flex-col md:items-center gap-2'>
+                            <div className='flex flex-col gap-2 md:flex-row md:items-center'>
                                 <div className="relative">
                                     <input
                                         type="email"
@@ -51,7 +51,7 @@ const NewsletterSubscription = () => {
 
                                 <button
                                     type='submit'
-                                    className="px-[4vw] py-[2vw] mt-[3vw] w-[30vw] flex justify-center gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.8vw] md:py-[0.8vw] md:mt-0 md:w-full">
+                                    className="px-[4vw] py-[2vw] mt-[3vw] w-[30vw] flex justify-center gap-x-[0.5vw] bg-white items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.5vw] md:py-[0.8vw] md:mt-0 md:w-[10vw]">
                                     Subscribe
                                     <HiArrowRight size={20} className='hidden md:flex'/>
                                 </button>

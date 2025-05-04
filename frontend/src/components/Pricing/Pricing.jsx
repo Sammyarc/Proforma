@@ -73,7 +73,7 @@ const Pricing = () => {
         <div className="max-w-4xl md:mx-auto">
           <div className="flex flex-col justify-center items-center gap-x-[3vw] md:flex-row">
             {/* Left column - Price with fieldset border */}
-            <div className="w-full h-full p-[4vw] relative border border-neutral-400 rounded-3xl m-4 md:w-[25vw] md:h-[25vw] md:p-[1.5vw]">
+            <div className="w-full h-full p-[4vw] relative border border-neutral-400 rounded-3xl m-4 md:w-[50vw] md:h-[24vw] md:p-[1.5vw]">
               {/* Fieldset legend */}
               {billingCycle === "yearly" && (
                 <div className="absolute -top-3 right-6 rounded-lg bg-white flex justify-center px-2 py-0.5">
@@ -95,7 +95,7 @@ const Pricing = () => {
                 <p className="text-gray-600 text-[4vw] font-satoshi mb-2 max-w-xs md:text-[1vw]">
                   {planData.description}
                 </p>
-                <button className="px-[1.5vw] py-[1.2vw] mt-[10vw] mb-[2vw] font-satoshi font-bold border border-neutral-500 rounded-xl box md:rounded-3xl md:absolute md:bottom-5 md:left-5 md:right-5">
+                <button className="px-[1.5vw] py-[1.2vw] mt-[10vw] mb-[2vw] font-satoshi font-bold border border-neutral-500 rounded-xl box md:mt-[7vw] md:py-[0.5vw]">
                   Get Started
                 </button>
               </div>

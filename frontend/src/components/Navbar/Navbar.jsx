@@ -73,7 +73,7 @@ const Navbar = () => {
                 <button
                 onClick={handleGenerate}
                     type="submit"
-                    className="hidden px-[1.5vw] py-[0.5vw] mgap-x-[0.5vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:flex">
+                    className="hidden px-[1.5vw] py-[0.5vw] gap-x-[0.5vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:flex">
                     <span className="text-[4vw] md:text-[1vw]">Generate</span>
                     <HiArrowRight size={18}/>
                 </button>
