@@ -34,6 +34,10 @@ const useClickOutside = (handler) => {
 
 const Payments = () => {
   const [invoices, setInvoices] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("invoiceDate");
+  const [sortOrder, setSortOrder] = useState(-1);
+  const [selected, setSelected] = useState("Sort by: Latest");
   const [pageSelected, setPageSelected] = useState("5");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -42,6 +46,8 @@ const Payments = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [selectedInvoiceView, setSelectedInvoiceView] = useState(null);
+  const [selectedStatuses, setSelectedStatuses] = useState(new Set());
+  const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
   const { user } = useAuthStore();
 
   // Animated ellipsis component
@@ -65,6 +71,8 @@ const Payments = () => {
   };
 
   const pageDropdownRef = useClickOutside(() => setShowPageOption(false));
+  const sortDropdownRef = useClickOutside(() => setIsOpen(false));
+  const filterDropdownRef = useClickOutside(() => setIsStatusFilterOpen(false));
 
   const userId = user?._id;
 
@@ -74,6 +82,9 @@ const Payments = () => {
       const response = await axios.get(`${API_URL}/invoices`, {
         params: {
           userId,
+          sortBy,
+          sortOrder,
+          status: Array.from(selectedStatuses),
         },
       });
       setInvoices(response.data.invoices);
@@ -109,7 +120,7 @@ const Payments = () => {
     };
 
     fetchData();
-  }, [userId]);
+  }, [userId, sortBy, sortOrder, selectedStatuses]);
 
   // Close dropdowns on click outside of dropdown element
   useEffect(() => {
@@ -147,6 +158,35 @@ const Payments = () => {
     setShowPageOption(false);
   };
 
+  const handleSortSelect = (option) => {
+    const selectedOption = sortOptions.find((o) => o.label === option);
+    setSelected(option);
+    setSortBy(selectedOption.value.sortBy);
+    setSortOrder(selectedOption.value.order);
+    setIsOpen(false);
+  };
+
+  // Handle status selection
+  const handleStatusFilter = (status) => {
+    setIsStatusFilterOpen(false)
+    const newStatuses = new Set(selectedStatuses);
+    if (newStatuses.has(status)) {
+      newStatuses.delete(status);
+    } else {
+      newStatuses.add(status);
+    }
+    setSelectedStatuses(newStatuses);
+  };
+
+  const formatStatus = (status) => {
+    const statusMap = {
+      payment_failed: 'Payment Failed',
+      pending: 'Pending',
+      paid: 'Paid'
+    };
+    return statusMap[status] || status;
+  };
+
   // Calculate pagination
   const itemsPerPage = parseInt(pageSelected);
   const totalPages = Math.ceil(invoices.length / itemsPerPage);
@@ -166,7 +206,15 @@ const Payments = () => {
     }
   };
 
+  const sortOptions = [
+    { label: "Sort by: Latest", value: { sortBy: "invoiceDate", order: -1 } },
+    { label: "Sort by: Oldest", value: { sortBy: "invoiceDate", order: 1 } },
+    // Add more sort options if needed
+  ];
+
   const pageOptions = ["5", "10", "15", "20"];
+
+  const statusOptions = ["paid", "pending", "payment_failed"];
 
   const handleDelete = async (invoiceId) => {
     try {
@@ -177,7 +225,6 @@ const Payments = () => {
         return;
       }
 
-      // Axios returns response directly for 2xx status codes
       const response = await axios.delete(
         `${API_URL}/invoices/${invoiceId}?userId=${userId}`,
         {
@@ -311,7 +358,7 @@ const Payments = () => {
                           year: "numeric",
                         }
                       )
-                    : (selectedInvoiceView.status)}
+                    : selectedInvoiceView.status}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
@@ -345,9 +392,97 @@ const Payments = () => {
         </div>
       ) : (
         <div>
-          <h1 className="text-[4vw] font-satoshi font-bold mb-3 md:text-[2.5vw]">
-            Payments
-          </h1>
+          <div className="flex items-center justify-between mb-5">
+            <h1 className="text-[4vw] font-satoshi font-bold md:text-[2.5vw]">
+              Payments
+            </h1>
+            <div className="flex items-center gap-4">
+              <div className="relative inline-block text-left ml-2" ref={filterDropdownRef}>
+                <button
+                  onClick={() => setIsStatusFilterOpen(!isStatusFilterOpen)}
+                  className="flex items-center justify-between box w-full text-[4vw] md:text-[1vw] font-satoshi px-4 py-2.5 rounded-xl bg-transparent text-black gap-2 border border-gray-500"
+                >
+                  <span className="border-r pr-[0.8vw] border-black h-full">
+                    Filter by Status
+                    {selectedStatuses.size > 0
+                      ? ` (${selectedStatuses.size})`
+                      : ""}
+                  </span>
+                  <IoIosArrowDown
+                    size={16}
+                    className={`transition-transform duration-300 ${
+                      isStatusFilterOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
+
+                {isStatusFilterOpen && (
+                  <ul className="absolute z-10 mt-3 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
+                    {statusOptions.map((status) => (
+                      <li
+                        key={status}
+                        onClick={() => handleStatusFilter(status)}
+                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 flex items-center"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.has(status)}
+                          readOnly
+                          className="mr-2 accent-green-600"
+                        />
+                        {formatStatus(status)}
+                      </li>
+                    ))}
+                    {selectedStatuses.size > 0 && (
+                      <li
+                      onClick={() => {
+                        setSelectedStatuses(new Set());
+                        setIsStatusFilterOpen(false);
+                      }}
+                        className="cursor-pointer px-4 py-2 text-base font-satoshi text-red-600 hover:bg-gray-100"
+                      >
+                        Clear Filters
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </div>
+              <div
+                className="relative inline-block text-left"
+                ref={sortDropdownRef}
+              >
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="flex items-center justify-between box w-full text-[4vw] md:text-[1vw] font-satoshi px-4 py-2.5 rounded-xl bg-transparent text-black gap-2 border border-gray-500"
+                >
+                  <span className="border-r pr-[0.8vw] border-black h-full">
+                    {selected}
+                  </span>
+                  <IoIosArrowDown
+                    size={16}
+                    className={`transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <ul className="absolute z-10 mt-3 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
+                    {sortOptions.map((option, idx) => (
+                      <li
+                        key={idx}
+                        onClick={() => handleSortSelect(option.label)}
+                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100"
+                      >
+                        {option.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+
           {loading ? (
             <div className="flex flex-col justify-center items-center space-y-3">
               <TbLoader3 size={30} className="animate-spin text-teal-500" />
