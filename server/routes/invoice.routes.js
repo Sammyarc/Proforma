@@ -77,9 +77,9 @@ router.get("/invoices/stats/overview", async (req, res) => {
     // Get recurring invoices count
     // Assuming you have a field like "isRecurring" or a separate "recurringInvoice" collection
     // This is just an example - adjust based on your actual data model
-    const recurringPayments = await Invoice.countDocuments({ 
+    const failedPayments = await Invoice.countDocuments({ 
       userId, 
-      isRecurring: true 
+      status: "payment_failed"
     });
     
     // Optional: Get payment amounts
@@ -93,8 +93,8 @@ router.get("/invoices/stats/overview", async (req, res) => {
       { $group: { _id: null, total: { $sum: "$amountNumeric" } } }
     ]);
     
-    const recurringAmount = await Invoice.aggregate([
-      { $match: { userId, isRecurring: true } },
+    const failedAmount = await Invoice.aggregate([
+      { $match: { userId, status: "payment_failed" } },
       { $group: { _id: null, total: { $sum: "$amountNumeric" } } }
     ]);
     
@@ -108,9 +108,9 @@ router.get("/invoices/stats/overview", async (req, res) => {
         count: completedPayments,
         amount: completedAmount.length > 0 ? completedAmount[0].total : 0
       },
-      recurringPayments: {
-        count: recurringPayments,
-        amount: recurringAmount.length > 0 ? recurringAmount[0].total : 0
+      failedPayments: {
+        count: failedPayments,
+        amount: failedAmount.length > 0 ? failedAmount[0].total : 0
       }
     });
   } catch (error) {
@@ -267,6 +267,7 @@ router.get("/invoices/stats/summary", async (req, res) => {
     // Process monthly data into a more usable format
     const monthlyRevenue = Array(12).fill(0);
     const monthlyPending = Array(12).fill(0);
+    const monthlyFailed = Array(12).fill(0);
     
     monthlyData.forEach(item => {
       const month = item._id.month - 1; // Convert to 0-indexed
@@ -274,9 +275,11 @@ router.get("/invoices/stats/summary", async (req, res) => {
       
       if (status === "paid") {
         monthlyRevenue[month] = item.total;
-      } else if (status === "pending" || status === "overdue") {
-        monthlyPending[month] += item.total;
-      }
+      } else if (status === "pending") {
+        monthlyPending[month] = item.total; 
+      } else if (status === "payment_failed") {
+        monthlyFailed[month] = item.total;   
+      };
     });
     
     // Calculate month-over-month change
@@ -307,6 +310,7 @@ router.get("/invoices/stats/summary", async (req, res) => {
       monthlyData: {
         revenue: monthlyRevenue,
         pending: monthlyPending,
+        failed: monthlyFailed,
         percentChange: percentChange
       }
     });
