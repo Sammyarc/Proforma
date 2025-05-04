@@ -1,7 +1,6 @@
 import express from 'express';
 import axios from 'axios';
 import Invoice from '../models/invoice.model.js';
-import { User } from '../models/user.model.js';
 import dotenv from 'dotenv';
 const router = express.Router();
 
