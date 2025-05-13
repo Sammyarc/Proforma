@@ -141,7 +141,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         {isOpen && (
-          <div className="text-Gray800 font-satoshi box ml-4 p-3 border border-gray-500 rounded-2xl flex flex-col">
+          <div className="text-Gray800 font-satoshi box ml-4 mt-[1vw] p-3 border border-gray-500 rounded-2xl flex flex-col">
             <h3 className="text-[5vw] font-semibold md:text-[1.1vw]">
               Free Plan Usage
             </h3>
@@ -172,7 +172,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </button>
 
             {/* Reset Info */}
-            <p className="text-[3.5vw] md:text-[0.9vw] text-gray-500 mt-2">
+            <p className="text-[3.5vw] md:text-[0.8vw] text-gray-500 mt-2">
               Limit resets on {resetDateFormatted}
             </p>
           </div>
