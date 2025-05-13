@@ -268,8 +268,12 @@ const RevenueChart = ({ userId }) => {
               No content available
             </p>
           </div>
-        ) : (
-          <Bar data={data} options={options} className="mt-[4vw] md:mt-[2vw]" />
+          ) : (
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[769px] h-[37vh]">
+                <Bar data={data} options={options} className="mt-[4vw] md:mt-[2vw]" />
+                </div>
+              </div>
         )}
       </div>
     </div>
@@ -277,3 +281,4 @@ const RevenueChart = ({ userId }) => {
 };
 
 export default RevenueChart;
+

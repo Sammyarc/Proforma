@@ -171,6 +171,7 @@ const InvoiceGenerator = () => {
                   onDownloadPNG={handleDownloadPNG}
                   onDownloadJPG={handleDownloadJPG}
                   isDownloading={isDownloading}
+                  onClose={() => setIsDownloadOpen(!isDownloadOpen)}
                 />
               )}
             </div>
@@ -196,6 +197,7 @@ const InvoiceGenerator = () => {
                   onExportPDF={exportToPDF}
                   onExportEmail={handleSendingEmailModal}
                   isExporting={isExporting}
+                  onClose={() => setIsExportOpen(!isExportOpen)}
                 />
               )}
             </div>

@@ -109,7 +109,7 @@ const Payments = () => {
     }
   };
 
-  // Always load inoice payments on component mount
+  // Always load invoice payments on component mount
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

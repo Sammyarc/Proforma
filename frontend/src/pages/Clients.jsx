@@ -3,7 +3,7 @@ import { SlOptions } from "react-icons/sl";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
-import axios from "axios"; // Make sure axios is installed
+import axios from "axios";
 import { TbLoader3 } from "react-icons/tb";
 import { useAuthStore } from "../store/authStore";
 

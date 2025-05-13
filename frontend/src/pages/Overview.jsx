@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import OverviewGrid from "../components/Dashboard/OverviewGrid";
 import RevenueChart from "../components/Dashboard/RevenueChart";
 import Greeting from "../components/Dashboard/Greeting";
+import OverviewPayments from "../components/Dashboard/OverviewPayments";
+import OverviewClients from "../components/Dashboard/OverviewClients";
 
 
 const Overview = () => {
@@ -15,7 +17,15 @@ const Overview = () => {
         <div className="pr-[2vw]">
             <Greeting />
             <OverviewGrid />
-            <RevenueChart />     
+            <RevenueChart />  
+            <div className="grid mt-8 grid-cols-1 gap-[2vw] md:grid-cols-2">
+                <div>
+                    <OverviewClients />
+                </div>
+                <div>
+                    <OverviewPayments />
+                </div>
+            </div>
         </div>
 
     )
