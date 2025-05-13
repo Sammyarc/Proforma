@@ -1,5 +1,6 @@
 import {
-  IoChevronBack,
+    IoChevronBack,
+    IoChevronForward,
   IoSettingsOutline,
 } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
