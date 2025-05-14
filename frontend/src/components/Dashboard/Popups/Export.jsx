@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { MdOutlineAttachEmail } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../store/authStore";
+import { useInvoiceStore } from "../../../store/invoiceStore";
 
 // Click Outside Hook
 const useClickOutside = (handler) => {
@@ -23,6 +26,9 @@ const useClickOutside = (handler) => {
 
 const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
   const [selectedOption, setSelectedOption] = useState("");
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const { invoiceCount } = useInvoiceStore();
 
   // Use the hook
   const ref = useClickOutside(() => {
@@ -40,6 +46,45 @@ const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
       onExportEmail();
     }
   };
+
+  // Free‑tier email lock
+  const isEmailLocked =
+    selectedOption === "email" && user.tier === "free" && invoiceCount >= 10;
+
+  // Decide the button label
+  let label;
+  if (isEmailLocked) {
+    label = "Upgrade Plan";
+  } else if (isExporting) {
+    if (selectedOption === "email") {
+      label = "Generating and Sending...";
+    } else if (selectedOption === "pdf") {
+      label = "Generating and Exporting PDF...";
+    } else {
+      label = "Processing...";
+    }
+  } else {
+    if (selectedOption === "email") {
+      label = "Generate and Send Mail";
+    } else if (selectedOption === "pdf") {
+      label = "Export as PDF";
+    } else {
+      label = "Select an Option";
+    }
+  }
+
+  // Handle click
+  const onClick = () => {
+    if (isEmailLocked) {
+      // Redirect free user to upgrade
+      return navigate("/upgrade");
+    }
+    // Otherwise perform the normal export
+    handleExport();
+  };
+
+  // Button is disabled only if nothing is selected, or we're exporting
+  const isDisabled = !selectedOption || isExporting;
 
   return (
     <div
@@ -93,27 +138,14 @@ const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
 
         {/* Export Button */}
         <button
-          onClick={handleExport}
-          disabled={!selectedOption}
-          className={`w-full px-4 font-satoshi box py-2 text-white rounded-xl ${
-            !selectedOption ? "bg-gray-400 cursor-not-allowed" : "bg-cyan-700"
-          } ${isExporting ? "bg-gray-400 cursor-not-allowed" : "bg-cyan-700"}`}
+          onClick={onClick}
+          disabled={isDisabled}
+          className={`
+        w-full box px-4 font-satoshi box py-2 text-white rounded-xl
+        ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-cyan-700"}
+      `}
         >
-          <span>
-            <span>
-              {isExporting
-                ? selectedOption === "email"
-                  ? "Generating and Sending..."
-                  : selectedOption === "pdf"
-                  ? "Generating and Exporting PDF..."
-                  : "Processing..."
-                : selectedOption === "email"
-                ? "Generate and Send Mail"
-                : selectedOption === "pdf"
-                ? "Export as PDF"
-                : "Select an Option"}
-            </span>
-          </span>
+          {label}
         </button>
       </div>
     </div>
