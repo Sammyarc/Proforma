@@ -59,17 +59,17 @@ const InvoiceTemplate4 = ({ isStaticMode }) => {
     }));
   };
 
-  const handleItemChange = (index, field, value) => {
-    setInvoiceData((prev) => {
-      const newItems = [...prev.items];
-      newItems[index] = {
-        ...newItems[index],
-        [field]: value,
-      };
-      return {
-        ...prev,
-        items: newItems,
-      };
+   const handleItemChange = (index, field, value) => {
+    const newItems = [...invoiceData.items];
+    newItems[index][field] = value;
+
+    if (field === "qty" || field === "rate") {
+      newItems[index].amount = newItems[index].qty * newItems[index].rate;
+    }
+
+    setInvoiceData({
+      ...invoiceData,
+      items: newItems,
     });
   };
 
