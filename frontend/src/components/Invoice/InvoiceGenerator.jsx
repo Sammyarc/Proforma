@@ -11,6 +11,25 @@ import InvoiceTemplate1 from "./InvoiceTemplates/InvoiceTemplate1";
 import Export from "../Dashboard/Popups/Export";
 import SendingEmailModal from "../Dashboard/Forms/SendingEmailModal";
 
+// Click Outside Hook
+const useClickOutside = (handler) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        handler();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handler]);
+
+  return ref;
+};
+
 const InvoiceGenerator = () => {
   const [isStaticMode, setIsStaticMode] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
@@ -43,6 +62,9 @@ const InvoiceGenerator = () => {
   const handleEmailModalClose = () => {
     setSendingModal(false);
   };
+
+  const downloadDropdownRef = useClickOutside(() => setIsDownloadOpen(false));
+  const exportDropdownRef = useClickOutside(() => setIsExportOpen(false));
 
   // Disable scrolling when the modal is open
   useEffect(() => {
@@ -150,7 +172,7 @@ const InvoiceGenerator = () => {
         <div className="flex justify-between items-center">
           <TextEditor onFormat={handleFormat} />
           <div className="flex items-center space-x-[1vw]">
-            <div className="relative">
+            <div className="relative" ref={downloadDropdownRef}>
               <button
                 onClick={toggleDownload}
                 className="flex items-center text-[4vw] font-satoshi gap-2 bg-cyan-700 box text-white px-4 py-3 rounded-xl md:text-[1vw]"
@@ -171,12 +193,11 @@ const InvoiceGenerator = () => {
                   onDownloadPNG={handleDownloadPNG}
                   onDownloadJPG={handleDownloadJPG}
                   isDownloading={isDownloading}
-                  onClose={() => setIsDownloadOpen(!isDownloadOpen)}
                 />
               )}
             </div>
 
-            <div className="relative">
+            <div className="relative" ref={exportDropdownRef}>
               <button
                 onClick={toggleExport}
                 className="flex items-center box text-[4vw] font-satoshi gap-2 px-4 py-3 rounded-xl text-white bg-indigo-700 md:text-[1vw]"
@@ -197,7 +218,6 @@ const InvoiceGenerator = () => {
                   onExportPDF={exportToPDF}
                   onExportEmail={handleSendingEmailModal}
                   isExporting={isExporting}
-                  onClose={() => setIsExportOpen(!isExportOpen)}
                 />
               )}
             </div>

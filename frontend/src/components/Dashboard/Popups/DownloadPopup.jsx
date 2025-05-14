@@ -2,37 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { AiOutlineFileJpg } from "react-icons/ai";
 import { PiCrownFill, PiFilePng } from "react-icons/pi";
 
-// Click Outside Hook
-const useClickOutside = (handler) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        handler();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handler]);
-
-  return ref;
-};
 
 const DownloadPopup = ({
   onDownloadPNG,
   onDownloadJPG,
   isDownloading,
-  onClose,
 }) => {
   const [selectedFormats, setSelectedFormats] = useState("");
-
-  // Use the hook
-  const ref = useClickOutside(() => {
-    if (onClose) onClose(); // Call parent function to close popup
-  });
 
   const handleCheckboxChange = (format) => {
     setSelectedFormats((prev) => (prev === format ? "" : format));
@@ -49,7 +25,6 @@ const DownloadPopup = ({
 
   return (
     <div
-      ref={ref}
       className="absolute z-[10] right-0 mt-[1vw] w-64 bg-white text-black rounded-md shadow-lg md:w-[25vw] md:rounded-lg animate-moveUp"
     >
       <div className="bg-white py-[2vw] px-[1vw] rounded-lg">
