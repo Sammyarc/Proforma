@@ -20,6 +20,7 @@ import paystack from "../../../assets/Images/Account Icons/images (1).png";
 import skrill from "../../../assets/Images/Account Icons/Skrill.svg";
 import googlepay from "../../../assets/Images/Account Icons/GooglePay.svg";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useInvoiceStore } from "../../../store/invoiceStore";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -36,6 +37,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
   const [showModal, setShowModal] = useState(false);
   const didSendRef = useRef(false);
   const { handlers } = UsePaymentHandlers();
+  const { incrementInvoiceCount } = useInvoiceStore()
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -330,6 +332,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       );
 
       // Success handling
+      incrementInvoiceCount()
       setIsComplete(true);
       toggleStaticMode();
       setTimeout(onClose, 3000); // Close after 3 seconds
