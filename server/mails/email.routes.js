@@ -3,8 +3,10 @@ import createTransporter from "./email.config.js";
 import Invoice from "../models/invoice.model.js";
 import axios from "axios";
 import dotenv from 'dotenv';
+import { verifyToken } from "../middleware/verifyToken.js";
 import { User } from '../models/user.model.js';
 import { decrypt, encrypt } from "../utils/encrypt.js";
+import { enforceMonthlyLimit } from "../middleware/usageLimit.js";
 const router = express.Router();
 
 dotenv.config();
@@ -166,7 +168,7 @@ async function getValidPayPalAccessToken(userId) {
 }
 
 
-router.post("/send-email", async (req, res) => {
+router.post("/send-email", verifyToken, enforceMonthlyLimit, async (req, res) => {
   const {
     invoiceUrl,
     invoiceFileName,
