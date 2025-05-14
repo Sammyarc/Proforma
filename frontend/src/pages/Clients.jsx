@@ -41,6 +41,7 @@ const Clients = () => {
   const [pageSelected, setPageSelected] = useState("5");
   const [currentPage, setCurrentPage] = useState(1);
   const [clientData, setClientData] = useState([]);
+  const [displayClients, setDisplayClients] = useState([]);
   const [totalClients, setTotalClients] = useState(0);
   const [loading, setLoading] = useState(true);
   const { user } = useAuthStore();
@@ -72,49 +73,51 @@ const Clients = () => {
 
   const userId = user?._id;
 
-  // Fetch client data from the API
-  useEffect(() => {
-    const fetchClientData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`${API_URL}/invoices/clients`, {
-          params: {
-            userId,
-          },
-        });
+// Fetch once, populate BOTH states
+useEffect(() => {
+  const fetchClientData = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${API_URL}/invoices/clients`, {
+        params: { userId },
+      });
 
-        if (response.data.success) {
-          setClientData(response.data.clients);
-          setTotalClients(response.data.totalClients);
-        } else {
-          throw new Error("Failed to fetch client data");
-        }
-      } catch (err) {
-        throw new Error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      if (!data.success) throw new Error("Failed to fetch client data");
 
-    fetchClientData();
-  }, []);
-
-  // Handle sort order change
-  useEffect(() => {
-    if (clientData.length > 0) {
-      let sortedData = [...clientData];
-
-      if (selected === "Sort by: Latest") {
-        // Sort by most recent (assuming we'd have a date field)
-        // For now just reverse the array to simulate this
-        sortedData = sortedData.reverse();
-      } else if (selected === "Sort by: Oldest") {
-        // Keep original order (simulating oldest first)
-      }
-
-      setClientData(sortedData);
+      setClientData(data.clients);
+      setDisplayClients(data.clients);   // ← initial display order
+      setTotalClients(data.totalClients);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  }, [selected]);
+  };
+
+  fetchClientData();
+}, [userId]);
+
+// Sort ONLY the display state
+useEffect(() => {
+  if (!clientData.length) return;
+
+  // Copy raw data each time we sort
+  const sorted = [...clientData];
+
+  if (selected === "Sort by: Latest") {
+    // Sort by lastInvoiceAt descending (newest first)
+    sorted.sort(
+      (a, b) => new Date(b.lastInvoiceAt) - new Date(a.lastInvoiceAt)
+    );
+  } else if (selected === "Sort by: Oldest") {
+    // Sort by lastInvoiceAt ascending (oldest first)
+    sorted.sort(
+      (a, b) => new Date(a.lastInvoiceAt) - new Date(b.lastInvoiceAt)
+    );
+  }
+  
+  setDisplayClients(sorted);
+}, [selected, clientData]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -161,10 +164,10 @@ const Clients = () => {
 
   // Calculate pagination
   const itemsPerPage = parseInt(pageSelected);
-  const totalPages = Math.ceil(clientData.length / itemsPerPage);
+  const totalPages = Math.ceil(displayClients.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = clientData.slice(startIndex, endIndex);
+  const currentData = displayClients.slice(startIndex, endIndex);
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
