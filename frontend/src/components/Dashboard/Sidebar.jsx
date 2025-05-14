@@ -1,6 +1,6 @@
 import {
-    IoChevronBack,
-    IoChevronForward,
+  IoChevronBack,
+  IoChevronForward,
   IoSettingsOutline,
 } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -12,6 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
+import { useInvoiceStore } from "../../store/invoiceStore";
 
 const SIDEBAR_ITEMS = [
   {
@@ -43,8 +44,10 @@ const SIDEBAR_ITEMS = [
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { invoiceCount, nextReset, fetchInvoiceCount, isLoading } =
+    useInvoiceStore();
 
   // Update window width on resize
   useEffect(() => {
@@ -53,22 +56,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Replace with actual invoice count from your backend or context
-  const invoiceCount = 6;
+  // Fetch when dropdown opens (or on mount if you prefer)
+  useEffect(() => {
+    if (user?._id) {
+      fetchInvoiceCount(user._id);
+    }
+  }, [user?._id, fetchInvoiceCount]);
 
-  // Replace with actual signup date from user data
-  const signupDate = new Date("2025-05-10"); // example
-
-  // Calculate reset date (1 month after signup)
-  const resetDate = new Date(signupDate);
-  resetDate.setMonth(signupDate.getMonth() + 1);
-
-  // Format the date
-  const resetDateFormatted = resetDate.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  // Format reset date once we have periodStart
+  const resetDateFormatted = nextReset
+    ? new Date(nextReset).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
 
   // Determine styles based on screen width
   const isMobile = windowWidth < 768;
@@ -146,35 +148,44 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               Free Plan Usage
             </h3>
 
-            {/* Usage Text */}
-            <p className="text-[4vw] md:text-[0.9vw] mt-[0.5vw] mb-2">
-              {invoiceCount} / 10 invoices sent
-            </p>
+            {isLoading ? (
+              <p className="text-[4vw] md:text-[0.9vw] mt-[0.5vw]">
+                Loading usage…
+              </p>
+            ) : (
+              <>
+                {/* Usage Text */}
+                <p className="text-[4vw] md:text-[0.9vw] mt-[0.5vw] mb-2">
+                  {invoiceCount} / 10 invoices sent
+                </p>
 
-            {/* Progress Meter */}
-            <div className="w-full bg-gray-200 rounded-full h-3 md:h-2 overflow-hidden">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  invoiceCount >= 8
-                    ? "bg-red-500"
-                    : invoiceCount >= 5
-                    ? "bg-yellow-400"
-                    : "bg-green-500"
-                }`}
-                style={{ width: `${(invoiceCount / 10) * 100}%` }}
-              ></div>
-            </div>
+                {/* Progress Meter */}
+                <div className="w-full bg-gray-200 rounded-full h-3 md:h-2 overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-300 ${
+                      invoiceCount >= 8
+                        ? "bg-red-500"
+                        : invoiceCount >= 5
+                        ? "bg-yellow-400"
+                        : "bg-green-500"
+                    }`}
+                    style={{ width: `${(invoiceCount / 10) * 100}%` }}
+                  />
+                </div>
 
-            {/* Upgrade Text */}
-            <button className="mt-3 flex items-center gap-1 text-[4vw] md:text-[1vw] text-blue-600 font-medium hover:underline md:mt-2">
-                          Upgrade to Pro
-                          <IoIosArrowRoundForward size={20}/>
-            </button>
+                {/* Upgrade Text */}
+                <button className="mt-3 flex items-center gap-1 text-[4vw] md:text-[1vw] text-blue-600 font-medium hover:underline md:mt-2">
+                  Upgrade to Pro
+                  <IoIosArrowRoundForward size={20} />
+                </button>
 
-            {/* Reset Info */}
-            <p className="text-[3.5vw] md:text-[0.8vw] text-gray-500 mt-2">
-              Limit resets on {resetDateFormatted}
-            </p>
+                {/* Reset Info */}
+                <p className="text-[3.5vw] md:text-[0.8vw] text-gray-500 mt-2">
+                  {resetDateFormatted &&
+                    `Limit resets on ${resetDateFormatted}`}
+                </p>
+              </>
+            )}
           </div>
         )}
 
