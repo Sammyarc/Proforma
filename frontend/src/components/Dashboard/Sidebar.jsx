@@ -147,7 +147,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </h3>
 
             {/* Usage Text */}
-            <p className="text-[4vw] md:text-[1vw] mt-[0.5vw] mb-2">
+            <p className="text-[4vw] md:text-[0.9vw] mt-[0.5vw] mb-2">
               {invoiceCount} / 10 invoices sent
             </p>
 

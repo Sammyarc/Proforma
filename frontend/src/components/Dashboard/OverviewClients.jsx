@@ -95,8 +95,8 @@ const OverviewClients = () => {
             No Client Data Available.
           </div>
         ) : (
-          <div className="w-full h-full max-h-[200px] overflow-y-auto scrollbar-toggle">
-            <table className="w-full">
+          <div className="w-full h-full max-h-[200px] overflow-auto scrollbar-toggle">
+            <table className="w-full min-w-[500px] font-medium">
               <thead>
                 <tr className="border-b border-gray-300">
                   <th className="text-left py-4 px-3 font-satoshi font-semibold">
