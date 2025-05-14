@@ -95,7 +95,7 @@ const OverviewClients = () => {
             No Client Data Available.
           </div>
         ) : (
-          <div className="w-full h-full max-h-[200px] overflow-auto scrollbar-toggle">
+          <div className="w-full h-full max-h-[175px] overflow-auto scrollbar-toggle">
             <table className="w-full min-w-[500px] font-medium">
               <thead>
                 <tr className="border-b border-gray-300">
@@ -113,13 +113,13 @@ const OverviewClients = () => {
               <tbody>
                 {recentClients.map((client, index) => (
                   <tr key={index} className="border-b border-gray-300">
-                    <td className="py-2 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
                       {client.clientName}
                     </td>
-                    <td className="py-2 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
                       {client.clientAddress}
                     </td>
-                    <td className="py-2 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
                       {formatInvoiceText(client.invoiceCount)}
                     </td>
                   </tr>
