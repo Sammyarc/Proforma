@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,8 +7,7 @@ export default {
   theme: {
     screens: {
       md: "768px",
-      lg: "976px",
-      xl: "1300px",
+      lg: "1024px",
     },
 
     fontFamily: {
@@ -30,13 +28,17 @@ export default {
       },
       keyframes: {
         scaleIn: {
-          '0%': { transform: 'scale(0)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
+          '0%': {
+            transform: 'scale(0)',
+            opacity: '0'
+          },
+          '100%': {
+            transform: 'scale(1)',
+            opacity: '1'
+          },
         },
       },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
 }
-
-
