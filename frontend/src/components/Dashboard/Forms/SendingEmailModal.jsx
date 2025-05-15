@@ -37,7 +37,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
   const [showModal, setShowModal] = useState(false);
   const didSendRef = useRef(false);
   const { handlers } = UsePaymentHandlers();
-  const { incrementInvoiceCount } = useInvoiceStore()
+  const { incrementInvoiceCount } = useInvoiceStore();
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -332,7 +332,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       );
 
       // Success handling
-      incrementInvoiceCount()
+      incrementInvoiceCount();
       setIsComplete(true);
       toggleStaticMode();
       setTimeout(onClose, 3000); // Close after 3 seconds
@@ -364,7 +364,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
           >
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-satoshi font-bold md:text-[1.2vw]">
+              <h3 className="text-xl font-satoshi font-bold lg:text-[1.2vw]">
                 Connect Payment Account
               </h3>
               <button
@@ -397,7 +397,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <span className="font-medium text-base font-satoshi md:text-[1vw]">
+                  <span className="font-medium text-base font-satoshi lg:text-[1vw]">
                     {option.connected
                       ? `${option.name} Connected`
                       : `Connect with ${option.name}`}
@@ -407,7 +407,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
             </div>
 
             {/* Footer */}
-            <div className="text-neutral-400 text-sm flex justify-center items-center space-x-2 font-semibold font-satoshi mt-6 md:text-[0.9vw]">
+            <div className="text-neutral-400 text-sm flex justify-center items-center space-x-2 font-semibold font-satoshi mt-6 lg:text-[0.9vw]">
               <GoShieldLock size={20} />
               <span>Secure connection via encrypted protocols</span>
             </div>

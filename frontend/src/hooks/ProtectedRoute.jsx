@@ -48,7 +48,7 @@ const ProtectedRoute = ({ children }) => {
     return (
       <div className="flex flex-col justify-center items-center h-screen space-y-3">
         <TbLoader3 size={30} className="animate-spin text-teal-500" />
-        <p className="text-[4vw] font-satoshi md:text-[1vw]">
+        <p className="text-[4vw] font-satoshi md:text-sm lg:text-[1vw]">
           Please wait while we load the content
           <AnimatedEllipsis />
         </p>

@@ -168,7 +168,7 @@ const Payments = () => {
 
   // Handle status selection
   const handleStatusFilter = (status) => {
-    setIsStatusFilterOpen(false)
+    setIsStatusFilterOpen(false);
     const newStatuses = new Set(selectedStatuses);
     if (newStatuses.has(status)) {
       newStatuses.delete(status);
@@ -180,9 +180,9 @@ const Payments = () => {
 
   const formatStatus = (status) => {
     const statusMap = {
-      payment_failed: 'Payment Failed',
-      pending: 'Pending',
-      paid: 'Paid'
+      payment_failed: "Payment Failed",
+      pending: "Pending",
+      paid: "Paid",
     };
     return statusMap[status] || status;
   };
@@ -256,11 +256,11 @@ const Payments = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 lg:p-6">
       {loading ? (
         <div className="flex flex-col justify-center h-screen items-center space-y-3">
           <TbLoader3 size={30} className="animate-spin text-teal-500" />
-          <p className="text-[4vw] font-satoshi md:text-[1vw]">
+          <p className="text-[4vw] font-satoshi md:text-sm lg:text-[1vw]">
             Please wait while we load the invoice details
             <AnimatedEllipsis />
           </p>
@@ -269,53 +269,53 @@ const Payments = () => {
         <div>
           <button
             onClick={() => setSelectedInvoiceView(null)}
-            className="mt-4 flex items-center hover:underline md:sticky md:top-[6vw]"
+            className="mt-4 flex items-center hover:underline lg:sticky lg:top-[6vw]"
           >
             <IoIosArrowRoundBack size={24} />
-            <span className="text-[4vw] font-satoshi md:text-[1.1vw]">
+            <span className="text-[4vw] font-satoshi md:text-sm lg:text-base">
               Back to payment list
             </span>
           </button>
 
-          <div className="flex flex-col gap-3 mt-[2vw] md:flex-row">
-            <div className="grid grid-cols-2 gap-3 md:sticky md:top-[10vw] md:w-[30vw] md:h-[30vw]">
+          <div className="flex flex-col gap-3 mt-[2vw] lg:flex-row">
+            <div className="grid grid-cols-2 gap-3 lg:sticky lg:top-[10vw] lg:w-[30vw] lg:h-[30vw]">
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Client Name:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.clientName}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Client Email Address:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.clientAddress}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Invoice Number:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.invoiceNumber}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Description:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.description}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Issued Date:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {new Date(selectedInvoiceView.invoiceDate).toLocaleDateString(
                     "en-GB",
                     {
@@ -328,10 +328,10 @@ const Payments = () => {
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Due Date:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {new Date(selectedInvoiceView.dueDate).toLocaleDateString(
                     "en-GB",
                     {
@@ -344,10 +344,10 @@ const Payments = () => {
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Payment Date:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.paidAt
                     ? new Date(selectedInvoiceView.paidAt).toLocaleDateString(
                         "en-GB",
@@ -362,29 +362,29 @@ const Payments = () => {
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Payment Method:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.paymentMethod}
                 </p>
               </div>
               <div className="mb-[0.5vw] space-y-1">
-                <p className="text-[4.2vw] font-satoshi font-semibold md:text-[1.1vw]">
+                <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Payment Id:
                 </p>
-                <p className="text-[4vw] text-gray-500 font-satoshi md:text-[1vw]">
+                <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.paymentId || "N/A"}
                 </p>
               </div>
             </div>
-            <div className="w-[50vw] h-[50vw]">
+            <div className="md:w-[80vw] md:h-[110vw] lg:w-[50vw] lg:h-[50vw]">
               <CloudinaryPdfViewer
                 pdfUrl={
                   selectedInvoiceView.invoiceUrl ||
                   "https://placehold.co/600x400/png"
                 }
-                className="w-full h-full object-contain aspect-square rounded-md"
+                className="w-full h-full object-cover lg:object-contain aspect-square rounded-md"
                 alt="Invoice"
               />
             </div>
@@ -393,14 +393,17 @@ const Payments = () => {
       ) : (
         <div>
           <div className="flex items-center justify-between mb-5">
-            <h1 className="text-[4vw] font-satoshi font-bold md:text-[2.5vw]">
+            <h1 className="text-[4vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
               Payments
             </h1>
             <div className="flex items-center gap-4">
-              <div className="relative inline-block text-left ml-2" ref={filterDropdownRef}>
+              <div
+                className="relative inline-block text-left ml-2"
+                ref={filterDropdownRef}
+              >
                 <button
                   onClick={() => setIsStatusFilterOpen(!isStatusFilterOpen)}
-                  className="flex items-center justify-between box w-full text-[4vw] md:text-[1vw] font-satoshi px-4 py-2.5 rounded-xl bg-transparent text-black gap-2 border border-gray-500"
+                  className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base lg:text-sm"
                 >
                   <span className="border-r pr-[0.8vw] border-black h-full">
                     Filter by Status
@@ -422,7 +425,7 @@ const Payments = () => {
                       <li
                         key={status}
                         onClick={() => handleStatusFilter(status)}
-                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 flex items-center"
+                        className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100 flex items-center"
                       >
                         <input
                           type="checkbox"
@@ -435,11 +438,11 @@ const Payments = () => {
                     ))}
                     {selectedStatuses.size > 0 && (
                       <li
-                      onClick={() => {
-                        setSelectedStatuses(new Set());
-                        setIsStatusFilterOpen(false);
-                      }}
-                        className="cursor-pointer px-4 py-2 text-base font-satoshi text-red-600 hover:bg-gray-100"
+                        onClick={() => {
+                          setSelectedStatuses(new Set());
+                          setIsStatusFilterOpen(false);
+                        }}
+                        className="cursor-pointer px-4 py-2 text-sm font-satoshi text-red-600 hover:bg-gray-100"
                       >
                         Clear Filters
                       </li>
@@ -453,7 +456,7 @@ const Payments = () => {
               >
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="flex items-center justify-between box w-full text-[4vw] md:text-[1vw] font-satoshi px-4 py-2.5 rounded-xl bg-transparent text-black gap-2 border border-gray-500"
+                  className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base lg:text-sm"
                 >
                   <span className="border-r pr-[0.8vw] border-black h-full">
                     {selected}
@@ -472,7 +475,7 @@ const Payments = () => {
                       <li
                         key={idx}
                         onClick={() => handleSortSelect(option.label)}
-                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100"
+                        className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100"
                       >
                         {option.label}
                       </li>
@@ -486,19 +489,19 @@ const Payments = () => {
           {loading ? (
             <div className="flex flex-col justify-center items-center space-y-3">
               <TbLoader3 size={30} className="animate-spin text-teal-500" />
-              <p className="text-[4vw] font-satoshi md:text-[1vw]">
+              <p className="text-[4vw] font-satoshi md:text-sm lg:text-[1vw]">
                 Please wait while we load your payment history
                 <AnimatedEllipsis />
               </p>
             </div>
           ) : currentData.length === 0 ? (
-            <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]">
+            <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]">
               You have not received any payments yet.
             </div>
           ) : (
             <>
-              <div className="w-full">
-                <table className="w-full">
+              <div className="w-full scrollbar-toggle overflow-auto">
+                <table className="w-full min-w-[1000px]">
                   <thead>
                     <tr className="border-b border-gray-400">
                       <th></th>
@@ -610,7 +613,7 @@ const Payments = () => {
                   >
                     <button
                       onClick={() => setShowPageOption(!showPageOption)}
-                      className="flex items-center justify-between w-full text-[4vw] md:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
+                      className="flex items-center justify-between w-full text-[4vw] md:text-sm lg:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
                     >
                       <span className="border-r pr-[0.8vw] border-black h-full font-normal">
                         {pageSelected}
@@ -672,9 +675,9 @@ const Payments = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-white rounded-lg p-6 w-[80vw] md:w-[30vw]"
+                className="bg-white rounded-lg p-6 w-[80vw] md:w-[60vw] lg:w-[30vw]"
               >
-                <p className="mb-6 font-satoshi flex justify-center text-[4vw] font-semibold text-gray-800 md:text-[1.1vw]">
+                <p className="mb-6 font-satoshi flex justify-center text-[4vw] font-semibold text-gray-800 md:text-lg lg:text-[1.1vw]">
                   Are you sure you want to delete this invoice?
                 </p>
                 <div className="flex justify-end gap-3">

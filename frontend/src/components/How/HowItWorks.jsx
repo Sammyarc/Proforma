@@ -39,24 +39,22 @@ const HowItWorks = () => {
   };
 
   return (
-    <section className="py-10 px-[4vw] relative overflow-hidden md:py-16 md:px-0">
-      <h2 className="text-center text-[8vw] font-bold mb-[6vw] font-satoshi md:text-[3vw]">
+    <section className="py-10 px-[4vw] relative overflow-hidden lg:py-16 lg:px-0">
+      <h2 className="text-center text-[8vw] font-bold mb-[6vw] font-satoshi lg:text-[3vw]">
         How It Works
       </h2>
       <div>
-        <div className="flex flex-col space-y-16 md:space-y-24">
+        <div className="flex flex-col space-y-16 lg:space-y-24">
           {steps.map((step, index) => (
             <div
               key={step.id}
               className={`flex flex-col ${
                 index % 2 !== 0
-                  ? "md:flex-row-reverse md:ml-[10vw]"
-                  : "md:flex-row md:mr-[10vw]"
+                  ? "lg:flex-row-reverse lg:ml-[10vw]"
+                  : "lg:flex-row lg:mr-[10vw]"
               } items-center gap-[5vw]`}
             >
-              <div
-                className='w-full md:w-1/2 md:h-[25vw] overflow-hidden shadow-2xl'
-              >
+              <div className="w-full lg:w-1/2 lg:h-[25vw] overflow-hidden shadow-2xl">
                 <video
                   src={step.videoSrc}
                   muted
@@ -69,21 +67,21 @@ const HowItWorks = () => {
                     e.currentTarget.pause();
                     e.currentTarget.currentTime = 0;
                   }}
-                  className="w-full h-full object-cover md:w-[90vw]"
+                  className="w-full h-full object-cover lg:w-[90vw]"
                 />
               </div>
 
-              <div className="w-full md:w-1/2 text-left">
+              <div className="w-full lg:w-1/2 text-left">
                 <div className="relative text-gray-600 border-b border-gray-600 w-32">
-                  <span className="text-[9vw] font-satoshi md:text-[4vw]">
+                  <span className="text-[9vw] font-satoshi lg:text-[4vw]">
                     0
                   </span>
-                  <span className="absolute text-[8vw] top-[4vw] font-clash md:text-[3.5vw] md:top-[2vw]">
+                  <span className="absolute text-[8vw] top-[4vw] font-clash lg:text-[3.5vw] lg:top-[2vw]">
                     {step.id}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-[5vw] mb-1 mt-[1vw] font-clash md:text-[2vw]">
+                <h3 className="font-bold text-[5vw] mb-1 mt-[1vw] font-clash lg:text-[2vw]">
                   {step.title}
                 </h3>
                 <p className="text-gray-800 font-satoshi mb-4">
@@ -91,7 +89,7 @@ const HowItWorks = () => {
                 </p>
                 <button
                   onClick={handleGenerate}
-                  className="px-[4vw] py-[2vw] flex gap-[1.2vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[1.5vw] md:py-[0.5vw] md:gap-x-[0.5vw]"
+                  className="px-[4vw] py-[2vw] flex gap-[1.2vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box lg:px-[1.5vw] lg:py-[0.5vw] lg:gap-x-[0.5vw]"
                 >
                   Learn More
                   <HiArrowRight size={18} />

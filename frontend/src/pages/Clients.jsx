@@ -73,60 +73,60 @@ const Clients = () => {
 
   const userId = user?._id;
 
-// Fetch once, populate BOTH states
-useEffect(() => {
-  const fetchClientData = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`${API_URL}/invoices/clients`, {
-        params: { userId },
-      });
+  // Fetch once, populate BOTH states
+  useEffect(() => {
+    const fetchClientData = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(`${API_URL}/invoices/clients`, {
+          params: { userId },
+        });
 
-      if (!data.success) throw new Error("Failed to fetch client data");
+        if (!data.success) throw new Error("Failed to fetch client data");
 
-      setClientData(data.clients);
-      setDisplayClients(data.clients);   // ← initial display order
-      setTotalClients(data.totalClients);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+        setClientData(data.clients);
+        setDisplayClients(data.clients); // ← initial display order
+        setTotalClients(data.totalClients);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClientData();
+  }, [userId]);
+
+  // Sort ONLY the display state
+  useEffect(() => {
+    if (!clientData.length) return;
+
+    // Copy raw data each time we sort
+    const sorted = [...clientData];
+
+    if (selected === "Sort by: Latest") {
+      // Sort by lastInvoiceAt descending (newest first)
+      sorted.sort(
+        (a, b) => new Date(b.lastInvoiceAt) - new Date(a.lastInvoiceAt),
+      );
+    } else if (selected === "Sort by: Oldest") {
+      // Sort by lastInvoiceAt ascending (oldest first)
+      sorted.sort(
+        (a, b) => new Date(a.lastInvoiceAt) - new Date(b.lastInvoiceAt),
+      );
     }
-  };
 
-  fetchClientData();
-}, [userId]);
-
-// Sort ONLY the display state
-useEffect(() => {
-  if (!clientData.length) return;
-
-  // Copy raw data each time we sort
-  const sorted = [...clientData];
-
-  if (selected === "Sort by: Latest") {
-    // Sort by lastInvoiceAt descending (newest first)
-    sorted.sort(
-      (a, b) => new Date(b.lastInvoiceAt) - new Date(a.lastInvoiceAt)
-    );
-  } else if (selected === "Sort by: Oldest") {
-    // Sort by lastInvoiceAt ascending (oldest first)
-    sorted.sort(
-      (a, b) => new Date(a.lastInvoiceAt) - new Date(b.lastInvoiceAt)
-    );
-  }
-  
-  setDisplayClients(sorted);
-}, [selected, clientData]);
+    setDisplayClients(sorted);
+  }, [selected, clientData]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (activeDropdown !== null) {
         const isClickOnButton = event.target.closest(
-          'button[class*="focus:outline"]'
+          'button[class*="focus:outline"]',
         );
         const isClickOnDropdown = event.target.closest(
-          'div[class*="absolute right-0"]'
+          'div[class*="absolute right-0"]',
         );
 
         if (!isClickOnButton && !isClickOnDropdown) {
@@ -186,10 +186,10 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 lg:p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[4vw] font-satoshi font-bold md:text-[2.5vw]">
+          <h1 className="text-[4vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
             Clients
           </h1>
           <p className="text-base mt-2 font-satoshi">{totalClients} total</p>
@@ -197,10 +197,10 @@ useEffect(() => {
         <div className="flex items-center">
           <button
             onClick={() => navigate("/dashboard/invoices")}
-            className="py-[0.6vw] px-[1.5vw] flex items-center box font-satoshi border border-gray-400 rounded-xl mr-[0.8vw]"
+            className="py-[0.6vw] px-[1.5vw] flex items-center box font-satoshi border border-gray-400 rounded-xl md:mr-[1.5vw] lg:mr-[0.8vw]"
           >
-            <span className="mr-2 font-satoshi text-base">Send Invoice</span>
-            <GrSend size={23} className="text-gray-700" />
+            <span className="mr-2 font-satoshi text-base lg:text-sm">Send Invoice</span>
+            <GrSend size={20} className="text-gray-700" />
           </button>
           <div
             className="relative inline-block text-left"
@@ -208,16 +208,15 @@ useEffect(() => {
           >
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center justify-between box w-full text-[4vw] md:text-[1vw] font-satoshi px-4 py-2.5 rounded-xl bg-transparent text-black gap-2 border border-gray-500"
+              className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 text-base lg:text-sm"
             >
               <span className="border-r pr-[0.8vw] border-black h-full">
                 {selected}
               </span>
               <IoIosArrowDown
                 size={16}
-                className={`transition-transform duration-300 ${
-                  isOpen ? "rotate-180" : "rotate-0"
-                }`}
+                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
+                  }`}
               />
             </button>
 
@@ -227,7 +226,7 @@ useEffect(() => {
                   <li
                     key={idx}
                     onClick={() => handleSelect(option)}
-                    className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100"
+                    className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100"
                   >
                     {option}
                   </li>
@@ -242,19 +241,19 @@ useEffect(() => {
         {loading ? (
           <div className="flex flex-col justify-center items-center space-y-3">
             <TbLoader3 size={30} className="animate-spin text-teal-500" />
-            <p className="text-[4vw] font-satoshi md:text-[1vw]">
+            <p className="text-[4vw] font-satoshi md:text-sm lg:text-[1vw]">
               Please wait while we load client&apos;s data
               <AnimatedEllipsis />
             </p>
           </div>
         ) : currentData.length === 0 ? (
-          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]">
+          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]">
             No Client Data Available.
           </div>
         ) : (
           <>
-            <table className="w-full">
-              <thead>
+            <table className="w-full scrollbar-toggle overflow-auto">
+              <thead className="w-full min-w-[1000px]">
                 <tr className="border-b border-gray-400">
                   <th className="text-left py-4 px-3 font-satoshi font-semibold">
                     Client Name
@@ -307,7 +306,7 @@ useEffect(() => {
                   <tr>
                     <td
                       colSpan="4"
-                      className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]"
+                      className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]"
                     >
                       No clients found
                     </td>
@@ -329,16 +328,15 @@ useEffect(() => {
                 >
                   <button
                     onClick={() => setShowPageOption(!showPageOption)}
-                    className="flex items-center justify-between w-full text-[4vw] md:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
+                    className="flex items-center justify-between w-full text-[4vw]  font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500 md:text-sm lg:text-base"
                   >
                     <span className="border-r pr-[0.8vw] border-black h-full font-normal">
                       {pageSelected}
                     </span>
                     <IoIosArrowDown
                       size={16}
-                      className={`transition-transform duration-300 ${
-                        showPageOption ? "rotate-180" : "rotate-0"
-                      }`}
+                      className={`transition-transform duration-300 ${showPageOption ? "rotate-180" : "rotate-0"
+                        }`}
                     />
                   </button>
 
@@ -359,20 +357,18 @@ useEffect(() => {
               </div>
               <div className="flex">
                 <button
-                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   onClick={goToPreviousPage}
                   disabled={currentPage === 1}
                 >
                   ←
                 </button>
                 <button
-                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-                    currentPage === totalPages
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
+                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                    }`}
                   onClick={goToNextPage}
                   disabled={currentPage === totalPages}
                 >

@@ -60,7 +60,7 @@ const RevenueChart = ({ userId }) => {
         setInvoiceData({
           revenue: monthlyData.revenue,
           pending: monthlyData.pending,
-          failed:monthlyData.failed,
+          failed: monthlyData.failed,
           total: totalPaid,
           percentChange: Math.abs(monthlyData.percentChange),
           isPositiveChange: monthlyData.percentChange >= 0,
@@ -133,7 +133,7 @@ const RevenueChart = ({ userId }) => {
 
   const data = {
     labels: months,
-    datasets: [ 
+    datasets: [
       {
         label: "Paid",
         data: invoiceData.revenue,
@@ -144,7 +144,7 @@ const RevenueChart = ({ userId }) => {
         borderSkipped: "bottom",
         order: 1,
         stack: "stack1",
-      }, 
+      },
       {
         label: "Pending",
         data: invoiceData.pending,
@@ -155,7 +155,7 @@ const RevenueChart = ({ userId }) => {
         borderSkipped: "bottom",
         order: 2,
         stack: "stack2",
-      },    
+      },
       {
         label: "Failed",
         data: invoiceData.failed,
@@ -169,7 +169,6 @@ const RevenueChart = ({ userId }) => {
       },
     ],
   };
-  
 
   const options = {
     responsive: true,
@@ -192,7 +191,7 @@ const RevenueChart = ({ userId }) => {
       tooltip: {
         callbacks: {
           label: (context) => {
-            const label = context.dataset.label || '';
+            const label = context.dataset.label || "";
             const value = formatCurrency(context.raw);
             return `${label}: ${value}`;
           },
@@ -208,7 +207,7 @@ const RevenueChart = ({ userId }) => {
         caretSize: 5,
         caretPadding: 10,
         displayColors: false,
-      }      
+      },
     },
     scales: {
       x: {
@@ -232,16 +231,16 @@ const RevenueChart = ({ userId }) => {
   };
 
   return (
-    <div className="p-[4vw] border border-neutral-700 box rounded-3xl w-[80vw] md:w-full md:px-[1vw] md:pt-[2vw] md:pb-0">
-      <h3 className="text-[4.5vw] md:text-[1.5vw] font-semibold text-Gray900 font-satoshi md:mb-2">
+    <div className="p-4 border border-neutral-700 box rounded-3xl w-full lg:px-[1vw] lg:pt-[2vw] lg:pb-0 lg:p-[4vw]">
+      <h3 className="text-[4.5vw] font-semibold text-Gray900 font-satoshi mb-1 md:text-lg lg:mb-2 lg:text-xl">
         Monthly Invoice Revenue
       </h3>
       <div className="flex space-x-[1vw] items-center">
-        <div className="text-[4.5vw] md:text-[1.2vw] font-semibold text-Gray800 font-satoshi">
+        <div className="text-[4.5vw] font-semibold text-Gray800 font-satoshi md:text-base lg:text-[1.2vw]">
           {formatCurrency(invoiceData.total)}
         </div>
         <div
-          className={`font-satoshi text-[3vw] md:text-[0.8vw] flex items-center space-x-[0.1vw] ${
+          className={`font-satoshi text-[3vw] flex items-center space-x-[0.1vw] md:text-sm lg:text-[0.8vw] ${
             invoiceData.isPositiveChange ? "text-green-600" : "text-red-600"
           }`}
         >
@@ -253,27 +252,32 @@ const RevenueChart = ({ userId }) => {
           <span>{invoiceData.percentChange}% than last month</span>
         </div>
       </div>
-      <div className="relative w-full md:w-full h-[40vh]">
+      <div className="relative w-full lg:w-full h-[40vh]">
         {invoiceData.isLoading ? (
           <div className="absolute inset-0 flex flex-col justify-center items-center space-y-3">
             <TbLoader3 size={30} className="animate-spin text-teal-500" />
-            <p className="text-[4vw] font-satoshi md:text-[1vw] text-center">
-               Loading Chart
+            <p className="text-[4vw] font-satoshi text-center md:text-base lg:text-[1vw]">
+              Loading Chart
               <AnimatedEllipsis />
             </p>
           </div>
-        ) : !invoiceData.revenue?.some((val) => val > 0) && !invoiceData.pending?.some((val) => val > 0) ? (
+        ) : !invoiceData.revenue?.some((val) => val > 0) &&
+          !invoiceData.pending?.some((val) => val > 0) ? (
           <div className="flex justify-center items-center h-full">
-            <p className="text-gray-500 text-[4vw] md:text-[1.2vw] font-satoshi">
+            <p className="text-gray-500 text-[4vw] font-satoshi lg:text-base">
               No content available
             </p>
           </div>
-          ) : (
-              <div className="w-full overflow-x-auto">
-                <div className="min-w-[769px] h-[37vh]">
-                <Bar data={data} options={options} className="mt-[4vw] md:mt-[2vw]" />
-                </div>
-              </div>
+        ) : (
+          <div className="w-full overflow-x-auto scrollbar-toggle">
+            <div className="min-w-[769px] h-[37vh]">
+              <Bar
+                data={data}
+                options={options}
+                className="mt-[4vw] lg:mt-[2vw]"
+              />
+            </div>
+          </div>
         )}
       </div>
     </div>
@@ -281,4 +285,3 @@ const RevenueChart = ({ userId }) => {
 };
 
 export default RevenueChart;
-

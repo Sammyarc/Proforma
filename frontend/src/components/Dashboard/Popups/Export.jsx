@@ -5,35 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import { useInvoiceStore } from "../../../store/invoiceStore";
 
-// Click Outside Hook
-const useClickOutside = (handler) => {
-  const ref = useRef();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        handler();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handler]);
-
-  return ref;
-};
-
-const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
+const Export = ({ onExportPDF, onExportEmail, isExporting }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { invoiceCount } = useInvoiceStore();
-
-  // Use the hook
-  const ref = useClickOutside(() => {
-    if (onClose) onClose(); // Call parent function to close popup
-  });
 
   const handleCheckboxChange = (option) => {
     setSelectedOption((prev) => (prev === option ? "" : option));
@@ -88,19 +65,18 @@ const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
 
   return (
     <div
-      ref={ref}
-      className="absolute z-[10] right-0 mt-[1vw] w-64 bg-white text-black rounded-md shadow-lg md:w-[25vw] md:rounded-lg animate-moveUp"
+      className="absolute z-[10] top-[6vw] right-0 mt-[1vw] w-64 bg-white text-black rounded-xl shadow-lg md:w-[40vw] lg:w-[25vw] lg:top-[3vw] lg:rounded-lg animate-moveUp"
     >
-      <div className="bg-white py-[2vw] px-[1vw] rounded-lg">
+      <div className="bg-white py-[2vw] px-[1.5vw] rounded-xl lg:py-[2vw] lg:px-[1vw] lg:rounded-lg">
         {/* Export as PDF */}
         <div className="flex items-center justify-between mb-4">
           <label htmlFor="pdf" className="flex items-center space-x-2">
             <AiOutlineFilePdf size={30} className="text-teal-600" />
             <div className="flex flex-col">
-              <span className="text-[4vw] text-teal-600 font-satoshi md:text-[1vw]">
+              <span className="text-[4vw] text-teal-600 font-satoshi md:text-sm lg:text-[1vw]">
                 Export as PDF
               </span>
-              <span className="text-[4vw] text-gray-500 font-satoshi md:text-[0.8vw]">
+              <span className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[0.8vw]">
                 Standard document format
               </span>
             </div>
@@ -119,10 +95,10 @@ const Export = ({ onExportPDF, onExportEmail, isExporting, onClose }) => {
           <label htmlFor="email" className="flex items-center space-x-2">
             <MdOutlineAttachEmail size={30} className="text-zinc-900" />
             <div className="flex flex-col">
-              <span className="text-[4vw] text-zinc-800 font-satoshi md:text-[1vw]">
+              <span className="text-[4vw] text-zinc-800 font-satoshi md:text-sm lg:text-[1vw]">
                 Generate and send as Email
               </span>
-              <span className="text-[4vw] text-gray-500 font-satoshi md:text-[0.8vw]">
+              <span className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[0.8vw]">
                 Send to clients via email
               </span>
             </div>

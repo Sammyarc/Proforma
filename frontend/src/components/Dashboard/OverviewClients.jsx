@@ -68,7 +68,7 @@ const OverviewClients = () => {
     <div className="p-6 border border-neutral-700 box rounded-3xl">
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h1 className="text-[4vw] font-satoshi font-bold md:text-[1.5vw]">
+          <h1 className="text-[4vw] font-satoshi font-bold md:text-xl">
             Recent Clients
           </h1>
           <p className="text-sm mt-1 font-satoshi">{totalClients} total</p>
@@ -85,18 +85,18 @@ const OverviewClients = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center space-y-3">
             <TbLoader3 size={30} className="animate-spin text-teal-500" />
-            <p className="text-[4vw] font-satoshi md:text-[1vw]">
+            <p className="text-[4vw] font-satoshi md:text-sm lg:text-base">
               Please wait while we load client&apos;s data
               <AnimatedEllipsis />
             </p>
           </div>
         ) : recentClients.length === 0 ? (
-          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-[1vw]">
+          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-base">
             No Client Data Available.
           </div>
         ) : (
           <div className="w-full h-full max-h-[175px] overflow-auto scrollbar-toggle">
-            <table className="w-full min-w-[500px] font-medium">
+            <table className="w-full min-w-[700px] font-medium">
               <thead>
                 <tr className="border-b border-gray-300">
                   <th className="text-left py-4 px-3 font-satoshi font-semibold">
@@ -113,13 +113,13 @@ const OverviewClients = () => {
               <tbody>
                 {recentClients.map((client, index) => (
                   <tr key={index} className="border-b border-gray-300">
-                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 lg:text-base">
                       {client.clientName}
                     </td>
-                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 lg:text-base">
                       {client.clientAddress}
                     </td>
-                    <td className="py-4 px-3 font-satoshi text-gray-600 md:text-[1vw]">
+                    <td className="py-4 px-3 font-satoshi text-gray-600 lg:text-base">
                       {formatInvoiceText(client.invoiceCount)}
                     </td>
                   </tr>

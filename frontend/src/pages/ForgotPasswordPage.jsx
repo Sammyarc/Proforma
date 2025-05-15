@@ -18,42 +18,42 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-[90vw] md:w-[30vw] flex flex-col mx-auto my-[8vw] bg-White shadow-xl px-[2.5vw] py-[7vw] md:p-[2vw] rounded-[0.5vw]">
-        <h2 className="text-center font-satoshi text-[7vw] md:text-[2.5vw] font-semibold text-Gray900 mb-[1vw]">
+      <div className="w-[90vw] lg:w-[30vw] flex flex-col mx-auto my-[8vw] bg-White shadow-xl px-[2.5vw] py-[7vw] lg:p-[2vw] rounded-[0.5vw]">
+        <h2 className="text-center font-satoshi text-[7vw] lg:text-[2.5vw] font-semibold text-Gray900 mb-[1vw]">
           Forgot Password
         </h2>
 
         {!isSubmitted ? (
           <form onSubmit={handleSubmit}>
-            <p className="text-[4vw] text-center text-gray-700 font-satoshi mb-[1.5vw] md:text-[1vw]">
+            <p className="text-[4vw] text-center text-gray-700 font-satoshi mb-[1.5vw] lg:text-[1vw]">
               Enter your email address and we&apos;ll send you a link to reset
               your password.
             </p>
-            <div className="relative mt-[3vw] md:mt-[1vw]">
+            <div className="relative mt-[3vw] lg:mt-[1vw]">
               <input
                 type="email"
                 name="email"
                 placeholder="Email Address"
                 autoComplete="on"
                 value={email}
-                className="w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] md:px-[1vw] md:py-[0.8vw] rounded-[1.5vw] md:rounded-[0.5vw] font-satoshi pr-[9vw] md:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700"
+                className="w-full outline-none border bg-transparent px-[2.5vw] py-[3vw] lg:px-[1vw] lg:py-[0.8vw] rounded-[1.5vw] lg:rounded-[0.5vw] font-satoshi pr-[9vw] lg:pr-[3vw] hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700"
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => setEmail(email.toLowerCase())}
               />
-              <div className="absolute inset-y-0 right-[3vw] md:right-[1vw] flex items-center">
-                <GoMail className="text-Gray600 md:text-[1.3vw]" />
+              <div className="absolute inset-y-0 right-[3vw] lg:right-[1vw] flex items-center">
+                <GoMail className="text-Gray600 lg:text-[1.3vw]" />
               </div>
             </div>
             <button
-              className={`mt-[4vw] w-full md:mt-[1.5vw] ${
+              className={`mt-[4vw] w-full lg:mt-[1.5vw] ${
                 isLoading ? "bg-gray-400 cursor-not-allowed " : "bg-cyan-800"
-              } text-white text-[4vw] font-satoshi h-[10vw] border border-neutral-400 rounded-xl box md:h-[2.5vw] md:text-[1vw]`}
+              } text-white text-[4vw] font-satoshi h-[10vw] border border-neutral-400 rounded-xl box lg:h-[2.5vw] lg:text-[1vw]`}
               type="submit"
             >
               {isLoading ? (
                 <div className="flex justify-center items-center gap-[1vw]">
                   <Loader className="size-6 animate-spin" />
-                  <span className="text-[4vw] font-satoshi md:text-[1vw]">
+                  <span className="text-[4vw] font-satoshi lg:text-[1vw]">
                     Sending...
                   </span>
                 </div>
@@ -73,10 +73,10 @@ const ForgotPasswordPage = () => {
             </p>
           </div>
         )}
-        <div className="mt-[5vw] flex justify-center md:mt-[1.5vw]">
+        <div className="mt-[5vw] flex justify-center lg:mt-[1.5vw]">
           <Link
             to={"/signup"}
-            className="text-[4vw] font-satoshi text-gray-500 hover:underline flex items-center md:text-[1vw]"
+            className="text-[4vw] font-satoshi text-gray-500 hover:underline flex items-center lg:text-[1vw]"
           >
             <ArrowLeft className="h-4 w-4 mr-2" /> Back to Login
           </Link>
