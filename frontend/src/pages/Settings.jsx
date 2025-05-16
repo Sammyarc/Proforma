@@ -25,7 +25,7 @@ const API_URL =
 axios.defaults.withCredentials = true;
 
 const Settings = () => {
-  const { connections, user } = useAuthStore();
+  const { connections, user, logout } = useAuthStore();
   const { handlers } = UsePaymentHandlers();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   // State for form fields
@@ -439,16 +439,28 @@ const Settings = () => {
           </form>
 
           <div className="w-full px-[4vw] py-[6vw] border border-gray-300 box rounded-3xl md:px-[2vw] md:py-[3vw] lg:w-2/5">
-            <h1 className="mb-[3vw] font-satoshi font-semibold text-[5vw] md:text-lg md:mb-[1vw] lg:text-base">
-              Password
+            <h1 className="mb-[3vw] font-satoshi font-semibold text-[5vw] md:text-lg md:mb-[2.5vw] lg:mb-[1vw] lg:text-base">
+              Security
             </h1>
-            <button
-              title="Change Password"
-              onClick={handleClick}
-              className="px-[3vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-base md:px-[1vw] md:py-[0.4vw] lg:text-sm"
-            >
-              Change Password
-            </button>
+            <div className="flex flex-row justify-between items-center md:items-start md:flex-col md:justify-normal">
+              <button
+                title="Change Password"
+                onClick={handleClick}
+                className="px-[3vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-base md:px-[2vw] md:py-[0.7vw] lg:px-[1vw] lg:py-[0.4vw] lg:text-sm"
+              >
+                Change Password
+              </button>
+              <button
+                title="Logout"
+                onClick={() => {
+              logout();
+              window.location.href = "/signup";
+            }}
+                className="px-[6vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:hidden"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
