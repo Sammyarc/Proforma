@@ -186,20 +186,20 @@ const Clients = () => {
   };
 
   return (
-    <div className="p-4 lg:p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-2 md:p-4 lg:p-6">
+      <div className="flex flex-col mb-6 space-y-5 md:flex-row md:justify-between md:items-center md:space-y-0">
         <div>
-          <h1 className="text-[4vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
+          <h1 className="text-[6vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
             Clients
           </h1>
-          <p className="text-base mt-2 font-satoshi">{totalClients} total</p>
+          <p className="text-base md:mt-2 font-satoshi">{totalClients} total</p>
         </div>
-        <div className="flex items-center">
+        <div className="flex justify-between gap-2 items-center md:justify-normal">
           <button
             onClick={() => navigate("/dashboard/invoices")}
-            className="py-[0.6vw] px-[1.5vw] flex items-center box font-satoshi border border-gray-400 rounded-xl md:mr-[1.5vw] lg:mr-[0.8vw]"
+            className="py-[2vw] px-[5vw] flex items-center box font-satoshi border border-gray-400 rounded-xl md:mr-[1.5vw] md:py-[0.6vw] md:px-[1.5vw] lg:mr-[0.8vw]"
           >
-            <span className="mr-2 font-satoshi text-base lg:text-sm">Send Invoice</span>
+            <span className="mr-2 font-satoshi text-[4vw] md:text-base lg:text-sm">Send Invoice</span>
             <GrSend size={20} className="text-gray-700" />
           </button>
           <div
@@ -208,9 +208,9 @@ const Clients = () => {
           >
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 text-base lg:text-sm"
+              className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[2vw] px-[5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base md:py-[0.6vw] md:px-[1.5vw] lg:text-sm"
             >
-              <span className="border-r pr-[0.8vw] border-black h-full">
+              <span className="border-r pr-[1.5vw] border-black h-full md:pr-[0.8vw]">
                 {selected}
               </span>
               <IoIosArrowDown
@@ -226,7 +226,7 @@ const Clients = () => {
                   <li
                     key={idx}
                     onClick={() => handleSelect(option)}
-                    className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100"
+                    className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 md:text-sm"
                   >
                     {option}
                   </li>
@@ -252,70 +252,72 @@ const Clients = () => {
           </div>
         ) : (
           <>
-            <table className="w-full scrollbar-toggle overflow-auto">
-              <thead className="w-full min-w-[1000px]">
-                <tr className="border-b border-gray-400">
-                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                    Client Name
-                  </th>
-                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                    Client Address
-                  </th>
-                  <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                    No. of invoices sent
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.map((client, index) => (
-                  <tr key={index} className="border-b border-gray-400">
-                    <td className="py-2 px-3 font-satoshi text-gray-600">
-                      {client.clientName}
-                    </td>
-                    <td className="py-2 px-3 font-satoshi text-gray-600">
-                      {client.clientAddress}
-                    </td>
-                    <td className="py-2 px-3 font-satoshi text-gray-600">
-                      {formatInvoiceText(client.invoiceCount)}
-                    </td>
-                    <td className="py-4 px-3 relative">
-                      <button
-                        className="focus:outline-1 p-2 rounded-md"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleDropdown(index);
-                        }}
+            <div className="w-full scrollbar-toggle overflow-auto">
+              <table className="w-full min-w-[1000px]">
+                <thead>
+                  <tr className="border-b border-gray-400">
+                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                      Client Name
+                    </th>
+                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                      Client Address
+                    </th>
+                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
+                      No. of invoices sent
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.map((client, index) => (
+                    <tr key={index} className="border-b border-gray-400">
+                      <td className="py-2 px-3 font-satoshi text-gray-600">
+                        {client.clientName}
+                      </td>
+                      <td className="py-2 px-3 font-satoshi text-gray-600">
+                        {client.clientAddress}
+                      </td>
+                      <td className="py-2 px-3 font-satoshi text-gray-600">
+                        {formatInvoiceText(client.invoiceCount)}
+                      </td>
+                      <td className="py-4 px-3 relative">
+                        <button
+                          className="focus:outline-1 p-2 rounded-md"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleDropdown(index);
+                          }}
+                        >
+                          <SlOptions />
+                        </button>
+                        {activeDropdown === index && (
+                          <div className="absolute right-0 top-10 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
+                            <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
+                              View
+                            </div>
+                            <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
+                              Delete
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  {currentData.length === 0 && !loading && (
+                    <tr>
+                      <td
+                        colSpan="4"
+                        className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]"
                       >
-                        <SlOptions />
-                      </button>
-                      {activeDropdown === index && (
-                        <div className="absolute right-0 top-10 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
-                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
-                            View
-                          </div>
-                          <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
-                            Delete
-                          </div>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {currentData.length === 0 && !loading && (
-                  <tr>
-                    <td
-                      colSpan="4"
-                      className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]"
-                    >
-                      No clients found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                        No clients found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-            <div className="flex justify-between font-satoshi items-center mt-6">
+            <div className="flex flex-col space-y-4 font-satoshi items-center mt-6 md:space-y-0 md:flex-row md:justify-between">
               <div className="flex items-center">
                 <span>
                   Page {currentPage} of {totalPages || 1}
@@ -330,7 +332,7 @@ const Clients = () => {
                     onClick={() => setShowPageOption(!showPageOption)}
                     className="flex items-center justify-between w-full text-[4vw]  font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500 md:text-sm lg:text-base"
                   >
-                    <span className="border-r pr-[0.8vw] border-black h-full font-normal">
+                    <span className="border-r pr-[2vw] border-black h-full font-normal md:pr-[0.8vw]">
                       {pageSelected}
                     </span>
                     <IoIosArrowDown
@@ -355,7 +357,7 @@ const Clients = () => {
                   )}
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex gap-3 md:gap-1 lg:gap-0">
                 <button
                   className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
                     }`}

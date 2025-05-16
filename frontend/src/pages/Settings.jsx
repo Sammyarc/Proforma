@@ -247,9 +247,9 @@ const Settings = () => {
     : "";
 
   return (
-    <div className="mx-4 lg:mx-6">
+    <div className="md:mx-4 lg:mx-6">
       <div className="my-6">
-        <h1 className="text-[4vw] font-satoshi font-bold mb-6 md:text-[3vw] lg:text-[2.5vw]">
+        <h1 className="text-[8vw] font-satoshi font-bold mb-6 md:text-[3vw] lg:text-[2.5vw]">
           Profile
         </h1>
 
@@ -297,7 +297,7 @@ const Settings = () => {
               <button
                 type="button"
                 onClick={() => setLogoUrl("")}
-                className="py-[0.5vw] px-[1.5vw] box font-bold font-satoshi border rounded-xl"
+                className="px-[6vw] py-[2vw] box font-bold font-satoshi border rounded-xl md:py-[0.5vw] md:px-[1.5vw]"
               >
                 Remove Logo
               </button>
@@ -308,7 +308,7 @@ const Settings = () => {
         <div className="flex flex-col lg:flex-row gap-6 mb-[3vw]">
           <form
             onSubmit={handleSubmit}
-            className="grid grid-cols-1 px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl w-full gap-6 lg:w-3/5 lg:grid-cols-2"
+            className="grid grid-cols-1 px-[4vw] py-[6vw] border border-gray-300 box rounded-3xl w-full gap-6 md:px-[2vw] md:py-[3vw] lg:w-3/5 lg:grid-cols-2"
           >
             {/* Business Details Form */}
             <div>
@@ -420,7 +420,7 @@ const Settings = () => {
               <button
                 type="submit"
                 disabled={isSaving}
-                className={`px-[2vw] py-[0.5vw] box font-bold font-satoshi border rounded-xl lg:py-[0.5vw] lg:px-[1.5vw] ${isSaving
+                className={`px-[6vw] py-[2vw] box font-bold font-satoshi border rounded-xl md:px-[2vw] md:py-[0.5vw] lg:py-[0.5vw] lg:px-[1.5vw] ${isSaving
                   ? "opacity-50 cursor-not-allowed"
                   : "opacity-100 cursor-pointer"
                   }`}
@@ -437,14 +437,14 @@ const Settings = () => {
             </div>
           </form>
 
-          <div className="w-full px-[2vw] py-[3vw] border border-gray-300 box rounded-3xl lg:w-2/5">
-            <h1 className="mb-[1vw] font-satoshi font-semibold text-[5vw] md:text-lg lg:text-base">
+          <div className="w-full px-[4vw] py-[6vw] border border-gray-300 box rounded-3xl md:px-[2vw] md:py-[3vw] lg:w-2/5">
+            <h1 className="mb-[3vw] font-satoshi font-semibold text-[5vw] md:text-lg md:mb-[1vw] lg:text-base">
               Password
             </h1>
             <button
               title="Change Password"
               onClick={handleClick}
-              className="px-[1vw] py-[0.4vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-base lg:text-sm"
+              className="px-[3vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:text-base md:px-[1vw] md:py-[0.4vw] lg:text-sm"
             >
               Change Password
             </button>
@@ -507,7 +507,7 @@ const Settings = () => {
       </div>
 
       {/* Tablet and mobile view */}
-      <div className="grid grid-cols-2 gap-5 lg:hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:hidden">
         <div className="border border-neutral-500 rounded-3xl p-4 box">
           <h1 className="mb-[2vw] font-satoshi font-semibold text-lg">
             Payment Account
@@ -536,7 +536,7 @@ const Settings = () => {
                   </span>
                 </div>
                 {/* Right side: Connected Indicator */}
-                <div className="flex items-center border border-neutral-500 px-[1.2vw] py-[0.5vw] rounded-full">
+                <div className="flex px-[3vw] py-[2vw] items-center border border-neutral-500 rounded-full md:px-[1.2vw] md:py-[0.5vw]">
                   <div className="w-5 h-5 flex justify-center items-center bg-green-600 rounded-full mr-2">
                     <IoCheckmarkOutline size={10} />
                   </div>
@@ -550,7 +550,7 @@ const Settings = () => {
                 title="Disconnect Payment Account"
                 onClick={() => handleDisconnect(option)}
                 disabled={isDisconnecting}
-                className={`font-satoshi mt-3 bg-[#F5F5F5] border border-neutral-500 px-[3vw] py-[0.4vw] rounded-3xl text-base ${isDisconnecting
+                className={`font-satoshi mt-3 bg-[#F5F5F5] border px-[5vw] py-[2vw] border-neutral-500 rounded-3xl text-base md:px-[3vw] md:py-[0.4vw] ${isDisconnecting
                   ? "font-normal text-gray-400 cursor-not-allowed"
                   : "text-neutral-800 font-semibold"
                   }`}
@@ -561,7 +561,7 @@ const Settings = () => {
           ))}
         </div>
         <div className="text-Gray800 font-satoshi box p-3 border border-gray-500 rounded-2xl flex flex-col">
-          <h3 className="text-lg font-semibold">
+          <h3 className="md:text-lg text-xl font-semibold">
             Free Plan Usage
           </h3>
 
@@ -572,7 +572,7 @@ const Settings = () => {
           ) : (
             <>
               {/* Usage Text */}
-              <p className="text-base mt-[0.5vw] mb-2">
+              <p className="text-base mt-[2vw] mb-2 md:mt-[0.5vw]">
                 {invoiceCount} / 10 invoices sent
               </p>
 
@@ -590,7 +590,7 @@ const Settings = () => {
               </div>
 
               {/* Upgrade Text */}
-              <button className="mt-3 flex items-center gap-1 text-base text-blue-600 font-medium hover:underline lg:mt-2">
+              <button className="mt-3 flex items-center gap-1 text-lg text-blue-600 font-medium hover:underline md:text-base lg:mt-2">
                 Upgrade to Pro
                 <IoIosArrowRoundForward size={20} />
               </button>

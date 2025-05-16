@@ -104,17 +104,17 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
   };
 
   return (
-    <div>
+    <div className="min-w-[800px] w-full">
       {/* Header */}
       <div className="flex justify-between items-start mb-12">
-        <h1 className="text-[4vw] font-clash font-extrabold md:text-2xl lg:text-[2vw]">
+        <h1 className="font-clash font-extrabold text-3xl">
           Invoice
         </h1>
         <div className="flex space-x-[0.5vw] items-center">
-          <p className="md:text-xl lg:text-[2vw]">№</p>
+          <p className="text-2xl">№</p>
           <div
             contentEditable
-            className="focus:outline-none border-b border-transparent py-1 hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-base lg:text-[1vw]"
+            className="focus:outline-none border-b border-transparent py-1 hover:border-gray-300 text-gray-600 font-satoshi text-base"
             data-invoice-field="invoiceNumber"
             onInput={(e) =>
               handleFieldChange("invoiceNumber", e.target.textContent)
@@ -128,17 +128,17 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
       {/* Invoice Info */}
       <div className="grid grid-cols-3 gap-8 mb-12">
         <div>
-          <p className="font-bold mb-2 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+          <p className="font-bold mb-2 font-satoshi text-base">
             Payable {formatCurrency(total)}
           </p>
           <div className="text-gray-600 space-y-[0.3vw]">
             <div className="flex space-x-[0.2vw]">
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 Due:
               </span>
               {isStaticMode ? (
                 <span
-                  className="text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+                  className="font-satoshi text-base"
                   data-invoice-field="dueDate"
                 >
                   {invoiceData.dueDate || ""}
@@ -147,19 +147,19 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                 <input
                   type="date"
                   data-invoice-field="dueDate"
-                  className="focus:outline-none border-b border-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-base lg:text-[1vw]"
+                  className="focus:outline-none border-b border-transparent hover:border-gray-300 text-gray-600 font-satoshi text-base"
                   value={invoiceData.dueDate}
                   onChange={(e) => handleFieldChange("dueDate", e.target.value)}
                 />
               )}
             </div>
             <div className="flex space-x-[0.2vw]">
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 Issued:
               </span>
               {isStaticMode ? (
                 <span
-                  className="text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+                  className="font-satoshi text-base"
                   data-invoice-field="invoiceDate"
                 >
                   {invoiceData.invoiceDate || ""}
@@ -168,7 +168,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                 <input
                   type="date"
                   data-invoice-field="invoiceDate"
-                  className="focus:outline-none border-b border-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-base lg:text-[1vw]"
+                  className="focus:outline-none border-b border-transparent hover:border-gray-300 text-gray-600 font-satoshi text-base"
                   value={invoiceData.invoiceDate}
                   onChange={(e) =>
                     handleFieldChange("invoiceDate", e.target.value)
@@ -177,12 +177,12 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               )}
             </div>
             <div className="flex space-x-[0.2vw] ">
-              <h2 className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <h2 className="text-gray-600 font-satoshi text-base">
                 Ref:
               </h2>
               <div
                 contentEditable
-                className="focus:outline-none border-b border-transparent hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi font-bold md:text-base lg:text-[1vw]"
+                className="focus:outline-none border-b border-transparent hover:border-gray-300 text-gray-600 font-satoshi font-bold text-base"
                 onInput={(e) =>
                   handleFieldChange("reference", e.target.textContent)
                 }
@@ -196,13 +196,13 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
         {/* Bill To Section */}
         <div className="mb-[5vw]">
           <div>
-            <h2 className="text-[4vw] font-satoshi font-semibold text-gray-900 mb-2 md:text-lg lg:text-[1vw]">
+            <h2 className="font-satoshi font-semibold text-gray-900 mb-2 text-lg">
               Billed to:
             </h2>
             <div className="space-y-2">
               <div
                 contentEditable
-                className="block text-[4vw] text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 data-invoice-field="clientName"
                 onInput={(e) =>
                   handleFieldChange("clientName", e.target.textContent)
@@ -213,7 +213,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
 
               <div
                 contentEditable
-                className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 data-invoice-field="clientAddress"
                 onInput={(e) =>
                   handleFieldChange("clientAddress", e.target.textContent)
@@ -223,7 +223,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               </div>
               <div
                 contentEditable
-                className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange("cityCountry", e.target.textContent)
                 }
@@ -233,7 +233,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
 
               <div
                 contentEditable
-                className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange("phone", e.target.textContent)
                 }
@@ -245,13 +245,13 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
         </div>
 
         <div>
-          <p className="font-bold mb-2 text-[4vw] font-satoshi md:text-lg lg:text-[1vw]">
+          <p className="font-bold mb-2 font-satoshi text-lg">
             From:
           </p>
           <div className="space-y-2">
             <div
               contentEditable
-              className="block text-[4vw] text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+              className="block text-gray-500 w-full font-bold font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
               data-invoice-field="companyName"
               onInput={(e) =>
                 handleFieldChange("companyName", e.target.textContent)
@@ -261,7 +261,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
             </div>
             <div
               contentEditable
-              className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+              className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
               onInput={(e) =>
                 handleFieldChange("businessCountry", e.target.textContent)
               }
@@ -270,7 +270,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
             </div>
             <div
               contentEditable
-              className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+              className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base"
               onInput={(e) =>
                 handleFieldChange("businessCity", e.target.textContent)
               }
@@ -278,17 +278,17 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               City
             </div>
             <div className="flex space-x-[0.5vw] items-center">
-              <h2 className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <h2 className="text-gray-600 font-satoshi text-base">
                 TAX ID:
               </h2>
               {isStaticMode ? (
-                <div className="text-[4vw] font-satoshi -mt-[0.5vw] md:text-base lg:text-[1vw]">
+                <div className="font-satoshi -mt-[0.5vw] text-base">
                   {invoiceData.businessTaxInfo || "00XXXXX1234X0XX"}
                 </div>
               ) : (
                 <div
                   contentEditable
-                  className="focus:outline-none border-b border-transparent -pt-1 hover:border-gray-300 text-[4vw] text-gray-600 font-satoshi md:text-base lg:text-[1vw]"
+                  className="focus:outline-none border-b border-transparent -pt-1 hover:border-gray-300 text-gray-600 font-satoshi text-base"
                   onInput={(e) =>
                     handleFieldChange("businessTaxInfo", e.target.textContent)
                   }
@@ -310,16 +310,16 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
           <table className="w-full">
             <thead>
               <tr className="text-gray-800 uppercase border-b">
-                <th className="text-left pb-4 px-4 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+                <th className="text-left pb-4 px-4 font-satoshi text-base">
                   Item description
                 </th>
-                <th className="text-left pb-4 px-4 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+                <th className="text-left pb-4 px-4 font-satoshi text-base">
                   Qty
                 </th>
-                <th className="text-left pb-4 px-4 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+                <th className="text-left pb-4 px-4 font-satoshi text-base">
                   Rate
                 </th>
-                <th className="text-left pb-4 px-4 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+                <th className="text-left pb-4 px-4 font-satoshi text-base">
                   Amount
                 </th>
               </tr>
@@ -330,7 +330,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                   <td>
                     {isStaticMode ? (
                       <p
-                        className="text-[4vw] w-[35vw] px-4 py-2 font-satoshi md:text-base lg:text-[1vw]"
+                        className="w-[400px] px-4 py-2 font-satoshi text-base"
                         data-invoice-field="description"
                       >
                         {item.description || ""}
@@ -339,7 +339,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                       <input
                         type="text"
                         data-invoice-field="description"
-                        className="w-[35vw] px-4 py-3 focus:outline-none text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+                        className="w-[400px] px-4 py-3 focus:outline-none font-satoshi text-base"
                         value={item.description}
                         placeholder="Enter a description"
                         onChange={(e) =>
@@ -350,13 +350,13 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                   </td>
                   <td>
                     {isStaticMode ? (
-                      <p className="text-[4vw] px-4 py-2 font-satoshi md:text-base lg:text-[1vw]">
+                      <p className="px-4 py-2 font-satoshi text-base">
                         {item.qty || ""}
                       </p>
                     ) : (
                       <input
                         type="number"
-                        className="w-full px-4 py-3 focus:outline-none text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+                        className="w-full px-4 py-3 focus:outline-none font-satoshi text-base"
                         value={item.qty}
                         placeholder="1"
                         onChange={(e) =>
@@ -371,13 +371,13 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
                   </td>
                   <td>
                     {isStaticMode ? (
-                      <p className="text-[4vw] px-4 py-2 font-satoshi md:text-base lg:text-[1vw]">
+                      <p className="px-4 py-2 font-satoshi text-base">
                         {item.rate || ""}
                       </p>
                     ) : (
                       <input
                         type="number"
-                        className="w-full px-4 py-3 focus:outline-none text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+                        className="w-full px-4 py-3 focus:outline-none font-satoshi text-base"
                         value={item.rate}
                         placeholder="0.00"
                         onChange={(e) =>
@@ -393,11 +393,11 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
 
                   <td>
                     {isStaticMode ? (
-                      <p className="text-[4vw] px-4 py-2 font-satoshi md:text-base lg:text-[1vw]">
+                      <p className="px-4 py-2 font-satoshi text-base">
                         {item.amount.toFixed(2)}
                       </p>
                     ) : (
-                      <span className="text-[4vw] px-4 py-3 font-satoshi md:text-base lg:text-[1vw]">
+                      <span className="px-4 py-3 font-satoshi text-base">
                         {item.amount.toFixed(2)}
                       </span>
                     )}
@@ -427,7 +427,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
           ) : (
             <button
               onClick={addNewItem}
-              className="flex items-center gap-2 text-blue-400 my-4 text-[4vw] font-satoshi md:text-base lg:text-[1vw]"
+              className="flex items-center gap-2 text-blue-400 my-4 font-satoshi text-base"
             >
               <Plus size={16} />
               Add Line Item
@@ -436,27 +436,27 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
 
           <div className="mt-4 space-y-2">
             <div className="flex justify-end">
-              <span className="text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]">
+              <span className="font-satoshi text-base w-[150px]">
                 Subtotal:
               </span>
-              <span className="text-right text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]">
+              <span className="text-right font-satoshi text-base w-[150px]">
                 {formatCurrency(subtotal)}
               </span>
             </div>
             <div className="flex justify-end">
-              <span className="text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]">
+              <span className="font-satoshi text-base w-[150px]">
                 Tax (10%):
               </span>
-              <span className="text-right text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]">
+              <span className="text-right font-satoshi text-base w-[150px]">
                 {formatCurrency(tax)}
               </span>
             </div>
             <div className="flex justify-end text-pink-500 font-medium">
-              <span className="text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]">
+              <span className="font-satoshi text-base w-[150px]">
                 Total (USD)
               </span>
               <span
-                className="text-right text-[4vw] font-satoshi md:text-base md:w-[12vw] lg:w-[9vw] lg:text-[1vw]"
+                className="text-right font-satoshi text-base w-[150px]"
                 data-invoice-field="invoiceAmount"
               >
                 {formatCurrency(total)}
@@ -469,20 +469,20 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
       {/* Footer */}
       <div className="grid grid-cols-2 gap-8">
         <div className="border-l-2 border-gray-200 pl-4">
-          <h3 className="font-bold mb-1 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+          <h3 className="font-bold mb-1 font-satoshi text-base">
             Payment details
           </h3>
-          <p className="text-gray-600 mb-4 text-[4vw] font-satoshi md:text-base lg:text-[0.9vw]">
+          <p className="text-gray-600 mb-4 font-satoshi text-base">
             Please pay within 15 days of receiving this invoice.
           </p>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 Bank name:
               </span>
               <span
                 contentEditable
-                className="block w-full text-[4vw] font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange(
                     "bankDetails.bankName",
@@ -494,12 +494,12 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               </span>
             </div>
             <div>
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 IFS code:
               </span>
               <span
                 contentEditable
-                className="block w-full text-[4vw] font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange("bankDetails.ifsCode", e.target.textContent)
                 }
@@ -508,12 +508,12 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               </span>
             </div>
             <div>
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 Swift code:
               </span>
               <span
                 contentEditable
-                className="block w-full text-[4vw] font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange(
                     "bankDetails.swiftCode",
@@ -525,12 +525,12 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
               </span>
             </div>
             <div>
-              <span className="text-gray-600 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+              <span className="text-gray-600 font-satoshi text-base">
                 Account No:
               </span>
               <span
                 contentEditable
-                className="block w-full text-[4vw] font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+                className="block w-full font-satoshi py-2 text-gray-500 focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
                 onInput={(e) =>
                   handleFieldChange(
                     "bankDetails.accountNumber",
@@ -545,13 +545,13 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
         </div>
 
         <div className="border-l-2 border-gray-200 pl-4">
-          <h3 className="font-bold mb-2 text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
+          <h3 className="font-bold mb-2 font-satoshi text-base">
             Thanks for the business.
           </h3>
           <div className="text-gray-600">
             <div
               contentEditable
-              className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+              className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
               data-invoice-field="companyAddress"
               onInput={(e) =>
                 handleFieldChange("companyAddress", e.target.textContent)
@@ -561,7 +561,7 @@ const InvoiceTemplate5 = ({ isStaticMode }) => {
             </div>
             <div
               contentEditable
-              className="block w-full text-[4vw] text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 md:text-base lg:text-[1vw]"
+              className="block w-full text-gray-500 font-satoshi focus:outline-none border-b border-transparent hover:border-gray-300 text-base"
               onInput={(e) =>
                 handleFieldChange("contactPhone", e.target.textContent)
               }

@@ -65,9 +65,9 @@ const Export = ({ onExportPDF, onExportEmail, isExporting }) => {
 
   return (
     <div
-      className="absolute z-[10] top-[6vw] right-0 mt-[1vw] w-64 bg-white text-black rounded-xl shadow-lg md:w-[40vw] lg:w-[25vw] lg:top-[3vw] lg:rounded-lg animate-moveUp"
+      className="absolute z-[10] top-[13vw] right-0 mt-[1vw] w-80 bg-white text-black rounded-xl shadow-lg md:top-[6vw] md:w-[40vw] lg:w-[25vw] lg:top-[3vw] lg:rounded-lg animate-moveUp"
     >
-      <div className="bg-white py-[2vw] px-[1.5vw] rounded-xl lg:py-[2vw] lg:px-[1vw] lg:rounded-lg">
+      <div className="bg-white py-[6vw] px-[3vw] rounded-xl md:py-[2vw] md:px-[1.5vw] lg:py-[2vw] lg:px-[1vw] lg:rounded-lg">
         {/* Export as PDF */}
         <div className="flex items-center justify-between mb-4">
           <label htmlFor="pdf" className="flex items-center space-x-2">

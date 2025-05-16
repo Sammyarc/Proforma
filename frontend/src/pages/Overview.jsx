@@ -15,7 +15,7 @@ const Overview = () => {
       <Greeting />
       <OverviewGrid />
       <RevenueChart />
-      <div className="grid mt-8 grid-cols-1 gap-[2vw] lg:grid-cols-2">
+      <div className="grid mt-8 grid-cols-1 gap-[8vw] md:gap-[2vw] lg:grid-cols-2">
         <div>
           <OverviewClients />
         </div>

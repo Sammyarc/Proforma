@@ -68,7 +68,7 @@ const OverviewClients = () => {
     <div className="p-6 border border-neutral-700 box rounded-3xl">
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h1 className="text-[4vw] font-satoshi font-bold md:text-xl">
+          <h1 className="text-[5vw] font-satoshi font-bold md:text-xl">
             Recent Clients
           </h1>
           <p className="text-sm mt-1 font-satoshi">{totalClients} total</p>

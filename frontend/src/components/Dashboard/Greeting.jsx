@@ -28,8 +28,8 @@ const Greeting = () => {
   }
 
   return (
-    <div className="mb-[2vw]">
-      <span className="font-clash flex items-center leading-none text-black md:text-[3.5vw] lg:text-[2.5vw]">
+    <div className="mb-[7vw] md:mb-[2vw]">
+      <span className="font-clash flex items-center leading-none text-[6vw] text-black md:text-[3.5vw] lg:text-[2.5vw]">
         {timeOfDay}, {user?.name?.split(" ")[1]}!
         <img src={image} alt="emoji" className="ml-3 w-10 h-10" />
       </span>

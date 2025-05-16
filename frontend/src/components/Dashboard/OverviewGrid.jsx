@@ -63,13 +63,13 @@ const OverviewGrid = ({ userId }) => {
   return (
     <div className="grid grid-cols-2 gap-6 mb-[5vw] lg:grid-cols-4 lg:mb-[2vw]">
       {/* Invoices Sent */}
-      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
-        <h2 className="text-[4vw] text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
+      <div className="flex flex-col box p-3 md:p-4 border border-neutral-700 rounded-2xl md:rounded-3xl">
+        <h2 className="text-base text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
           Invoices Sent:
         </h2>
 
         <div className="flex items-center space-x-2 mt-[1vw] lg:mt-[0.5vw]">
-          <LiaFileInvoiceSolid className="text-teal-600 text-[4vw] lg:text-[2.5vw]" />
+          <LiaFileInvoiceSolid className="text-teal-600 text-[8vw] md:text-[4vw] lg:text-[2.5vw]" />
           {stats.isLoading ? (
             <SkeletonLoader />
           ) : (
@@ -81,12 +81,12 @@ const OverviewGrid = ({ userId }) => {
       </div>
 
       {/* Pending Payments */}
-      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
-        <h2 className="text-[4vw] text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
+      <div className="flex flex-col box p-3 md:p-4 border border-neutral-700 rounded-2xl md:rounded-3xl">
+        <h2 className="text-base text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
           Pending Payments
         </h2>
         <div className="flex items-center space-x-2 mt-[1vw] lg:mt-[0.5vw]">
-          <GiPayMoney className="text-indigo-600 text-[4vw] lg:text-[2.5vw]" />
+          <GiPayMoney className="text-indigo-600 text-[8vw] md:text-[4vw] lg:text-[2.5vw]" />
           {stats.isLoading ? (
             <SkeletonLoader />
           ) : (
@@ -103,12 +103,12 @@ const OverviewGrid = ({ userId }) => {
       </div>
 
       {/* Completed Invoices */}
-      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
-        <h2 className="text-[4vw] text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
+      <div className="flex flex-col box p-3 md:p-4 border border-neutral-700 rounded-2xl md:rounded-3xl">
+        <h2 className="text-base text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
           Completed Payments
         </h2>
         <div className="flex items-center space-x-2 mt-[1vw] lg:mt-[0.5vw]">
-          <GiCheckMark className="text-green-500 text-[4vw] lg:text-[2.5vw]" />
+          <GiCheckMark className="text-green-500 text-[8vw] md:text-[4vw] lg:text-[2.5vw]" />
           {stats.isLoading ? (
             <SkeletonLoader />
           ) : (
@@ -125,12 +125,12 @@ const OverviewGrid = ({ userId }) => {
       </div>
 
       {/* Recurring Payments */}
-      <div className="flex flex-col box p-4 border border-neutral-700 rounded-3xl">
-        <h2 className="text-[4vw] text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
+      <div className="flex flex-col box p-3 md:p-4 border border-neutral-700 rounded-2xl md:rounded-3xl">
+        <h2 className="text-[base text-Gray800 font-semibold font-satoshi md:text-lg lg:text-base">
           Failed Payments
         </h2>
         <div className="flex items-center space-x-2 mt-[1vw] lg:mt-[0.5vw]">
-          <AiOutlineWarning className="text-red-500 text-[4vw] lg:text-[2.5vw]" />
+          <AiOutlineWarning className="text-red-500 text-[8vw] md:text-[4vw] lg:text-[2.5vw]" />
           {stats.isLoading ? (
             <SkeletonLoader />
           ) : (

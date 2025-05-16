@@ -129,8 +129,8 @@ body {
 }
 
 .Toastify__close-button > svg {
-  width: 1.2vw !important;
-  height: 1.2vw !important;
+  width: 24px !important;
+  height: 24px !important;
 }
 
 .Toastify__toast {

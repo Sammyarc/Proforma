@@ -35,16 +35,16 @@ const Header = () => {
 
   return (
     <div className="relative">
-      <div className="fixed top-0 left-0 right-0 z-[50] bg-[#F5F5F2]">
+      <div className="fixed top-0 left-0 right-0 z-[50] py-2 px-5 bg-[#F5F5F2] md:p-0">
         <div className="flex items-center justify-between lg:p-1">
           {/* Logo */}
           <div className="flex items-center">
             <img
               src={Logo}
               alt="Profoma Logo"
-              className="w-[10vw] h-[3vw] md:w-[7vw] md:h-[7vw] lg:w-[5.5vw] lg:h-[5.5vw]"
+              className="w-[12vw] h-[12vw] md:w-[7vw] md:h-[7vw] lg:w-[5.5vw] lg:h-[5.5vw]"
             />
-            <span className="font-clash text-[4vw] text-black md:text-[20px] lg:text-2xl">
+            <span className="font-clash text-[5vw] text-black md:text-[20px] lg:text-2xl">
               Proforma
             </span>
           </div>
@@ -64,7 +64,7 @@ const Header = () => {
           </div> */}
 
           {/* Right side buttons */}
-          <div className="flex items-center gap-[0.8vw]">
+          <div className="flex items-center gap-[3vw] md:gap-[0.8vw]">
             {/* Alerts Button */}
             <div className="relative">
               <button
@@ -77,9 +77,9 @@ const Header = () => {
                 <CiBellOn size={27} className={` ${animate ? "shake" : ""}`} />
               </button>
               {isAlertsOpen && (
-                <div className="absolute right-0 mt-4 w-64 bg-MilkWhite text-black font-satoshi rounded-xl shadow-lg p-4 md:w-72 lg:rounded-lg lg:w-[25vw] animate-moveUp">
+                <div className="absolute right-0 mt-4 w-[280px] bg-MilkWhite text-black font-satoshi rounded-xl shadow-lg p-4 md:w-72 lg:rounded-lg lg:w-[25vw] animate-moveUp">
                   <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-[4vw] font-semibold md:text-base lg:text-[1.2vw]">
+                    <h2 className="text-[4.2vw] font-semibold md:text-base lg:text-[1.2vw]">
                       Notifications
                     </h2>
                     <div className="flex space-x-2">
@@ -91,7 +91,7 @@ const Header = () => {
                       </button>
                     </div>
                   </div>
-                  <p className="text-[3.2vw] text-center text-gray-600 md:text-base lg:text-[1vw]">
+                  <p className="text-[3.5vw] text-center text-gray-600 md:text-base lg:text-[1vw]">
                     No new notifications
                   </p>
                 </div>

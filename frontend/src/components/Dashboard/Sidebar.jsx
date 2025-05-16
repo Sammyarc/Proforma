@@ -74,7 +74,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const isDesktop = windowWidth >= 1024;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
-  const isMobile = windowWidth < 768;
 
 
 

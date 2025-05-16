@@ -19,9 +19,9 @@ const DownloadPopup = ({ onDownloadPNG, onDownloadJPG, isDownloading }) => {
   };
 
   return (
-    <div className="absolute z-[10] top-[6vw] right-0 mt-[1vw] w-64 bg-white text-black rounded-xl shadow-lg md:w-[40vw] lg:top-[3vw] lg:w-[25vw] lg:rounded-lg animate-moveUp">
-      <div className="bg-white py-[2vw] px-[1.5vw] rounded-xl lg:py-[2vw] lg:px-[1vw] lg:rounded-lg">
-        <h2 className="text-[4vw] font-satoshi font-bold mb-4 md:text-lg lg:text-[1.5vw]">
+    <div className="absolute z-[10] top-[13vw] mt-[1vw] w-80 bg-white text-black rounded-xl shadow-lg md:w-[40vw] md:top-[6vw] md:right-0 lg:top-[3vw] lg:w-[25vw] lg:rounded-lg animate-moveUp">
+      <div className="bg-white py-[6vw] px-[3vw] rounded-xl md:py-[2vw] md:px-[1.5vw] lg:py-[2vw] lg:px-[1vw] lg:rounded-lg">
+        <h2 className="text-[5.5vw] font-satoshi font-bold mb-4 md:text-lg lg:text-[1.5vw]">
           Choose Quality
         </h2>
 

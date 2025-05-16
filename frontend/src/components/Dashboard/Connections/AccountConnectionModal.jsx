@@ -79,7 +79,7 @@ const AccountConnectionModal = () => {
       <button
         onClick={() => setShowModal(true)}
         disabled={anyConnected}
-        className={`box font-bold font-satoshi border rounded-xl mr-[1vw] md:py-[0.8vw] md:px-[2vw] lg:py-[0.5vw] lg:px-[1.5vw] ${
+        className={`box hidden font-bold font-satoshi border rounded-xl mr-[1vw] md:block md:py-[0.8vw] md:px-[2vw] lg:py-[0.5vw] lg:px-[1.5vw] ${
           anyConnected
             ? "cursor-not-allowed bg-green-200 border-neutral-200 text-gray-600"
             : "border-neutral-500"

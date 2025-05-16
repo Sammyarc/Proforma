@@ -383,11 +383,10 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
                 <button
                   key={option.name}
                   onClick={option.action}
-                  className={`w-full flex items-center p-3 rounded-lg transition-colors border ${
-                    option.connected
+                  className={`w-full flex items-center p-3 rounded-lg transition-colors border ${option.connected
                       ? "border-green-500 bg-green-50 hover:bg-green-100"
                       : "border-neutral-300 hover:bg-neutral-50"
-                  }`}
+                    }`}
                   disabled={option.connected}
                 >
                   <div className="w-12 h-8 mr-3">
@@ -439,11 +438,10 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
                   <div
                     className="bg-cyan-500 h-2 rounded-full transition-all duration-500"
                     style={{
-                      width: `${
-                        (statusSteps.findIndex((s) => s.status === sendStatus) +
+                      width: `${(statusSteps.findIndex((s) => s.status === sendStatus) +
                           1) *
                         33.33
-                      }%`,
+                        }%`,
                     }}
                   />
                 </div>

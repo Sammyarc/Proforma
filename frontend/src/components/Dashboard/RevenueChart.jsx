@@ -84,7 +84,7 @@ const RevenueChart = ({ userId }) => {
   }, []);
 
   const isMobile = windowWidth < 768;
-  const labelFontSize = isMobile ? 9 : 13;
+  const labelFontSize = 13;
   const barThicknessSize = isMobile ? 25 : 25;
 
   // Animated ellipsis component
@@ -232,7 +232,7 @@ const RevenueChart = ({ userId }) => {
 
   return (
     <div className="p-4 border border-neutral-700 box rounded-3xl w-full lg:px-[1vw] lg:pt-[2vw] lg:pb-0 lg:p-[4vw]">
-      <h3 className="text-[4.5vw] font-semibold text-Gray900 font-satoshi mb-1 md:text-lg lg:mb-2 lg:text-xl">
+      <h3 className="text-[6vw] font-semibold text-Gray900 font-satoshi mb-1 md:text-lg lg:mb-2 lg:text-xl">
         Monthly Invoice Revenue
       </h3>
       <div className="flex space-x-[1vw] items-center">

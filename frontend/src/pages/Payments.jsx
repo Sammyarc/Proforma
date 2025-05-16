@@ -256,7 +256,7 @@ const Payments = () => {
   };
 
   return (
-    <div className="p-4 lg:p-6">
+    <div className="p-2 md:p-4 lg:p-6">
       {loading ? (
         <div className="flex flex-col justify-center h-screen items-center space-y-3">
           <TbLoader3 size={30} className="animate-spin text-teal-500" />
@@ -272,13 +272,13 @@ const Payments = () => {
             className="mt-4 flex items-center hover:underline lg:sticky lg:top-[6vw]"
           >
             <IoIosArrowRoundBack size={24} />
-            <span className="text-[4vw] font-satoshi md:text-sm lg:text-base">
+            <span className="text-[4.2vw] font-satoshi md:text-sm lg:text-base">
               Back to payment list
             </span>
           </button>
 
-          <div className="flex flex-col gap-3 mt-[2vw] lg:flex-row">
-            <div className="grid grid-cols-2 gap-3 lg:sticky lg:top-[10vw] lg:w-[30vw] lg:h-[30vw]">
+          <div className="flex flex-col gap-10 md:gap-3 mt-[6vw] md:mt-[2vw] lg:flex-row">
+            <div className="grid md:grid-cols-2 gap-3 lg:sticky lg:top-[10vw] lg:w-[30vw] lg:h-[30vw]">
               <div className="mb-[0.5vw] space-y-1">
                 <p className="text-[4.2vw] font-satoshi font-semibold md:text-base lg:text-[1.2vw]">
                   Client Name:
@@ -378,7 +378,7 @@ const Payments = () => {
                 </p>
               </div>
             </div>
-            <div className="md:w-[80vw] md:h-[110vw] lg:w-[50vw] lg:h-[50vw]">
+            <div className="w-[85vw] h-[120vw] md:w-[80vw] md:h-[110vw] lg:w-[50vw] lg:h-[50vw]">
               <CloudinaryPdfViewer
                 pdfUrl={
                   selectedInvoiceView.invoiceUrl ||
@@ -392,20 +392,20 @@ const Payments = () => {
         </div>
       ) : (
         <div>
-          <div className="flex items-center justify-between mb-5">
-            <h1 className="text-[4vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
+          <div className="flex flex-col mb-6 space-y-5 md:flex-row md:justify-between md:items-center md:space-y-0">
+            <h1 className="text-[6vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
               Payments
             </h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between gap-2 md:gap-4 md:justify-normal">
               <div
-                className="relative inline-block text-left ml-2"
+                className="relative inline-block text-left md:ml-2"
                 ref={filterDropdownRef}
               >
                 <button
                   onClick={() => setIsStatusFilterOpen(!isStatusFilterOpen)}
-                  className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base lg:text-sm"
+                  className="flex items-center justify-between box w-full text-[4.2vw] font-satoshi py-[2vw] px-[3vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base md:py-[0.6vw] md:px-[1.5vw] lg:text-sm"
                 >
-                  <span className="border-r pr-[0.8vw] border-black h-full">
+                  <span className="border-r pr-[2vw] border-black h-full md:pr-[0.8vw]">
                     Filter by Status
                     {selectedStatuses.size > 0
                       ? ` (${selectedStatuses.size})`
@@ -425,7 +425,7 @@ const Payments = () => {
                       <li
                         key={status}
                         onClick={() => handleStatusFilter(status)}
-                        className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100 flex items-center"
+                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 flex items-center md:text-sm"
                       >
                         <input
                           type="checkbox"
@@ -456,9 +456,9 @@ const Payments = () => {
               >
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[0.6vw] px-[1.5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base lg:text-sm"
+                  className="flex items-center justify-between box w-full text-[4.2vw] font-satoshi py-[2vw] px-[3vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base md:py-[0.6vw] md:px-[1.5vw] lg:text-sm"
                 >
-                  <span className="border-r pr-[0.8vw] border-black h-full">
+                  <span className="border-r pr-[2vw] border-black h-full md:pr-[0.8vw]">
                     {selected}
                   </span>
                   <IoIosArrowDown
@@ -475,7 +475,7 @@ const Payments = () => {
                       <li
                         key={idx}
                         onClick={() => handleSortSelect(option.label)}
-                        className="cursor-pointer px-4 py-2 text-sm font-satoshi hover:bg-gray-100"
+                        className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 md:text-sm"
                       >
                         {option.label}
                       </li>
@@ -600,7 +600,7 @@ const Payments = () => {
                 </table>
               </div>
 
-              <div className="flex justify-between font-satoshi items-center mt-6">
+              <div className="flex flex-col space-y-4 font-satoshi items-center mt-6 md:space-y-0 md:flex-row md:justify-between">
                 <div className="flex items-center">
                   <span>
                     Page {currentPage} of {totalPages || 1}
@@ -613,9 +613,9 @@ const Payments = () => {
                   >
                     <button
                       onClick={() => setShowPageOption(!showPageOption)}
-                      className="flex items-center justify-between w-full text-[4vw] md:text-sm lg:text-[1vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500"
+                      className="flex items-center justify-between w-full text-[4vw] font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500 md:text-sm lg:text-[1vw]"
                     >
-                      <span className="border-r pr-[0.8vw] border-black h-full font-normal">
+                      <span className="border-r pr-[2vw] border-black h-full font-normal md:pr-[0.8vw]">
                         {pageSelected}
                       </span>
                       <IoIosArrowDown
@@ -641,7 +641,7 @@ const Payments = () => {
                     )}
                   </div>
                 </div>
-                <div className="flex">
+                <div className="flex gap-3 md:gap-1 lg:gap-0">
                   <button
                     className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
                       currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
