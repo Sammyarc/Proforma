@@ -70,7 +70,7 @@ const Dashboard = () => {
               width: mainWidth,
             }}
           >
-            <div className="mt-[14vw] p-3 md:p-4 md:mt-[8vw] lg:p-0 lg:mt-[8vw]">
+            <div className="mt-[19vw] p-3 md:p-4 md:mt-[8vw] lg:p-0 lg:mt-[8vw]">
               <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="invoices" element={<Invoices />} />
