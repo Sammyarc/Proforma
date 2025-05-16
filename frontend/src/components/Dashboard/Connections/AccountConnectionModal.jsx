@@ -79,7 +79,7 @@ const AccountConnectionModal = () => {
       <button
         onClick={() => setShowModal(true)}
         disabled={anyConnected}
-        className={`box hidden font-bold font-satoshi border rounded-xl mr-[1vw] md:block md:py-[0.8vw] md:px-[2vw] lg:py-[0.5vw] lg:px-[1.5vw] ${
+        className={`box font-bold font-satoshi border rounded-xl mr-[1vw] py-[2vw] px-[4vw] md:py-[0.8vw] md:px-[2vw] lg:py-[0.5vw] lg:px-[1.5vw] ${
           anyConnected
             ? "cursor-not-allowed bg-green-200 border-neutral-200 text-gray-600"
             : "border-neutral-500"
@@ -100,7 +100,7 @@ const AccountConnectionModal = () => {
           >
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-[4vw] font-satoshi font-bold lg:text-[1.2vw]">
+              <h3 className="text-[4vw] font-satoshi font-bold md:text-lg lg:text-[1.2vw]">
                 Connect Payment Account
               </h3>
               <button
@@ -132,7 +132,7 @@ const AccountConnectionModal = () => {
                     />
                   </div>
 
-                  <span className="font-medium text-[4vw] font-satoshi lg:text-[1vw]">
+                  <span className="font-medium text-[4vw] font-satoshi md:text-base lg:text-[1vw]">
                     {option.connected
                       ? `${option.name} Connected`
                       : `Connect with ${option.name}`}
@@ -142,7 +142,7 @@ const AccountConnectionModal = () => {
             </div>
 
             {/* Footer Text */}
-            <div className="text-neutral-400 text-[4vw] flex justify-center items-center space-x-[0.5vw] font-semibold font-satoshi mt-6 lg:text-[0.9vw]">
+            <div className="text-neutral-400 text-[4vw] flex justify-center items-center space-x-[0.5vw] font-semibold font-satoshi mt-6 md:text-base lg:text-[0.9vw]">
               <GoShieldLock size={25} />
               <span>Secure connection via encrypted protocols</span>
             </div>

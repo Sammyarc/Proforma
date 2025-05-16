@@ -15,6 +15,7 @@ import { RiLoader4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useInvoiceStore } from "../store/invoiceStore";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import AccountConnectionModal from "../components/Dashboard/Connections/AccountConnectionModal";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -515,9 +516,12 @@ const Settings = () => {
 
           {/* If no payment methods are connected, show a message */}
           {connectedOptions.length === 0 && (
-            <p className="p-4 text-gray-600 text-sm text-center font-satoshi">
-              No Payment Method Connected
-            </p>
+            <div>
+              <p className="p-4 text-gray-600 text-sm text-center font-satoshi">
+                No Payment Method Connected
+              </p>
+              <span className="md:hidden"> <AccountConnectionModal /> </span>
+            </div>
           )}
 
           {/* Render a card for each connected method */}

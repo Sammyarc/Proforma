@@ -110,7 +110,9 @@ const Header = () => {
             </button>
 
             {/* Connect account button */}
-            <AccountConnectionModal />
+            <span className="hidden md:block">
+              <AccountConnectionModal />
+            </span>
           </div>
         </div>
       </div>
