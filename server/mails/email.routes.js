@@ -7,6 +7,7 @@ import { verifyToken } from "../middleware/verifyToken.js";
 import { User } from '../models/user.model.js';
 import { decrypt, encrypt } from "../utils/encrypt.js";
 import { enforceMonthlyLimit } from "../middleware/usageLimit.js";
+import invoiceLog from "../models/invoice.log.js";
 const router = express.Router();
 
 dotenv.config();
@@ -211,6 +212,9 @@ router.post("/send-email", verifyToken, enforceMonthlyLimit, async (req, res) =>
 
     // Save the initial invoice document
     const savedInvoice = await invoiceData.save();
+
+    // Save to InvoiceLog to persist history
+    await invoiceLog.create({ userId });
 
     // 2. NOW GENERATE PAYMENT LINK WITH THE _id
     let paymentLink;
