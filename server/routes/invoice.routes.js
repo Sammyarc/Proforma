@@ -4,6 +4,7 @@ import { User } from '../models/user.model.js';
 import {
   verifyToken
 } from "../middleware/verifyToken.js";
+import invoiceLog from "../models/invoice.log.js";
 const router = express.Router();
 
 
@@ -70,66 +71,64 @@ router.get("/invoices", async (req, res) => {
 
 
 router.get('/count', verifyToken, async (req, res) => {
-    try {
-      const userId = req.query.userId;
-      if (!userId) {
-        return res.status(400).json({
-          success: false,
-          message: 'userId is required',
-        });
-      }
-
-      // 1️ Fetch signup date
-      const user = await User.findById(userId).select('createdAt');
-      if (!user) return res.sendStatus(404);
-      const signup = user.createdAt;
-
-      const now = new Date();
-
-      // 2️ Compute how many full months have passed
-      let monthsPassed =
-        (now.getFullYear() - signup.getFullYear()) * 12 +
-        (now.getMonth() - signup.getMonth());
-
-      // Subtract one if we haven't reached the signup‐day/time this month
-      if (
-        now.getDate() < signup.getDate() ||
-        (now.getDate() === signup.getDate() && now.getHours() < signup.getHours()) ||
-        (now.getDate() === signup.getDate() &&
-         now.getHours() === signup.getHours() &&
-         now.getMinutes() < signup.getMinutes())
-      ) {
-        monthsPassed--;
-      }
-
-      // 3️ Build the LAST‐RESET point
-      const periodStart = new Date(signup);
-      periodStart.setMonth(signup.getMonth() + monthsPassed);
-
-      // 4️ Build the NEXT‐RESET point for display
-      const nextReset = new Date(periodStart);
-      nextReset.setMonth(periodStart.getMonth() + 1);
-
-      // 5️ Count invoices since the LAST‐RESET
-      const count = await Invoice.countDocuments({
-        userId,
-        createdAt: { $gte: periodStart },
+  try {
+    const userId = req.query.userId;
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'userId is required',
       });
-
-      return res.json({
-        success:    true,
-        count,
-        periodStart,   // for internal logic
-        nextReset,     // for UI: “resets on …”
-      });
-    } catch (err) {
-      console.error('Error fetching invoice count:', err);
-      return res
-        .status(500)
-        .json({ success: false, message: 'Could not fetch invoice count' });
     }
+
+    // 1️ Fetch signup date
+    const user = await User.findById(userId).select('createdAt');
+    if (!user) return res.sendStatus(404);
+    const signup = user.createdAt;
+
+    const now = new Date();
+
+    // 2️ Compute how many full months have passed
+    let monthsPassed =
+      (now.getFullYear() - signup.getFullYear()) * 12 +
+      (now.getMonth() - signup.getMonth());
+
+    if (
+      now.getDate() < signup.getDate() ||
+      (now.getDate() === signup.getDate() && now.getHours() < signup.getHours()) ||
+      (now.getDate() === signup.getDate() &&
+        now.getHours() === signup.getHours() &&
+        now.getMinutes() < signup.getMinutes())
+    ) {
+      monthsPassed--;
+    }
+
+    // 3️ Build the LAST‐RESET point
+    const periodStart = new Date(signup);
+    periodStart.setMonth(signup.getMonth() + monthsPassed);
+
+    // 4️ Build the NEXT‐RESET point for display
+    const nextReset = new Date(periodStart);
+    nextReset.setMonth(periodStart.getMonth() + 1);
+
+    // 5️ Count from INVOICE LOGS (not actual invoices)
+    const count = await invoiceLog.countDocuments({
+      userId,
+      createdAt: { $gte: periodStart },
+    });
+
+    return res.json({
+      success: true,
+      count,
+      periodStart,
+      nextReset,
+    });
+  } catch (err) {
+    console.error('Error fetching invoice count:', err);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Could not fetch invoice count' });
   }
-);
+});
 
 
 // Backend route for overview grid stats
