@@ -246,7 +246,7 @@ const InvoiceGenerator = () => {
         <div
           ref={invoiceRef}
           id="invoice"
-          className="min-w-fit overflow-auto scrollbar-hide mt-[5vw] p-[30px] bg-white shadow-lg lg:w-3/4"
+          className="w-full overflow-auto scrollbar-hide mt-[5vw] p-[30px] bg-white shadow-lg lg:w-3/4"
         >
           {selectedTemplate ? (
             <selectedTemplate.component
