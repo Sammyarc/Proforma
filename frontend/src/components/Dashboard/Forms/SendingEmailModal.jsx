@@ -189,54 +189,66 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
 
   // Generate the PDF blob from the invoice DOM
   const createPDF = async () => {
-    try {
-      toggleStaticMode();
-      const invoiceElement = document.getElementById("invoice");
-      if (!invoiceElement) throw new Error("Invoice element not found");
+  try {
+    toggleStaticMode();
+    const invoiceElement = document.getElementById("invoice");
+    if (!invoiceElement) throw new Error("Invoice element not found");
 
-      // Create a new PDF document with compression enabled
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-        compress: true,
-      });
+    // Store original styles
+    const originalStyle = {
+      width: invoiceElement.style.width,
+      overflow: invoiceElement.style.overflow,
+    };
 
-      // Use a lower scale factor for the HTML to canvas conversion
-      const canvas = await html2canvas(invoiceElement, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        imageTimeout: 0,
-      });
+    // Temporarily expand to full content width and remove overflow clipping
+    invoiceElement.style.width = `${invoiceElement.scrollWidth}px`;
+    invoiceElement.style.overflow = "visible";
 
-      const imgData = canvas.toDataURL("image/jpeg", 0.6); // Use JPEG with slight compression
+    // Create PDF and capture full canvas
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: true,
+    });
 
-      const imgWidth = 210; // A4 width
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const canvas = await html2canvas(invoiceElement, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      imageTimeout: 0,
+    });
 
-      // Add image with compression options
-      pdf.addImage(
-        imgData,
-        "JPEG",
-        0,
-        0,
-        imgWidth,
-        imgHeight,
-        undefined,
-        "FAST"
-      );
+    const imgData = canvas.toDataURL("image/jpeg", 0.6);
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      const blob = pdf.output("blob");
-      return blob;
-    } catch (error) {
-      console.error("Error creating PDF:", error);
-      toast.error("Failed to generate invoice PDF");
-      throw error;
-    } finally {
-      toggleStaticMode();
-    }
-  };
+    pdf.addImage(
+      imgData,
+      "JPEG",
+      0,
+      0,
+      imgWidth,
+      imgHeight,
+      undefined,
+      "FAST"
+    );
+
+    const blob = pdf.output("blob");
+
+    // Restore original styles
+    invoiceElement.style.width = originalStyle.width;
+    invoiceElement.style.overflow = originalStyle.overflow;
+
+    return blob;
+  } catch (error) {
+    console.error("Error creating PDF:", error);
+    toast.error("Failed to generate invoice PDF");
+    throw error;
+  } finally {
+    toggleStaticMode();
+  }
+};
 
   // Upload the blob to Cloudinary
   const uploadPDFToCloudinary = async (pdfBlob) => {

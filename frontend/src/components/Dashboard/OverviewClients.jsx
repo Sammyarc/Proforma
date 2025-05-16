@@ -91,7 +91,7 @@ const OverviewClients = () => {
             </p>
           </div>
         ) : recentClients.length === 0 ? (
-          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-base">
+          <div className="text-[4vw] text-center py-7 text-gray-600 font-satoshi md:text-sm lg:text-base">
             No Client Data Available.
           </div>
         ) : (

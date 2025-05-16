@@ -264,7 +264,7 @@ const RevenueChart = ({ userId }) => {
         ) : !invoiceData.revenue?.some((val) => val > 0) &&
           !invoiceData.pending?.some((val) => val > 0) ? (
           <div className="flex justify-center items-center h-full">
-            <p className="text-gray-500 text-[4vw] font-satoshi lg:text-base">
+            <p className="text-gray-500 text-[4vw] font-satoshi md:text-base lg:text-base">
               No content available
             </p>
           </div>
