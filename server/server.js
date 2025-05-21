@@ -22,18 +22,14 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json());
 app.use(cookieParser());
 
 
-app.options('*', cors()); // Enable pre-flight requests for all routes
 app.use("/api/auth", authRoutes);
 app.use("/api", emailRoutes);
 app.use("/paypal", paypalRoutes);

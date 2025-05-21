@@ -20,7 +20,7 @@ import AccountConnectionModal from "../components/Dashboard/Connections/AccountC
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/settings"
-    : "https://p-backend.vercel.app/settings";
+    : "https://proforma-sohi.vercel.app/settings";
 
 axios.defaults.withCredentials = true;
 

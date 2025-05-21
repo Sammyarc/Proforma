@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api/invoice"
-    : "https://p-backend.vercel.app/api/invoice";
+    : "https://proforma-sohi.vercel.app/api/invoice";
 
 axios.defaults.withCredentials = true;
 
@@ -648,8 +648,8 @@ const Payments = () => {
                   </button>
                   <button
                     className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === totalPages
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
                       }`}
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
