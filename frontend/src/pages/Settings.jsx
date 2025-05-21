@@ -20,7 +20,7 @@ import AccountConnectionModal from "../components/Dashboard/Connections/AccountC
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/settings"
-    : "https://proforma-h8qh.onrender.com/settings";
+    : "https://p-backend.vercel.app/settings";
 
 axios.defaults.withCredentials = true;
 
@@ -453,9 +453,9 @@ const Settings = () => {
               <button
                 title="Logout"
                 onClick={() => {
-              logout();
-              window.location.href = "/signup";
-            }}
+                  logout();
+                  window.location.href = "/signup";
+                }}
                 className="px-[6vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:hidden"
               >
                 Sign Out

@@ -17,7 +17,7 @@ import { TbLoader3 } from "react-icons/tb";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api/invoice"
-    : "https://proforma-h8qh.onrender.com/api/invoice";
+    : "https://p-backend.vercel.app/api/invoice";
 
 axios.defaults.withCredentials = true;
 
@@ -240,9 +240,8 @@ const RevenueChart = ({ userId }) => {
           {formatCurrency(invoiceData.total)}
         </div>
         <div
-          className={`font-satoshi text-[3vw] flex items-center space-x-[0.1vw] md:text-sm lg:text-[0.8vw] ${
-            invoiceData.isPositiveChange ? "text-green-600" : "text-red-600"
-          }`}
+          className={`font-satoshi text-[3vw] flex items-center space-x-[0.1vw] md:text-sm lg:text-[0.8vw] ${invoiceData.isPositiveChange ? "text-green-600" : "text-red-600"
+            }`}
         >
           {invoiceData.isPositiveChange ? (
             <FaArrowUpLong />

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api/invoice"
-    : "https://proforma-h8qh.onrender.com/api/invoice";
+    : "https://p-backend.vercel.app/api/invoice";
 
 axios.defaults.withCredentials = true;
 
@@ -350,14 +350,14 @@ const Payments = () => {
                 <p className="text-[4vw] text-gray-500 font-satoshi md:text-sm lg:text-[1.1vw]">
                   {selectedInvoiceView.paidAt
                     ? new Date(selectedInvoiceView.paidAt).toLocaleDateString(
-                        "en-GB",
-                        {
-                          weekday: "long",
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )
+                      "en-GB",
+                      {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      }
+                    )
                     : selectedInvoiceView.status}
                 </p>
               </div>
@@ -413,9 +413,8 @@ const Payments = () => {
                   </span>
                   <IoIosArrowDown
                     size={16}
-                    className={`transition-transform duration-300 ${
-                      isStatusFilterOpen ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`transition-transform duration-300 ${isStatusFilterOpen ? "rotate-180" : "rotate-0"
+                      }`}
                   />
                 </button>
 
@@ -463,9 +462,8 @@ const Payments = () => {
                   </span>
                   <IoIosArrowDown
                     size={16}
-                    className={`transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
+                      }`}
                   />
                 </button>
 
@@ -553,10 +551,9 @@ const Payments = () => {
                         <td className="py-4 px-3">
                           <span
                             className={`px-4 py-1 rounded-lg inline-block font-satoshi border min-w-12 text-center text-sm
-                              ${
-                                invoice.status === "paid"
-                                  ? "bg-green-300/20 text-green-600 border-green-300"
-                                  : invoice.status === "pending"
+                              ${invoice.status === "paid"
+                                ? "bg-green-300/20 text-green-600 border-green-300"
+                                : invoice.status === "pending"
                                   ? "bg-yellow-300/20 text-yellow-600 border-yellow-300"
                                   : "bg-red-300/20 text-red-600 border-red-300"
                               }`}
@@ -620,9 +617,8 @@ const Payments = () => {
                       </span>
                       <IoIosArrowDown
                         size={16}
-                        className={`transition-transform duration-300 ${
-                          showPageOption ? "rotate-180" : "rotate-0"
-                        }`}
+                        className={`transition-transform duration-300 ${showPageOption ? "rotate-180" : "rotate-0"
+                          }`}
                       />
                     </button>
 
@@ -643,20 +639,18 @@ const Payments = () => {
                 </div>
                 <div className="flex gap-3 md:gap-1 lg:gap-0">
                   <button
-                    className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-                      currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={goToPreviousPage}
                     disabled={currentPage === 1}
                   >
                     ←
                   </button>
                   <button
-                    className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${
-                      currentPage === totalPages
+                    className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === totalPages
                         ? "opacity-50 cursor-not-allowed"
                         : ""
-                    }`}
+                      }`}
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
                   >

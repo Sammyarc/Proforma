@@ -7,7 +7,7 @@ import axios from "axios";
 const API_URL =
   import.meta.env.MODE === "development" ?
   "http://localhost:3000/api/auth" :
-  "https://proforma-h8qh.onrender.com/api/auth";
+  "https://p-backend.vercel.app/api/auth";
 
 axios.defaults.withCredentials = true;
 

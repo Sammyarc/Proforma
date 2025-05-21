@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api/invoice"
-    : "https://proforma-h8qh.onrender.com/api/invoice";
+    : "https://p-backend.vercel.app/api/invoice";
 
 axios.defaults.withCredentials = true;
 
@@ -152,13 +152,12 @@ const OverviewPayments = () => {
                     <td className="py-4 px-3">
                       <span
                         className={`px-4 py-1 rounded-lg inline-block font-satoshi border min-w-12 text-center text-sm
-                              ${
-                                invoice.status === "paid"
-                                  ? "bg-green-300/20 text-green-600 border-green-300"
-                                  : invoice.status === "pending"
-                                  ? "bg-yellow-300/20 text-yellow-600 border-yellow-300"
-                                  : "bg-red-300/20 text-red-600 border-red-300"
-                              }`}
+                              ${invoice.status === "paid"
+                            ? "bg-green-300/20 text-green-600 border-green-300"
+                            : invoice.status === "pending"
+                              ? "bg-yellow-300/20 text-yellow-600 border-yellow-300"
+                              : "bg-red-300/20 text-red-600 border-red-300"
+                          }`}
                       >
                         {invoice.status}
                       </span>

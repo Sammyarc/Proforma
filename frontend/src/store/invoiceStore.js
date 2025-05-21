@@ -7,7 +7,7 @@ import axios from 'axios'
 const API_URL =
     import.meta.env.MODE === 'development' ?
     'http://localhost:3000/api/invoice' :
-    'https://proforma-h8qh.onrender.com/api/invoice'
+    'https://p-backend.vercel.app/api/invoice'
 
 export const useInvoiceStore = create((set) => ({
     // state

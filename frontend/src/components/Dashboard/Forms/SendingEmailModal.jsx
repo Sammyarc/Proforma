@@ -25,7 +25,7 @@ import { useInvoiceStore } from "../../../store/invoiceStore";
 const API_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/api"
-    : "https://proforma-h8qh.onrender.com/api";
+    : "https://p-backend.vercel.app/api";
 
 axios.defaults.withCredentials = true;
 
@@ -189,66 +189,66 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
 
   // Generate the PDF blob from the invoice DOM
   const createPDF = async () => {
-  try {
-    toggleStaticMode();
-    const invoiceElement = document.getElementById("invoice");
-    if (!invoiceElement) throw new Error("Invoice element not found");
+    try {
+      toggleStaticMode();
+      const invoiceElement = document.getElementById("invoice");
+      if (!invoiceElement) throw new Error("Invoice element not found");
 
-    // Store original styles
-    const originalStyle = {
-      width: invoiceElement.style.width,
-      overflow: invoiceElement.style.overflow,
-    };
+      // Store original styles
+      const originalStyle = {
+        width: invoiceElement.style.width,
+        overflow: invoiceElement.style.overflow,
+      };
 
-    // Temporarily expand to full content width and remove overflow clipping
-    invoiceElement.style.width = `${invoiceElement.scrollWidth}px`;
-    invoiceElement.style.overflow = "visible";
+      // Temporarily expand to full content width and remove overflow clipping
+      invoiceElement.style.width = `${invoiceElement.scrollWidth}px`;
+      invoiceElement.style.overflow = "visible";
 
-    // Create PDF and capture full canvas
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-      compress: true,
-    });
+      // Create PDF and capture full canvas
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        compress: true,
+      });
 
-    const canvas = await html2canvas(invoiceElement, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      imageTimeout: 0,
-    });
+      const canvas = await html2canvas(invoiceElement, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        imageTimeout: 0,
+      });
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.6);
-    const imgWidth = 210;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgData = canvas.toDataURL("image/jpeg", 0.6);
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    pdf.addImage(
-      imgData,
-      "JPEG",
-      0,
-      0,
-      imgWidth,
-      imgHeight,
-      undefined,
-      "FAST"
-    );
+      pdf.addImage(
+        imgData,
+        "JPEG",
+        0,
+        0,
+        imgWidth,
+        imgHeight,
+        undefined,
+        "FAST"
+      );
 
-    const blob = pdf.output("blob");
+      const blob = pdf.output("blob");
 
-    // Restore original styles
-    invoiceElement.style.width = originalStyle.width;
-    invoiceElement.style.overflow = originalStyle.overflow;
+      // Restore original styles
+      invoiceElement.style.width = originalStyle.width;
+      invoiceElement.style.overflow = originalStyle.overflow;
 
-    return blob;
-  } catch (error) {
-    console.error("Error creating PDF:", error);
-    toast.error("Failed to generate invoice PDF");
-    throw error;
-  } finally {
-    toggleStaticMode();
-  }
-};
+      return blob;
+    } catch (error) {
+      console.error("Error creating PDF:", error);
+      toast.error("Failed to generate invoice PDF");
+      throw error;
+    } finally {
+      toggleStaticMode();
+    }
+  };
 
   // Upload the blob to Cloudinary
   const uploadPDFToCloudinary = async (pdfBlob) => {
@@ -396,8 +396,8 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
                   key={option.name}
                   onClick={option.action}
                   className={`w-full flex items-center p-3 rounded-lg transition-colors border ${option.connected
-                      ? "border-green-500 bg-green-50 hover:bg-green-100"
-                      : "border-neutral-300 hover:bg-neutral-50"
+                    ? "border-green-500 bg-green-50 hover:bg-green-100"
+                    : "border-neutral-300 hover:bg-neutral-50"
                     }`}
                   disabled={option.connected}
                 >
@@ -451,7 +451,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
                     className="bg-cyan-500 h-2 rounded-full transition-all duration-500"
                     style={{
                       width: `${(statusSteps.findIndex((s) => s.status === sendStatus) +
-                          1) *
+                        1) *
                         33.33
                         }%`,
                     }}
