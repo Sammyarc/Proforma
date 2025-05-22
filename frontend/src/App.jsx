@@ -11,6 +11,7 @@ import RedirectAuthenticatedUser from "./hooks/RedirectAuthenticatedUser";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
+import DeletedAccountPage from "./pages/DeletedAccountPage";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/payment-success" element={<Success />} />
 
         <Route path="/payment-error" element={<Cancel />} />
+        <Route path="/account-deleted" element={<DeletedAccountPage />} />
       </Routes>
 
       <ToastContainer
