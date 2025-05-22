@@ -677,7 +677,7 @@ const Settings = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="bg-white rounded-lg p-6 w-[80vw] md:w-[60vw] lg:w-[30vw]"
           >
-            <p className="mb-1 font-satoshi text-[4vw] font-semibold text-gray-800 md:text-lg lg:text-[1.1vw]">
+            <p className="mb-6 font-satoshi text-[4vw] font-semibold text-gray-800 md:text-lg lg:text-[1.1vw]">
               Are you sure you want to delete your account?
             </p>
             <div className="flex justify-end gap-3">
