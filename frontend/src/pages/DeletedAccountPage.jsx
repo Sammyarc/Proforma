@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 const DeletedAccountPage = () => {
     const navigate = useNavigate();
 
-    //   useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //       navigate("/"); // Redirect home or login page after 6 seconds
-    //     }, 6000);
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          navigate("/"); // Redirect home or login page after 10 seconds
+        }, 10000);
 
-    //     return () => clearTimeout(timer);
-    //   }, [navigate]);
+        return () => clearTimeout(timer);
+      }, [navigate]);
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
