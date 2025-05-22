@@ -1,25 +1,45 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
-import { User } from "../models/user.model.js";
-import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { OAuth2Client } from "google-auth-library";
-import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } from "../mails/emails.js";
+import {
+	User
+} from "../models/user.model.js";
+import {
+	generateTokenAndSetCookie
+} from "../utils/generateTokenAndSetCookie.js";
+import {
+	OAuth2Client
+} from "google-auth-library";
+import {
+	sendVerificationEmail,
+	sendWelcomeEmail,
+	sendPasswordResetEmail,
+	sendResetSuccessEmail
+} from "../mails/emails.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const signup = async (req, res) => {
-	const { email, password, name } = req.body;
+	const {
+		email,
+		password,
+		name
+	} = req.body;
 
 	try {
 		if (!email || !password || !name) {
 			throw new Error("All fields are required");
 		}
 
-		const userAlreadyExists = await User.findOne({ email });
+		const userAlreadyExists = await User.findOne({
+			email
+		});
 		console.log("userAlreadyExists", userAlreadyExists);
 
 		if (userAlreadyExists) {
-			return res.status(400).json({ success: false, message: "User already exists" });
+			return res.status(400).json({
+				success: false,
+				message: "User already exists"
+			});
 		}
 
 		const hashedPassword = await bcryptjs.hash(password, 10);
@@ -49,50 +69,90 @@ export const signup = async (req, res) => {
 			},
 		});
 	} catch (error) {
-		res.status(400).json({ success: false, message: error.message });
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
 	}
 };
 
 export const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
+	try {
+		const {
+			email,
+			password
+		} = req.body;
+		const user = await User.findOne({
+			email
+		});
 
-        if (!email || !password) {
-            throw new Error("All fields are required");
-        }
+		if (!email || !password) {
+			throw new Error("All fields are required");
+		}
 
-        if (!user) {
-            return res.status(400).json({ success: false, message: "User does not exist!" });
-        }
+		if (!user) {
+			return res.status(400).json({
+				success: false,
+				message: "User does not exist!"
+			});
+		}
 
 		// Ensure user.password exists
 		if (!user.password) {
-			return res.status(400).json({ message: 'Invalid credentials' });
+			return res.status(400).json({
+				message: 'Invalid credentials'
+			});
 		}
 
-        const isPasswordValid = await bcryptjs.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(400).json({ success: false, message: "Invalid credentials" });
-        }
+		const isPasswordValid = await bcryptjs.compare(password, user.password);
+		if (!isPasswordValid) {
+			return res.status(400).json({
+				success: false,
+				message: "Invalid credentials"
+			});
+		}
 
-        generateTokenAndSetCookie(res, user._id);
+		let wasRecovered = false;
+		const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
 
-        user.lastLogin = new Date();
-        await user.save();
+		if (user.isDeleted) {
+			const deletedDuration = new Date() - user.deletedAt;
+			if (deletedDuration > THIRTY_DAYS) {
+				return res.status(403).json({
+					success: false,
+					message: "User does not exist!",
+				});
+			}
+			// Within 30 days, allow reactivation
+			user.isDeleted = false;
+			user.deletedAt = null;
+			wasRecovered = true;
+			await user.save();
+		}
 
-        res.status(200).json({
-            success: true,
-            message: "Logged in successfully",
-            user: {
-                ...user._doc,
-                password: undefined,  // Hide password
-            },
-        });
-    } catch (error) {
-        console.log("Error in login ", error);
-        res.status(400).json({ success: false, message: error.message });
-    }
+
+		generateTokenAndSetCookie(res, user._id);
+
+		user.lastLogin = new Date();
+		await user.save();
+
+		res.status(200).json({
+			success: true,
+			message: wasRecovered ?
+				"Your account has been reactivated successfully." :
+				"Logged in successfully.",
+			user: {
+				...user._doc,
+				password: undefined, // Hide password
+			},
+		});
+	} catch (error) {
+		console.log("Error in login ", error);
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
+	}
 };
 
 export const logout = async (req, res) => {
@@ -100,21 +160,29 @@ export const logout = async (req, res) => {
 	const isProduction = process.env.NODE_ENV === "production";
 
 	res.clearCookie('token', {
-        httpOnly: true,
+		httpOnly: true,
 		secure: isProduction,
 		sameSite: isProduction ? "none" : "lax",
-    });
-	res.status(200).json({ success: true, message: "Logged out successfully" });
+	});
+	res.status(200).json({
+		success: true,
+		message: "Logged out successfully"
+	});
 };
 
 export const googleSignIn = async (req, res) => {
 	try {
-		const { token } = req.body; 
+		const {
+			token
+		} = req.body;
 
 		// Validate token
-        if (!token) {
-            return res.status(400).json({ success: false, message: "Token is required" });
-        }
+		if (!token) {
+			return res.status(400).json({
+				success: false,
+				message: "Token is required"
+			});
+		}
 
 		// Verify the Google token
 		const ticket = await client.verifyIdToken({
@@ -123,10 +191,15 @@ export const googleSignIn = async (req, res) => {
 		});
 
 		const payload = ticket.getPayload(); // Extract user details from token
-		const { email, name } = payload;
+		const {
+			email,
+			name
+		} = payload;
 
 		// Check if the user already exists
-		let user = await User.findOne({ email });
+		let user = await User.findOne({
+			email
+		});
 
 		if (!user) {
 			// If user doesn't exist, create a new user with the provided role
@@ -157,20 +230,30 @@ export const googleSignIn = async (req, res) => {
 		});
 	} catch (error) {
 		console.error("Error in googleSignIn:", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
 	}
 };
 
 export const verifyEmail = async (req, res) => {
-	const { code } = req.body;
+	const {
+		code
+	} = req.body;
 	try {
 		const user = await User.findOne({
 			verificationToken: code,
-			verificationTokenExpiresAt: { $gt: Date.now() },
+			verificationTokenExpiresAt: {
+				$gt: Date.now()
+			},
 		});
 
 		if (!user) {
-			return res.status(400).json({ success: false, message: "Invalid or expired verification code" });
+			return res.status(400).json({
+				success: false,
+				message: "Invalid or expired verification code"
+			});
 		}
 
 		user.isVerified = true;
@@ -190,17 +273,27 @@ export const verifyEmail = async (req, res) => {
 		});
 	} catch (error) {
 		console.log("error in verifyEmail ", error);
-		res.status(500).json({ success: false, message: "Server error" });
+		res.status(500).json({
+			success: false,
+			message: "Server error"
+		});
 	}
 };
 
 export const forgotPassword = async (req, res) => {
-	const { email } = req.body;
+	const {
+		email
+	} = req.body;
 	try {
-		const user = await User.findOne({ email });
+		const user = await User.findOne({
+			email
+		});
 
 		if (!user) {
-			return res.status(400).json({ success: false, message: "User not found" });
+			return res.status(400).json({
+				success: false,
+				message: "User not found"
+			});
 		}
 
 		// Generate reset token
@@ -215,25 +308,40 @@ export const forgotPassword = async (req, res) => {
 		// send email
 		await sendPasswordResetEmail(user.email, user.name, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
 
-		res.status(200).json({ success: true, message: "Password reset link sent to your email" });
+		res.status(200).json({
+			success: true,
+			message: "Password reset link sent to your email"
+		});
 	} catch (error) {
 		console.log("Error in forgotPassword ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
 	}
 };
 
 export const resetPassword = async (req, res) => {
 	try {
-		const { token } = req.params;
-		const { password } = req.body;
+		const {
+			token
+		} = req.params;
+		const {
+			password
+		} = req.body;
 
 		const user = await User.findOne({
 			resetPasswordToken: token,
-			resetPasswordExpiresAt: { $gt: Date.now() },
+			resetPasswordExpiresAt: {
+				$gt: Date.now()
+			},
 		});
 
 		if (!user) {
-			return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
+			return res.status(400).json({
+				success: false,
+				message: "Invalid or expired reset token"
+			});
 		}
 
 		// update password
@@ -246,10 +354,16 @@ export const resetPassword = async (req, res) => {
 
 		await sendResetSuccessEmail(user.email, user.name);
 
-		res.status(200).json({ success: true, message: "Password reset successful" });
+		res.status(200).json({
+			success: true,
+			message: "Password reset successful"
+		});
 	} catch (error) {
 		console.log("Error in resetPassword ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
 	}
 };
 
@@ -258,19 +372,25 @@ export const checkAuth = async (req, res) => {
 		const userId = req.user.id;
 		const user = await User.findById(userId).select("-password");
 		if (!user) {
-			return res.status(400).json({ success: false, message: "User not found" });
+			return res.status(400).json({
+				success: false,
+				message: "User not found"
+			});
 		}
 
-		 // Return the user's connection status (e.g., PayPal connection)
-		 res.status(200).json({
+		// Return the user's connection status (e.g., PayPal connection)
+		res.status(200).json({
 			success: true,
 			user,
 			connections: {
-			  paypal: user.paypal && user.paypal.accessToken ? true : false,
+				paypal: user.paypal && user.paypal.accessToken ? true : false,
 			}
-		  });
+		});
 	} catch (error) {
 		console.log("Error in checkAuth ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(400).json({
+			success: false,
+			message: error.message
+		});
 	}
 };
