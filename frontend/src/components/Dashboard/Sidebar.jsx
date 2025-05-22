@@ -56,13 +56,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Fetch when dropdown opens (or on mount if you prefer)
-  useEffect(() => {
-    if (user?._id) {
-      fetchInvoiceCount(user._id);
-    }
-  }, [user?._id, fetchInvoiceCount]);
-
   // Format reset date once we have periodStart
   const resetDateFormatted = nextReset
     ? new Date(nextReset).toLocaleDateString("en-US", {
