@@ -30,6 +30,8 @@ export const useAuthStore = create((set) => ({
     });
   },
 
+   clearUser: () => set({ user: null }),
+
   // Signup function
   signup: async (email, password, name) => {
     set({
