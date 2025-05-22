@@ -54,6 +54,14 @@ const userSchema = new mongoose.Schema({
 	profileImage: {
 		type: String, // URL of the profile picture
 	},
+	isDeleted: {
+		type: Boolean,
+		default: false,
+	},
+	deletedAt: {
+		type: Date,
+		default: null,
+	},
 	notifications: [{
 		message: {
 			type: String,
