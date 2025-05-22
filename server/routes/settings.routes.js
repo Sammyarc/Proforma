@@ -132,4 +132,27 @@ router.post('/upload-logo', [verifyToken, upload.single('logo')], async (req, re
   }
 });
 
+// @route   POST api/settings/soft-delete
+// @desc    Perform a soft delete on the user account
+// @access  Private
+router.patch('/soft-delete', async (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) return res.status(400).json({ error: "User ID is required" });
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.isDeleted = true;
+    user.deletedAt = new Date();
+    await user.save();
+
+    res.status(200).json({ message: "Soft delete successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;
