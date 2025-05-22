@@ -680,7 +680,7 @@ const Payments = () => {
                       setIsDeleteModalOpen(false);
                       setSelectedInvoiceId(null);
                     }}
-                    className="px-4 py-2 text-gray-600 border bg-gray-200 font-satoshi rounded-lg"
+                    className="px-4 py-2 text-gray-800 border bg-gray-200 font-satoshi rounded-lg"
                   >
                     Cancel
                   </button>
