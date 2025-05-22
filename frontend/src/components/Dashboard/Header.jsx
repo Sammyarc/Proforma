@@ -42,7 +42,7 @@ const Header = () => {
             <img
               src={Logo}
               alt="Profoma Logo"
-              className="w-[12vw] h-[12vw] md:w-[7vw] md:h-[7vw] lg:w-[5.5vw] lg:h-[5.5vw]"
+              className="w-[15vw] h-[15vw] md:w-[7vw] md:h-[7vw] lg:w-[5.5vw] lg:h-[5.5vw]"
             />
             <span className="font-clash text-[5vw] text-black md:text-[20px] lg:text-2xl">
               Proforma
