@@ -9,6 +9,7 @@ import settingsRoutes from './routes/settings.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
+import "./cronJobs/deleteOldUsers.js"
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
 
 
 app.use("/api/auth", authRoutes);
