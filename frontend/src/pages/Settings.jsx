@@ -39,7 +39,7 @@ const Settings = () => {
     state: "",
     phoneNumber: "",
   });
-  const { invoiceCount, nextReset, fetchInvoiceCount, isLoading } =
+  const { invoiceCount, nextReset, isLoading } =
     useInvoiceStore();
 
   // State for logo
@@ -263,7 +263,6 @@ const Settings = () => {
       setIsDisconnecting(false);
     }
   };
-
 
   // Format reset date once we have periodStart
   const resetDateFormatted = nextReset
