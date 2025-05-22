@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { TbLoader3 } from "react-icons/tb";
+import { useInvoiceStore } from "../store/invoiceStore";
 
 const ProtectedRoute = ({ children }) => {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { fetchInvoiceCount } =
+      useInvoiceStore();
   const [minLoading, setMinLoading] = useState(true);
 
   // Animated ellipsis component
@@ -42,6 +45,13 @@ const ProtectedRoute = ({ children }) => {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Fetch when dropdown opens (or on mount if you prefer)
+  useEffect(() => {
+    if (user?._id) {
+      fetchInvoiceCount(user._id);
+    }
+  }, [user?._id, fetchInvoiceCount]);
 
   // While authentication is being checked or the 3 second minimum loading time hasn't elapsed, show spinner
   if (isCheckingAuth || minLoading) {
