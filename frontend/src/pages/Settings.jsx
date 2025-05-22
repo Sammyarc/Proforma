@@ -11,11 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { FiUpload } from "react-icons/fi";
-import { RiLoader4Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiLoader4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useInvoiceStore } from "../store/invoiceStore";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import AccountConnectionModal from "../components/Dashboard/Connections/AccountConnectionModal";
+import { motion } from "framer-motion";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -25,9 +26,10 @@ const API_URL =
 axios.defaults.withCredentials = true;
 
 const Settings = () => {
-  const { connections, user, logout } = useAuthStore();
+  const { connections, user, logout, clearUser } = useAuthStore();
   const { handlers } = UsePaymentHandlers();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   // State for form fields
   const [formData, setFormData] = useState({
     businessName: "",
@@ -163,6 +165,37 @@ const Settings = () => {
 
   const handleClick = () => {
     navigate("/forgot-password");
+  };
+
+  const handleDelete = async () => {
+    try {
+      const userId = user?._id;
+
+      if (!userId) {
+        toast.error("User not authenticated");
+        return;
+      }
+      const res = await axios.patch(
+        `${API_URL}/soft-delete?userId=${userId}`,
+        {}, // empty body required by Axios for PATCH
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        clearUser();
+        setIsDeleteModalOpen(false);
+        navigate("/account-deleted");
+      } else {
+        toast.error("Failed to delete account, please try again.");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   const paymentOptions = [
@@ -442,7 +475,7 @@ const Settings = () => {
             <h1 className="mb-[3vw] font-satoshi font-semibold text-[5vw] md:text-lg md:mb-[2.5vw] lg:mb-[1vw] lg:text-base">
               Security
             </h1>
-            <div className="flex flex-row justify-between items-center md:items-start md:flex-col md:justify-normal">
+            <div className="flex flex-col items-start justify-normal">
               <button
                 title="Change Password"
                 onClick={handleClick}
@@ -450,16 +483,29 @@ const Settings = () => {
               >
                 Change Password
               </button>
-              <button
-                title="Logout"
-                onClick={() => {
-                  logout();
-                  window.location.href = "/signup";
-                }}
-                className="px-[6vw] py-[2vw] text-[4vw] font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl md:hidden"
-              >
-                Sign Out
-              </button>
+              <div className="flex items-center gap-10 mt-5">
+                <button
+                  title="Logout"
+                  onClick={() => {
+                    logout();
+                    window.location.href = "/signup";
+                  }}
+                  className="text-[4.2vw] font-satoshi md:text-base"
+                >
+                  Sign Out
+                </button>
+
+                <button
+                  title="Delete Account"
+                  onClick={() => {
+                    setIsDeleteModalOpen(true);
+                  }}
+                  className="text-[4.2vw] text-red-600 font-satoshi flex items-center gap-1 md:text-base"
+                >
+                  <RiDeleteBin6Line />
+                  Delete Account
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -620,6 +666,42 @@ const Settings = () => {
           )}
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="bg-white rounded-lg p-6 w-[80vw] md:w-[60vw] lg:w-[30vw]"
+          >
+            <p className="mb-1 font-satoshi text-[4vw] font-semibold text-gray-800 md:text-lg lg:text-[1.1vw]">
+              Are you sure you want to delete your account?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                }}
+                className="px-4 py-2 text-gray-800 border bg-gray-200 font-satoshi rounded-lg"
+              >
+                Cancel
+              </button>
+              <div className="">
+                <button
+                  onClick={handleDelete}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg shadow-2xl flex justify-center gap-2 items-center"
+                >
+                  <RiDeleteBin6Line />
+                  <span className="font-satoshi">Delete</span>
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
