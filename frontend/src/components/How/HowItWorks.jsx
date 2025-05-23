@@ -81,7 +81,7 @@ const HowItWorks = () => {
                   </span>
                 </div>
 
-                <h3 className="font-bold text-[5vw] mb-1 mt-[1vw] font-clash md:text-[3.5vw] lg:text-[2vw]">
+                <h3 className="text-[6vw] mb-1 mt-[1vw] font-clash md:text-[3.5vw] lg:text-[2vw]">
                   {step.title}
                 </h3>
                 <p className="text-gray-800 font-satoshi mb-4">
