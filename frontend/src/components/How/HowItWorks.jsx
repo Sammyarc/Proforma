@@ -57,16 +57,17 @@ const HowItWorks = () => {
               <div className="w-full lg:w-1/2 lg:h-[25vw] overflow-hidden shadow-2xl">
                 <video
                   src={step.videoSrc}
+                  autoPlay
                   muted
                   loop
                   playsInline
-                  onMouseEnter={(e) => {
-                    e.currentTarget.play();
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.pause();
-                    e.currentTarget.currentTime = 0;
-                  }}
+                  // onMouseEnter={(e) => {
+                  //   e.currentTarget.play();
+                  // }}
+                  // onMouseLeave={(e) => {
+                  //   e.currentTarget.pause();
+                  //   e.currentTarget.currentTime = 0;
+                  // }}
                   className="w-full h-full object-cover lg:w-[90vw]"
                 />
               </div>
