@@ -34,10 +34,10 @@ const FaQ = () => {
   return (
     <section id="faq" className="container mx-auto">
       <div className="px-[2vw] h-full my-[8vw] lg:my-[5vw] lg:w-[60vw] lg:mx-auto">
-        <h1 className="text-[7vw] text-center font-satoshi font-bold mb-[4vw] leading-tight lg:text-[3vw] lg:mb-[2vw]">
+        <h1 className="text-[7vw] text-center font-satoshi font-bold mb-[4vw] leading-tight md:text-[4.5vw] lg:text-[3vw] lg:mb-[2vw]">
           Frequently Asked Questions
         </h1>
-        <div className="my-[8vw] space-y-[5vw] lg:space-y-[1vw] lg:my-[2vw]">
+        <div className="my-[8vw] space-y-[5vw] md:space-y-[2vw] lg:space-y-[1vw] lg:my-[2vw]">
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -49,17 +49,17 @@ const FaQ = () => {
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className={`w-full text-left py-[3vw] px-[3vw] lg:py-[0.7vw] lg:px-[1vw] flex justify-between items-center space-x-[2.5vw] lg:space-x-0 ${
+                className={`w-full text-left py-[3vw] px-[3vw] flex justify-between items-center space-x-[2.5vw] md:py-[2vw] md:px-[3vw] lg:py-[0.7vw] lg:px-[1vw] lg:space-x-0 ${
                   openIndex === index
                     ? "text-Primary border-Primary border-b"
                     : "bg-Gray50"
                 }`}
               >
-                <span className="text-[4vw] lg:text-[1.1vw] font-satoshi font-bold">
+                <span className="text-[4vw] font-satoshi font-bold md:text-lg lg:text-[1.1vw]">
                   {faq.question}
                 </span>
                 <span
-                  className={`text-[5vw] lg:text-[1.3vw] p-[1vw] lg:p-[0.5vw] rounded-full ${
+                  className={`text-[5vw] p-[1vw] lg:p-[0.5vw] rounded-full md:text-[3vw] lg:text-[1.3vw] ${
                     openIndex === index
                       ? "text-Gray800 bg-[#F5F5F2]"
                       : "bg-White"
@@ -69,7 +69,7 @@ const FaQ = () => {
                 </span>
               </button>
               {openIndex === index && faq.answer && (
-                <div className="text-[3.5vw] p-[2.5vw] lg:p-[1vw] font-satoshi font-normal text-Gray600 lg:text-[1vw]">
+                <div className="text-[3.5vw] p-[2.5vw] font-satoshi font-normal text-Gray600 md:text-base lg:p-[1vw] lg:text-[1vw]">
                   {faq.answer}
                 </div>
               )}

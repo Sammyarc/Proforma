@@ -14,13 +14,13 @@ const Footer = () => {
               <img
                 src={Logo}
                 alt="Profoma Logo"
-                className="w-[17vw] h-[17vw] lg:w-[5vw] lg:h-[5vw]"
+                className="w-[17vw] h-[17vw] md:w-[7vw] md:h-[7vw] lg:w-[5vw] lg:h-[5vw]"
               />
-              <span className="font-clash text-[6vw] text-black lg:text-[1.5vw]">
+              <span className="font-clash text-[6vw] text-black md:text-[3.5vw] lg:text-[1.5vw]">
                 Proforma
               </span>
             </span>
-            <p className="text-[4vw] lg:w-[40ch] leading-relaxed font-satoshi lg:text-[1vw]">
+            <p className="text-[4vw] lg:w-[40ch] leading-relaxed font-satoshi md:text-xl lg:text-[1vw]">
               Our invoice generator app simplifies the way businesses and
               freelancers manage their billing needs. Create, send, and manage
               professional invoices seamlessly.
@@ -30,14 +30,14 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[6vw]">
             {/* Quick Links */}
             <div>
-              <h3 className="text-[5vw] font-bold font-satoshi mb-4 lg:text-[1.1vw]">
+              <h3 className="text-[5vw] font-bold font-satoshi mb-4 md:text-[3vw] lg:text-[1.1vw]">
                 Quick Links
               </h3>
               <ul className="space-y-2">
                 <li>
                   <a
                     href="#features"
-                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors lg:text-[1vw]"
+                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors md:text-2xl lg:text-[1vw]"
                   >
                     Features
                   </a>
@@ -45,7 +45,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#pricing"
-                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors lg:text-[1vw]"
+                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors md:text-2xl lg:text-[1vw]"
                   >
                     Pricing
                   </a>
@@ -53,7 +53,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#support"
-                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors lg:text-[1vw]"
+                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors md:text-2xl lg:text-[1vw]"
                   >
                     Support
                   </a>
@@ -61,7 +61,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#contact"
-                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors lg:text-[1vw]"
+                    className="hover:text-Gray800 font-satoshi text-[4vw] transition-colors md:text-2xl lg:text-[1vw]"
                   >
                     Contact Us
                   </a>
@@ -71,7 +71,7 @@ const Footer = () => {
 
             {/* Social Media Section */}
             <div>
-              <h3 className="text-[5vw] font-bold font-satoshi mb-4 lg:text-[1.1vw]">
+              <h3 className="text-[5vw] font-bold font-satoshi mb-4 md:text-[3vw] lg:text-[1.1vw]">
                 Socials
               </h3>
               <div className="flex flex-col space-y-4">

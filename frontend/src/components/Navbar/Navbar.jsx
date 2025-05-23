@@ -40,16 +40,16 @@ const Navbar = () => {
             <img
               src={Logo}
               alt="Profoma Logo"
-              className="w-[17vw] h-[17vw] lg:w-[5vw] lg:h-[5vw]"
+              className="w-[17vw] h-[17vw] md:w-[7vw] md:h-[7vw] lg:w-[5vw] lg:h-[5vw]"
             />
-            <span className="font-clash text-[6vw] text-black lg:text-[1.5vw]">
+            <span className="font-clash text-[6vw] text-black md:text-[30px] lg:text-[1.5vw]">
               Proforma
             </span>
           </a>
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex space-x-8 text-xl font-medium">
+        <ul className="hidden lg:flex space-x-8 text-lg font-medium">
           <li>
             <a
               href="#features"
@@ -91,7 +91,7 @@ const Navbar = () => {
             onClick={toggleMenu}
             className="outline-none border-none bg-transparent w-[10vw] h-[10vw] text-Gray800 flex justify-center items-center"
           >
-            <HiOutlineMenuAlt3 className="text-[8vw]" />
+            <HiOutlineMenuAlt3 className="text-[8vw] md:text-[4vw]" />
           </button>
         </div>
       </div>

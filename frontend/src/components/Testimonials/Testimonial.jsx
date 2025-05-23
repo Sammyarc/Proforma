@@ -46,7 +46,7 @@ const Testimonial = () => {
         <img src={Svg2} alt="Icon" className="w-[10vw] h-[10vw]" />
       </div>
       <div>
-        <h2 className="text-[8vw] text-center font-bold font-satoshi mb-8 text-gray-900 lg:text-[3vw]">
+        <h2 className="text-[8vw] text-center font-bold font-satoshi mb-8 text-gray-900 md:text-[4.5vw] lg:text-[3vw]">
           What Our Users Say
         </h2>
 
@@ -61,7 +61,7 @@ const Testimonial = () => {
                   key={index}
                   className="bg-white shadow-lg rounded-xl p-4 lg:p-8 mx-2 min-w-[300px] lg:min-w-[400px]"
                 >
-                  <p className="whitespace-normal text-[4vw] font-satoshi text-gray-800 mb-4 lg:text-lg">
+                  <p className="whitespace-normal text-[4vw] font-satoshi text-gray-800 mb-4 md:text-base lg:text-lg">
                     “{testimonial.quote}”
                   </p>
                   <div className="flex items-center space-x-4">
@@ -71,7 +71,7 @@ const Testimonial = () => {
                       className="w-14 h-14 rounded-full object-cover"
                     />
                     <div className="text-left">
-                      <h4 className="text-Gray900 text-[4vw] lg:text-[1vw] font-satoshi font-extrabold">
+                      <h4 className="text-Gray900 text-[4vw] font-satoshi font-extrabold md:text-lg lg:text-[1vw]">
                         {testimonial.name}
                       </h4>
                       <p className="text-Gray800 font-satoshi text-sm">
@@ -98,7 +98,7 @@ const Testimonial = () => {
                   key={index}
                   className="bg-white shadow-lg rounded-xl p-6 lg:p-8 mx-2 min-w-[300px] lg:min-w-[400px]"
                 >
-                  <p className="whitespace-normal text-[4vw] font-satoshi text-gray-800 mb-4 lg:text-lg">
+                  <p className="whitespace-normal text-[4vw] font-satoshi text-gray-800 mb-4 md:text-base lg:text-lg">
                     “{testimonial.quote}”
                   </p>
                   <div className="flex items-center space-x-4">
@@ -108,7 +108,7 @@ const Testimonial = () => {
                       className="w-14 h-14 rounded-full object-cover"
                     />
                     <div className="text-left">
-                      <h4 className="text-Gray900 text-[4vw] lg:text-[1vw] font-satoshi font-extrabold">
+                      <h4 className="text-Gray900 text-[4vw] font-satoshi font-extrabold md:text-lg lg:text-[1vw]">
                         {testimonial.name}
                       </h4>
                       <p className="text-Gray800 font-satoshi text-sm">

@@ -97,26 +97,26 @@ const Features = () => {
         className="grid gap-[2vw] space-y-6 mx-auto text-center lg:grid-cols-3 lg:w-[80vw] lg:space-y-0"
       >
         <div className="lg:border-gray-400 lg:border-r">
-          <h2 className="text-[8vw] font-clash lg:text-[2.5vw]">
+          <h2 className="text-[8vw] font-clash md:text-4xl lg:text-[2.5vw]">
             {formatPeople()}+
           </h2>
-          <p className="text-[4vw] font-satoshi lg:text-[1vw]">
+          <p className="text-[4vw] font-satoshi md:text-xl lg:text-[1vw]">
             Invoices Generated and Sent
           </p>
         </div>
 
         <div className="lg:border-gray-400 lg:border-r">
-          <h2 className="text-[8vw] font-clash lg:text-[2.5vw]">
+          <h2 className="text-[8vw] font-clash md:text-4xl lg:text-[2.5vw]">
             {formatUsers()}+
           </h2>
-          <p className="text-[4vw] font-satoshi lg:text-[1vw]">Active Users</p>
+          <p className="text-[4vw] font-satoshi md:text-xl lg:text-[1vw]">Active Users</p>
         </div>
 
         <div>
-          <h2 className="text-[8vw] font-clash lg:text-[2.5vw]">
+          <h2 className="text-[8vw] font-clash md:text-4xl lg:text-[2.5vw]">
             {Math.floor(rateCount)}%
           </h2>
-          <p className="text-[4vw] font-satoshi lg:text-[1vw]">
+          <p className="text-[4vw] font-satoshi md:text-xl lg:text-[1vw]">
             Fast Payments rating
           </p>
         </div>

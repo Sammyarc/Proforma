@@ -15,7 +15,7 @@ const userImages = [
 
 const HeroRating = () => {
   return (
-    <div className="flex items-center space-x-2 my-[1vw]">
+    <div className="flex items-center space-x-2 my-[2vw] lg:my-[1vw]">
       {/* User Images */}
       <div className="flex -space-x-3">
         {userImages.map((img, i) => (

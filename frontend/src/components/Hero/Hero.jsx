@@ -1,10 +1,9 @@
-import HeroImage from "../../assets/Images/proforma-dashboard.jpg";
+import HeroImage from "../../assets/Images/proforma-dashboard.png";
 import HeroRating from "../Ratings/HeroRating";
-import { IoPlaySkipForwardSharp } from "react-icons/io5";
 
 const Hero = () => {
   return (
-    <section className="relative px-[2vw] pt-[28vw] pb-[10vw] text-center lg:pt-[12vw] lg:pb-[4vw]">
+    <section className="relative px-[2vw] pt-[28vw] pb-[10vw] text-center md:pt-[15vw] lg:pt-[12vw] lg:pb-[4vw]">
       {/* Grid Background */}
       <div
         className="absolute inset-0 -z-10 pointer-events-none"
@@ -18,32 +17,22 @@ const Hero = () => {
       />{" "}
       {/* Content Wrapper with Higher Z-index */}
       <div className="relative z-10 flex flex-col justify-center items-center">
-        <div className="w-[95vw] h-[9vw] flex justify-center items-center bg-[#F5F5F5] border border-gray-600 box rounded-3xl text-[4vw] text-Gray800 font-medium font-satoshi lg:text-[1vw] lg:w-[25vw] lg:h-[2.5vw] lg:rounded-full">
-          <span>Your Personalized AI Enhanced Invoice Generator</span>
+        <div className="w-[95vw] h-[9vw] flex justify-center items-center bg-[#F5F5F5] border border-gray-600 box rounded-3xl text-[4vw] text-Gray800 font-medium font-satoshi md:text-base md:w-[40vw] md:h-[3.5vw] lg:text-[1vw] lg:w-[25vw] lg:h-[2.5vw] lg:rounded-full">
+          <span>Fast and Easy Custom Invoice Generator</span>
         </div>
-        <h1 className="font-satoshi text-left text-[9vw] mt-[3vw] font-extrabold text-Gray800 lg:mt-[1vw] lg:text-[3.5vw] lg:text-center">
+        <h1 className="font-satoshi text-left text-[9vw] mt-[3vw] font-extrabold text-Gray800 md:text-[4vw] lg:mt-[1vw] lg:text-[3.5vw] lg:text-center">
           Create invoices in seconds, get paid faster
         </h1>
-        <p className="text-Gray800 text-left text-[4.5vw] font-satoshi mt-[3vw] lg:mt-[0.5vw] lg:text-[1.3vw] lg:max-w-[55vw] lg:text-center">
+        <p className="text-Gray800 text-left text-[4.5vw] font-satoshi mt-[3vw] md:text-lg md:text-center md:mt-[0.5vw] lg:text-[1.3vw] lg:max-w-[55vw]">
           Streamline your billing process with Proforma, create professional,
           customizable invoices in seconds, automate repetitive tasks, and
           ensure faster payments.
         </p>
-
-        <div className="my-[6vw] lg:my-[1.5vw]">
-          <button
-            type="submit"
-            className="px-[4vw] py-[2vw] flex gap-[1.6vw] items-center font-satoshi bg-[#F5F5F5] border border-neutral-500 rounded-3xl box lg:px-[1.5vw] lg:py-[0.5vw] lg:gap-x-[0.5vw]"
-          >
-            Watch Demo
-            <IoPlaySkipForwardSharp size={20} />
-          </button>
-        </div>
         <HeroRating />
         <img
           src={HeroImage}
           alt="proforma dashboard"
-          className="mt-[6vw] flex justify-center items-center mx-auto border box border-neutral-500 rounded-xl lg:rounded-3xl lg:w-[80vw] lg:mt-[1vw]"
+          className="mt-[6vw] flex justify-center items-center mx-auto shadow-2xl border border-gray-300 md:mt-[1vw] lg:w-[80vw]"
         />
       </div>
     </section>
