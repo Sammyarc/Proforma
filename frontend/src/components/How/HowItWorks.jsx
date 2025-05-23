@@ -34,9 +34,9 @@ const HowItWorks = () => {
     },
   ];
 
-  const handleGenerate = () => {
-    navigate("/signup");
-  };
+  // const handleGenerate = () => {
+  //   navigate("/signup");
+  // };
 
   return (
     <section className="py-10 px-[4vw] relative overflow-hidden lg:py-16 lg:px-0">
@@ -88,13 +88,13 @@ const HowItWorks = () => {
                 <p className="text-gray-800 font-satoshi mb-4">
                   {step.description}
                 </p>
-                <button
+                {/* <button
                   onClick={handleGenerate}
                   className="px-[4vw] py-[2vw] flex gap-[1.2vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[2vw] md:py-[0.8vw] lg:px-[1.5vw] lg:py-[0.5vw] lg:gap-x-[0.5vw]"
                 >
                   Learn More
                   <HiArrowRight size={18} />
-                </button>
+                </button> */}
               </div>
             </div>
           ))}
