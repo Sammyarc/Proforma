@@ -42,7 +42,7 @@ const InvoiceGenerator = () => {
   const [isExporting, setIsExporting] = useState(false);
 
   const toggleStaticMode = () => {
-    setIsStaticMode((prev) => !prev);
+    setIsStaticMode((isStaticMode) => !isStaticMode);
   };
 
   const toggleExport = () => {
