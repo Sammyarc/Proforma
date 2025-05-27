@@ -9,16 +9,16 @@ const Navbar = () => {
 
   const [menuVisible, setMenuVisible] = useState(false); // Tracks whether the menu is visible
 
-  const toggleMenu = () => {
-    if (isOpen) {
-      // When closing, delay hiding the menu to allow slide-out animation
-      setIsOpen(false);
-      setTimeout(() => setMenuVisible(false), 500); // Match this timeout with the CSS animation duration
-    } else {
-      setMenuVisible(true);
-      setIsOpen(true);
-    }
-  };
+  // const toggleMenu = () => {
+  //   if (isOpen) {
+  //     // When closing, delay hiding the menu to allow slide-out animation
+  //     setIsOpen(false);
+  //     setTimeout(() => setMenuVisible(false), 500); // Match this timeout with the CSS animation duration
+  //   } else {
+  //     setMenuVisible(true);
+  //     setIsOpen(true);
+  //   }
+  // };
 
   // Toggle body scroll lock
   if (isOpen) {
@@ -49,7 +49,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex space-x-8 text-lg font-medium">
+        {/* <ul className="hidden lg:flex space-x-8 text-lg font-medium">
           <li>
             <a
               href="#features"
@@ -74,30 +74,30 @@ const Navbar = () => {
               Contact
             </a>
           </li>
-        </ul>
+        </ul> */}
 
         <button
           onClick={handleGenerate}
           type="submit"
-          className="hidden px-[1.5vw] py-[0.5vw] gap-x-[0.5vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box lg:flex"
+          className="px-[4vw] py-[2vw] flex gap-[1.2vw] items-center font-satoshi font-bold border border-neutral-500 rounded-3xl box md:px-[2vw] md:py-[0.5vw] lg:px-[1.5vw] lg:py-[0.5vw] lg:gap-x-[0.5vw]"
         >
-          <span className="text-[4vw] lg:text-[1vw]">Generate</span>
+          <span className="text-[4vw] md:text-lg lg:text-[1vw]">Generate</span>
           <HiArrowRight size={18} />
         </button>
 
         {/* Hamburger Menu */}
-        <div className="lg:hidden">
+        {/* <div className="lg:hidden">
           <button
             onClick={toggleMenu}
             className="outline-none border-none bg-transparent w-[10vw] h-[10vw] text-Gray800 flex justify-center items-center"
           >
             <HiOutlineMenuAlt3 className="text-[8vw] md:text-[4vw]" />
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Overlay Menu */}
-      {menuVisible && (
+      {/* {menuVisible && (
         <div
           className={`mobile-menu ${
             isOpen ? "slide-in" : "slide-out"
@@ -150,7 +150,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-      )}
+      )} */}
     </nav>
   );
 };
