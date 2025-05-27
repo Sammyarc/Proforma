@@ -190,7 +190,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
   // Generate the PDF blob from the invoice DOM
   const createPDF = async () => {
     try {
-      toggleStaticMode();
+      toggleStaticMode(true);
       const invoiceElement = document.getElementById("invoice");
       if (!invoiceElement) throw new Error("Invoice element not found");
 
@@ -241,12 +241,14 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       invoiceElement.style.overflow = originalStyle.overflow;
 
       return blob;
+      toggleStaticMode(false);
     } catch (error) {
       console.error("Error creating PDF:", error);
       toast.error("Failed to generate invoice PDF");
+      toggleStaticMode(false);
       throw error;
     } finally {
-      toggleStaticMode();
+      toggleStaticMode(false);
     }
   };
 
@@ -301,7 +303,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       // Immediate payment method check
       if (!connections?.paypal) {
         toast.info("Please connect your Payment account to proceed.");
-        toggleStaticMode();
+        toggleStaticMode(true);
         setShowModal(true);
         return; // Stop execution here
       }
@@ -346,11 +348,11 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       // Success handling
       incrementInvoiceCount();
       setIsComplete(true);
-      toggleStaticMode();
+      toggleStaticMode(false);
       setTimeout(onClose, 3000); // Close after 3 seconds
     } catch (error) {
       onClose(); // Close modal on error
-      toggleStaticMode(); // Ensure static mode is toggled off
+      toggleStaticMode(false); // Ensure static mode is toggled off
       setIsComplete(false);
       console.error("Error sending email:", error);
       // Only show error if we actually attempted sending
@@ -358,7 +360,7 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
         toast.error("Failed to send email. Please try again.");
       }
     } finally {
-      toggleStaticMode();
+      toggleStaticMode(false);
     }
   };
 

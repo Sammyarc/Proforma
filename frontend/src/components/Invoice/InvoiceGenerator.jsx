@@ -41,9 +41,10 @@ const InvoiceGenerator = () => {
   const [sendModalKey, setSendModalKey] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
 
-  const toggleStaticMode = () => {
-    setIsStaticMode((isStaticMode) => !isStaticMode);
+  const toggleStaticMode = (value) => {
+    setIsStaticMode(value);
   };
+
 
   const toggleExport = () => {
     setIsExportOpen(!isExportOpen);
@@ -183,9 +184,8 @@ const InvoiceGenerator = () => {
                 </span>
                 <IoIosArrowDown
                   size={16}
-                  className={`transition-transform duration-300 ${
-                    isDownloadOpen ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`transition-transform duration-300 ${isDownloadOpen ? "rotate-180" : "rotate-0"
+                    }`}
                 />
               </button>
               {isDownloadOpen && (
@@ -208,9 +208,8 @@ const InvoiceGenerator = () => {
                 </span>
                 <IoIosArrowDown
                   size={16}
-                  className={`transition-transform duration-300 ${
-                    isExportOpen ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`transition-transform duration-300 ${isExportOpen ? "rotate-180" : "rotate-0"
+                    }`}
                 />
               </button>
               {isExportOpen && (

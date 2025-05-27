@@ -558,7 +558,9 @@ const Payments = () => {
                                   : "bg-red-300/20 text-red-600 border-red-300"
                               }`}
                           >
-                            {invoice.status}
+                            {invoice.status
+                              .replace(/_/g, ' ')          // replace underscores with spaces
+                              .replace(/\b\w/g, c => c.toUpperCase())}  {/* capitalize each word */}
                           </span>
                         </td>
                         <td className="py-4 px-3 relative">
