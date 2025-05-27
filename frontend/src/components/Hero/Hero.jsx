@@ -3,7 +3,7 @@ import HeroRating from "../Ratings/HeroRating";
 
 const Hero = () => {
   return (
-    <section className="relative px-[2vw] pt-[28vw] pb-[10vw] text-center md:pt-[15vw] lg:pt-[12vw] lg:pb-[4vw]">
+    <section className="relative px-[2vw] pt-[28vw] pb-[10vw] text-center md:pt-[15vw] lg:pt-[10vw] lg:pb-[4vw]">
       {/* Grid Background */}
       <div
         className="absolute inset-0 -z-10 pointer-events-none"
