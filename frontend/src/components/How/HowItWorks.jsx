@@ -74,10 +74,10 @@ const HowItWorks = () => {
 
               <div className="w-full lg:w-1/2 text-left">
                 <div className="relative text-gray-600 border-b border-gray-600 w-32">
-                  <span className="text-[9vw] font-satoshi lg:text-[4vw]">
+                  <span className="text-[9vw] font-satoshi md:text-[7vw] lg:text-[4vw]">
                     0
                   </span>
-                  <span className="absolute text-[8vw] top-[4vw] font-clash lg:text-[3.5vw] lg:top-[2vw]">
+                  <span className="absolute text-[8vw] top-[4vw] font-clash md:text-[6vw] lg:text-[3.5vw] lg:top-[2vw]">
                     {step.id}
                   </span>
                 </div>
