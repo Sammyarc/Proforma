@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const pricingData = {
   free: {
@@ -34,6 +35,15 @@ const pricingData = {
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("free");
   const planData = pricingData[billingCycle];
+  const navigate = useNavigate();
+
+  const handleBilling = () => {
+  if (billingCycle === 'free') {
+    navigate('/signup');
+  } else {
+    navigate('/pricing');
+  }
+};
 
   return (
     <section className="py-16" id="pricing">
@@ -95,7 +105,7 @@ const Pricing = () => {
                 <p className="text-gray-600 text-[4vw] font-satoshi mb-2 max-w-xs md:text-xl lg:text-[1vw]">
                   {planData.description}
                 </p>
-                <button className="px-[1.5vw] py-[1.2vw] mt-[10vw] mb-[2vw] font-satoshi text-base font-bold border border-neutral-500 rounded-xl box lg:mt-[7vw] lg:py-[0.5vw]">
+                <button onClick={handleBilling} className="px-[1.5vw] py-[1.2vw] mt-[10vw] mb-[2vw] font-satoshi text-base font-bold border border-neutral-500 rounded-xl box lg:mt-[7vw] lg:py-[0.5vw]">
                    {billingCycle === "free" ? "Get Started" : "Go to Plan"}
                 </button>
               </div>

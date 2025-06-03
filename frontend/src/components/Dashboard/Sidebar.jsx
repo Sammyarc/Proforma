@@ -162,7 +162,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </div>
 
                 {/* Upgrade Text */}
-                <button className="mt-3 flex items-center gap-1 text-[4vw] lg:text-[1vw] text-blue-600 font-medium hover:underline lg:mt-2">
+                <button className="mt-3 flex items-center gap-1 text-[4vw] lg:text-[1vw] text-blue-600 font-medium hover:underline lg:mt-2"
+                  title="Upgrade Plan"
+                  onClick={() => {
+                    window.location.href = "/pricing";
+                  }}>
                   Upgrade to Pro
                   <IoIosArrowRoundForward size={20} />
                 </button>
