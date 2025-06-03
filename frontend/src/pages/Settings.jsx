@@ -30,6 +30,7 @@ const Settings = () => {
   const { handlers } = UsePaymentHandlers();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isFree, setIsFree] = useState(false)
   // State for form fields
   const [formData, setFormData] = useState({
     businessName: "",
@@ -78,6 +79,19 @@ const Settings = () => {
 
     fetchUserData();
   }, []);
+
+  // Check if user is on free tier or not
+    useEffect(() => {
+    const handleFreeTier = () => {
+      if (user?.tier === 'free') {
+        setIsFree(true);
+      } else {
+        setIsFree(false);
+      }
+    };
+  
+    handleFreeTier();
+  }, [user]);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -615,7 +629,7 @@ const Settings = () => {
             </div>
           ))}
         </div>
-        <div className="text-Gray800 font-satoshi box p-3 border border-gray-500 rounded-2xl flex flex-col">
+        { isFree && (<div className="text-Gray800 font-satoshi box p-3 border border-gray-500 rounded-2xl flex flex-col">
           <h3 className="md:text-lg text-xl font-semibold">
             Free Plan Usage
           </h3>
@@ -658,6 +672,7 @@ const Settings = () => {
             </>
           )}
         </div>
+        )}
       </div>
 
       {/* Confirmation Modal */}
