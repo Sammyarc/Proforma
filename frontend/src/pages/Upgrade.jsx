@@ -200,7 +200,7 @@ export default function Upgrade() {
                       onChange={handleCardNumberChange}
                       placeholder="1234 5678 9012 3456"
                       maxLength="19"
-                      className="w-full px-4 py-3 border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
+                      className="w-full px-4 py-3 font-satoshi border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
                       required
                     />
                   </div>
@@ -218,7 +218,7 @@ export default function Upgrade() {
                         onChange={handleExpiryChange}
                         placeholder="MM/YY"
                         maxLength="5"
-                        className="w-full px-4 py-3 border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
+                        className="w-full px-4 py-3 font-satoshi border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
                         required
                       />
                     </div>
@@ -233,7 +233,7 @@ export default function Upgrade() {
                         onChange={handleInputChange}
                         placeholder="123"
                         maxLength="4"
-                        className="w-full px-4 py-3 border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
+                        className="w-full px-4 py-3 font-satoshi border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
                         required
                       />
                     </div>
@@ -250,7 +250,7 @@ export default function Upgrade() {
                       value={cardData.nameOnCard}
                       onChange={handleInputChange}
                       placeholder="John Doe"
-                      className="w-full px-4 py-3 border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
+                      className="w-full px-4 py-3 font-satoshi border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
                       required
                     />
                   </div>
@@ -302,7 +302,7 @@ export default function Upgrade() {
                         value={cardData.postalCode}
                         onChange={handleInputChange}
                         placeholder="12345"
-                        className="w-full px-4 py-3 border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
+                        className="w-full px-4 py-3 font-satoshi border border-gray-400 bg-transparent rounded-lg placeholder-gray-400 outline-none hover:outline hover:outline-2 hover:outline-neutral-700 focus:outline focus:outline-2 focus:outline-neutral-700 transition-all"
                         required
                       />
                     </div>
