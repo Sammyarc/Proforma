@@ -45,8 +45,9 @@ const SIDEBAR_ITEMS = [
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const { logout, user } = useAuthStore();
+  const [isFree, setIsFree] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const { invoiceCount, nextReset, fetchInvoiceCount, isLoading } =
+  const { invoiceCount, nextReset, isLoading } =
     useInvoiceStore();
 
   // Update window width on resize
@@ -64,6 +65,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       year: "numeric",
     })
     : "";
+  
+  // Check if user is on free tier or not
+  useEffect(() => {
+  const handleFreeTier = () => {
+    if (user?.tier === 'free') {
+      setIsFree(true);
+    } else {
+      setIsFree(false);
+    }
+  };
+
+  handleFreeTier();
+}, [user]);
 
   const isDesktop = windowWidth >= 1024;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
@@ -131,7 +145,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           })}
         </div>
 
-        {isOpen && (
+        {isOpen && isFree && (
           <div className="text-Gray800 font-satoshi box ml-4 mt-[1vw] p-3 border border-gray-500 rounded-2xl flex flex-col">
             <h3 className="text-[5vw] font-semibold lg:text-[1.3vw]">
               Free Plan Usage
