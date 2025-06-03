@@ -22,12 +22,7 @@ const PaymentStatus = () => {
             try {
                 const res = await axios.post(
                     `${API_URL}/verify-payment`,
-                    { transactionId },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`, // your auth token
-                        },
-                    }
+                    { transactionId }
                 );
                 if (res.data.status === 'success') {
                     navigate('/upgrade-success');
@@ -36,7 +31,7 @@ const PaymentStatus = () => {
                 }
             } catch (err) {
                 console.error(err);
-                navigate('/payment-error');
+                navigate('/upgrade-error');
             }
         };
 
