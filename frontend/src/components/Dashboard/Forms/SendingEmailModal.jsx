@@ -241,7 +241,6 @@ const SendingEmailModal = ({ onClose, toggleStaticMode }) => {
       invoiceElement.style.overflow = originalStyle.overflow;
 
       return blob;
-      toggleStaticMode(false);
     } catch (error) {
       console.error("Error creating PDF:", error);
       toast.error("Failed to generate invoice PDF");
