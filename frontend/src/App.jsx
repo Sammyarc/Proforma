@@ -12,6 +12,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import DeletedAccountPage from "./pages/DeletedAccountPage";
+import Upgrade from "./pages/Upgrade";
 
 const App = () => {
   return (
@@ -47,6 +48,14 @@ const App = () => {
 
         <Route path="/payment-error" element={<Cancel />} />
         <Route path="/account-deleted" element={<DeletedAccountPage />} />
+        <Route
+          path="/pricing"
+          element={
+            <ProtectedRoute>
+              <Upgrade />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <ToastContainer
