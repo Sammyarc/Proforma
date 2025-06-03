@@ -7,6 +7,7 @@ import paypalRoutes from './routes/paypal.routes.js';
 import invoiceRoutes from './routes/invoice.routes.js';
 import settingsRoutes from './routes/settings.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import upgradeRoutes from './routes/upgrade.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 import "./cronJobs/deleteOldUsers.js"
@@ -38,6 +39,7 @@ app.use("/paypal", paypalRoutes);
 app.use('/api/invoice', invoiceRoutes);
 app.use("/settings", settingsRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/upgrade', upgradeRoutes)
 
 // Connect to database first, then start server
 const startServer = async () => {
