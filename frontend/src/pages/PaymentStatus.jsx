@@ -17,7 +17,7 @@ const PaymentStatus = () => {
 
     useEffect(() => {
         const verifyPayment = async () => {
-            if (!transactionId) return navigate('/payment-error');
+            if (!transactionId) return navigate('/upgrade-error');
 
             try {
                 const res = await axios.post(
