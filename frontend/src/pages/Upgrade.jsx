@@ -7,6 +7,11 @@ import { useAuthStore } from '../store/authStore';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { IoArrowBack } from 'react-icons/io5';
+import Visa from '../assets/Images/SVG Icons/visa-logo-svgrepo-com.svg';
+import Express from '../assets/Images/SVG Icons/American-express.svg';
+import Mastercard from '../assets/Images/SVG Icons/mastercard-logo.svg';
+import Discover from '../assets/Images/SVG Icons/discover-logo.svg';
+import Verve from '../assets/Images/SVG Icons/verve-svgrepo-com.svg'
 
 // Set the API URL based on the environment
 const API_URL =
@@ -96,18 +101,31 @@ export default function Upgrade() {
                 {/* Payment Info */}
                 <div className="space-y-6 mb-8">
                   <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="font-bold font-satoshi text-lg mb-3">Payment Methods Accepted</h3>
-                    <div className="flex flex-wrap gap-3">
-                      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-md shadow-sm">
-                        <GoCreditCard className="w-4 h-4 text-gray-600" />
-                        <span className="text-sm font-satoshi">Credit/Debit Cards</span>
+                    <h3 className="font-bold font-satoshi text-lg mb-3">Accepted Payment Methods</h3>
+                    <div className="flex items-center flex-wrap gap-3">
+                      {/* Visa */}
+                        <div className="w-8">
+                          <img src={Visa} className='w-full h-full object-cover' />
+                        </div>
+                        
+                        {/* Mastercard */}
+                        <div className="w-8">
+                          <img src={Mastercard} className='w-full h-full object-cover' />
                       </div>
-                      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-md shadow-sm">
-                        <span className="text-sm font-satoshi">Bank Transfer</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-md shadow-sm">
-                        <span className="text-sm font-satoshi">USSD</span>
-                      </div>
+                      {/* American Express */}
+                        <div className="w-10">
+                        <img src={Express} className='w-full h-full object-cover' />
+                        </div>
+                        
+                        {/* Discover */}
+                        <div className="w-10">
+                          <img src={Discover} className='w-full h-full object-cover' />
+                        </div>
+                                          
+                        {/* Verve */}
+                        <div className="w-10">
+                          <img src={Verve} className='w-full h-full object-cover' />
+                        </div>
                     </div>
                   </div>
 
