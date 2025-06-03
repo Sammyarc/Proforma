@@ -13,6 +13,9 @@ import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import DeletedAccountPage from "./pages/DeletedAccountPage";
 import Upgrade from "./pages/Upgrade";
+import PaymentStatus from "./pages/PaymentStatus";
+import UpgradeSuccess from "./pages/UpgradeSuccess";
+import UpgradeCancel from "./pages/UpgradeCancel";
 
 const App = () => {
   return (
@@ -45,9 +48,12 @@ const App = () => {
           }
         />
         <Route path="/payment-success" element={<Success />} />
+        <Route path="/upgrade-success" element={<UpgradeSuccess/>} />
 
         <Route path="/payment-error" element={<Cancel />} />
+        <Route path="/upgrade-error" element={<UpgradeCancel />} />
         <Route path="/account-deleted" element={<DeletedAccountPage />} />
+        <Route path="/payment-status" element={<PaymentStatus />} />
         <Route
           path="/pricing"
           element={
