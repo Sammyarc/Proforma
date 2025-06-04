@@ -67,7 +67,7 @@ export default function Upgrade() {
   return (
     <div className="min-h-screen bg-[#F5F5F5] relative">
         <button
-           onClick={() => navigate('/')} // goes back to the previous page
+           onClick={() => navigate('/dashboard')} // goes back to the previous page
            className="absolute top-4 left-4 font-satoshi flex items-center gap-2 text-gray-700 hover:underline font-medium text-lg bg-none outline-none rounded-full transition duration-200 md:text-base"
         >
           <IoArrowBack className="text-lg" />
