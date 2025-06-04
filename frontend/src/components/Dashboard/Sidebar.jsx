@@ -8,7 +8,7 @@ import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { TbBrandGoogleAnalytics } from "react-icons/tb";
 import { GoPeople } from "react-icons/go";
 import { GiTakeMyMoney } from "react-icons/gi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
@@ -203,7 +203,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               title="Logout"
               onClick={() => {
                 logout();
-                window.location.href = "/signup";
+                Navigate("/signup");
               }}
             >
               <LogOut
