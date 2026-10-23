@@ -1,3 +1,5 @@
+import crypto from "node:crypto";
+import { requireWorkspace } from "../middleware/requireWorkspace.js";
 // paypalRoutes.js
 import express from 'express';
 import axios from 'axios';
@@ -39,29 +41,41 @@ async function savePayPalCredentials(userId, tokenData) {
 }
 
 
-router.get('/callback', async (req, res) => {
-  const { state, code } = req.query;
-
-  // Step 1: Validate state param
-  if (!state) {
-    return res.status(400).send('Missing state parameter');
-  }
-
-  // Step 2: Parse state (userId + redirect)
-  let userId, redirectUrl;
+router.post('/connect', requireWorkspace, async (req, res) => {
   try {
-    const parsedState = JSON.parse(decodeURIComponent(state));
-    userId = parsedState.userId;
-    redirectUrl = parsedState.redirect;
-
-  } catch (err) {
-    console.error('Raw state:', state);
-    return res.status(400).send('Invalid state parameter');
+    if (!process.env.PAYPAL_CLIENT_ID || !process.env.BACKEND_URL || !process.env.FRONTEND_URL) {
+      return res.status(503).json({ message: "PayPal connection is not configured." });
+    }
+    const state = crypto.randomBytes(32).toString('hex');
+    await User.findByIdAndUpdate(req.user.id, { $set: {
+      paypalOAuthState: crypto.createHash('sha256').update(state).digest('hex'),
+      paypalOAuthExpiresAt: new Date(Date.now() + 10 * 60 * 1000)
+    } });
+    const sandbox = new URL(process.env.PAYPAL_API_URL).hostname.includes('sandbox');
+    const url = new URL(sandbox ? 'https://www.sandbox.paypal.com/connect' : 'https://www.paypal.com/connect');
+    url.search = new URLSearchParams({ flowEntry: 'static', client_id: process.env.PAYPAL_CLIENT_ID, response_type: 'code', scope: 'openid email profile', redirect_uri: process.env.BACKEND_URL.replace(/\/$/, '') + '/paypal/callback', state }).toString();
+    return res.json({ url: url.href });
+  } catch {
+    return res.status(503).json({ message: "Could not start PayPal connection. Please try again." });
   }
+});
 
-  // Step 3: Validate code param
-  if (!code) {
-    return res.status(400).send('Missing authorization code');
+router.get('/callback', requireWorkspace, async (req, res) => {
+  const { state, code } = req.query;
+  if (typeof state !== 'string' || !/^[a-f0-9]{64}$/.test(state) || typeof code !== 'string' || !code || code.length > 4096) {
+    return res.status(400).send('Invalid PayPal connection response. Start again from Settings.');
+  }
+  const userId = req.user.id;
+  const redirectUrl = process.env.FRONTEND_URL.replace(/\/$/, '') + '/dashboard/settings?tab=connections';
+  try {
+    const account = await User.findOneAndUpdate({
+      _id: userId,
+      paypalOAuthState: crypto.createHash('sha256').update(state).digest('hex'),
+      paypalOAuthExpiresAt: { $gt: new Date() }
+    }, { $unset: { paypalOAuthState: '', paypalOAuthExpiresAt: '' } });
+    if (!account) return res.status(400).send('PayPal connection expired or already used. Start again from Settings.');
+  } catch {
+    return res.status(503).send('Could not verify the PayPal connection. Please try again.');
   }
 
   try {
@@ -75,7 +89,7 @@ router.get('/callback', async (req, res) => {
 
     const tokenResponse = await axios.post(
       `${PAYPAL_BASE_URL}/v1/oauth2/token`,
-      `grant_type=authorization_code&code=${code}`,
+      new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: process.env.BACKEND_URL.replace(/\/$/, '') + '/paypal/callback' }),
       {
         headers: {
           'Authorization': `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
@@ -102,8 +116,8 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-router.post('/disconnect', async (req, res) => {
-  const { userId } = req.body;
+router.post('/disconnect', requireWorkspace, async (req, res) => {
+  const userId = req.user.id;
   try {
     // e.g. remove the paypal field from user
     await User.findByIdAndUpdate(userId, { $unset: { paypal: "" } });

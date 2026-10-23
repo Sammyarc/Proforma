@@ -1,0 +1,329 @@
+.lp-invoice {
+  position: relative;
+  background: #fffef9;
+  box-shadow: 0 18px 35px #233c3114;
+  padding: 28px 32px;
+  color: #293b30;
+  border-top: 5px solid #2d5b43;
+  transform: rotate(3deg);
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.lp-paper-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.lp-studio-mark {
+  font: italic 35px Georgia;
+}
+.lp-paper-top > span:last-child {
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 2;
+}
+.lp-invoice h3 {
+  font-size: 25px;
+  letter-spacing: -1px;
+  margin: 25px 0 22px;
+  line-height: 1.25;
+}
+.lp-invoice h3 em {
+  font-family: Georgia;
+  font-weight: 400;
+}
+.lp-invoice-parties {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  font-size: 12px;
+}
+.lp-invoice-parties div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lp-invoice-parties small {
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+  opacity: 0.65;
+}
+.lp-invoice-parties span {
+  opacity: 0.65;
+}
+.lp-invoice-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #293b301b;
+  font-size: 12px;
+}
+.lp-invoice-row small {
+  display: block;
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+.lp-invoice-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 8px 0;
+  border-top: 1px solid #293b3030;
+}
+.lp-invoice-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #edf0e7;
+  padding: 14px;
+  margin: 20px -5px 22px;
+  font-size: 12px;
+}
+.lp-invoice-total small {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-left: 4px;
+}
+.lp-invoice-total strong {
+  font-size: 22px;
+  letter-spacing: -1px;
+}
+.lp-paper-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  opacity: 0.6;
+  gap: 8px;
+}
+.lp-invoice-minimal {
+  border-color: #323232;
+  background: #fff;
+  color: #333;
+}
+.lp-invoice-minimal .lp-invoice-total {
+  background: #f1f1f1;
+}
+.lp-invoice-clay {
+  border-color: #a76a4c;
+  background: #fff8ef;
+  color: #80503a;
+}
+.lp-invoice-clay .lp-invoice-total {
+  background: #f2e5d6;
+}
+.lp-workspace-preview {
+  display: flex;
+  background: #fbfcf8;
+  border: 1px solid #dce0d5;
+  border-radius: 11px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px #30452b08;
+}
+.lp-workspace-preview aside {
+  background: #233b32;
+  color: #e6eadd;
+  width: 190px;
+  flex-shrink: 0;
+  padding: 27px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.lp-preview-brand {
+  font: italic 32px Georgia;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 12px 35px;
+}
+.lp-preview-brand span {
+  font: 600 17px Satoshi;
+  letter-spacing: -0.5px;
+}
+.lp-preview-nav {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 12px;
+  padding: 12px 14px;
+  color: #b6c4b8;
+  margin: 3px 0;
+}
+.lp-preview-nav.active {
+  background: #ffffff11;
+  color: white;
+  border-radius: 5px;
+}
+.lp-preview-profile {
+  margin-top: auto;
+  padding-top: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.lp-preview-profile > span {
+  padding: 8px;
+  background: #52634b;
+  border-radius: 50%;
+}
+.lp-preview-profile small {
+  display: block;
+  font-size: 12px;
+  color: #b6c4b8;
+  margin-top: 3px;
+}
+.lp-preview-content {
+  padding: 30px 36px 32px;
+  flex: 1;
+  min-width: 0;
+}
+.lp-preview-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #7d887d;
+  letter-spacing: 1px;
+}
+.lp-preview-top > span:last-child {
+  letter-spacing: 0;
+}
+.lp-preview-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 23px 0 28px;
+}
+.lp-preview-title h3 {
+  font-size: 22px;
+  letter-spacing: -0.8px;
+}
+.lp-preview-title p {
+  font-size: 12px;
+  margin-top: 7px;
+  color: #7d887d;
+}
+.lp-preview-new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #2d5b43;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+  padding: 9px 12px;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+.lp-preview-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.lp-preview-metrics > div {
+  border: 1px solid #e3e6dc;
+  background: #fff;
+  padding: 19px;
+  border-radius: 6px;
+}
+.lp-preview-metrics > div > span {
+  font-size: 12px;
+  color: #748071;
+  display: block;
+}
+.lp-preview-metrics strong {
+  display: block;
+  font-size: 30px;
+  letter-spacing: -1px;
+  margin: 10px 0;
+}
+.lp-preview-metrics strong span {
+  font-size: 20px;
+  color: #84927e;
+}
+.lp-preview-metrics small {
+  font-size: 12px;
+  color: #748071;
+}
+.lp-preview-metrics i {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #639c6b;
+  margin-right: 4px;
+}
+.lp-preview-table-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 28px 0 18px;
+  font-size: 12px;
+}
+.lp-preview-table-title > span {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 12px;
+}
+.lp-preview-table > div {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e8df;
+  font-size: 12px;
+}
+.lp-preview-table > div:last-child {
+  border: 0;
+}
+.lp-preview-table .lp-preview-table-head {
+  font-size: 12px;
+  color: #84907d;
+  letter-spacing: 1px;
+  padding-top: 0;
+}
+.lp-preview-client {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.lp-preview-client > i {
+  font-style: normal;
+  font-size: 12px;
+  background: #e8eddf;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+}
+.lp-preview-client small {
+  display: block;
+  font-size: 12px;
+  color: #83907e;
+  margin-top: 3px;
+}
+.lp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 5px 8px;
+  background: #e8f0e2;
+  color: #406344;
+}
+.lp-status.pending {
+  background: #f6efd9;
+  color: #897135;
+}
+.lp-status i {
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 50%;
+}

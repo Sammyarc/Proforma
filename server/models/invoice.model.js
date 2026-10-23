@@ -26,6 +26,10 @@ const InvoiceSchema = new mongoose.Schema({
     type: String
   },
   description: String,
+  clientId: String,
+  structuredData: mongoose.Schema.Types.Mixed,
+  deliveryStatus: { type: String, enum: ['prepared', 'processing', 'sending', 'sent', 'failed', 'unknown'] },
+  attachmentId: mongoose.Schema.Types.ObjectId,
   amountNumeric: {
     type: Number,
     required: true

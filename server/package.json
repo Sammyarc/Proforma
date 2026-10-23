@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "dev": "nodemon server.js",
     "start": "cross-env NODE_ENV=production node server.js"
   },

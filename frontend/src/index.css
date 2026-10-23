@@ -19,27 +19,29 @@
 }
 
 body {
-  background-color: #f5f5f2;
-  max-width: 1600px;
+  background-color: #fafafa;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
+/* ── Reusable utilities ──────────────────────────────────── */
+
+@layer utilities {
+  .ring-focus {
+    @apply outline-none ring-2 ring-accent-500 ring-offset-2;
   }
 }
 
+/* ── Animations ──────────────────────────────────────────── */
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
 @keyframes slideOut {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
 }
 
 .mobile-menu {
@@ -56,51 +58,19 @@ body {
   animation: slideOut 0.5s forwards ease-in-out;
 }
 
-@keyframes shake {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-10deg);
-  }
-  50% {
-    transform: rotate(10deg);
-  }
-  75% {
-    transform: rotate(-10deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-.shake {
-  animation: shake 0.5s ease-in-out;
-}
-
 @keyframes move-up {
-  from {
-    transform: translateY(0.5rem);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(0.5rem); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
 }
 
 .animate-moveUp {
-  animation: move-up 0.3s ease-out;
+  animation: move-up 0.2s ease-out;
 }
 
-/* Seamless scrolling animation */
+/* Testimonial carousel scroll */
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-111.1%);
-  }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-111.1%); }
 }
 
 .animate-scroll {
@@ -115,13 +85,12 @@ body {
   white-space: nowrap;
 }
 
-.animate-scroll-reverse:hover {
-  animation-play-state: paused;
-}
-
+.animate-scroll-reverse:hover,
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+/* ── Toastify overrides ──────────────────────────────────── */
 
 .Toastify__toast-container {
   width: auto;
@@ -134,39 +103,40 @@ body {
 }
 
 .Toastify__toast {
-  width: 100%; /* Ensures each toast takes full width */
-  font-family: "Satoshi";
+  width: 100%;
+  font-family: "Satoshi", sans-serif;
+  border-radius: 8px;
 }
 
-/* Hide increment/decrement arrows for Chrome, Safari, Edge, and Opera */
+/* ── Form input overrides ────────────────────────────────── */
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Hide increment/decrement arrows for Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Hide scrollbar by default (mobile) */
+/* ── Scrollbar toggle (hidden on mobile, visible on desktop) */
+
 .scrollbar-toggle {
   overflow: auto;
-  scrollbar-width: none;         /* Firefox */
-  -ms-overflow-style: none;      /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .scrollbar-toggle::-webkit-scrollbar {
-  width: 0px;                    /* Chrome/Safari */
+  width: 0px;
   height: 0px;
 }
 
-/* Show scrollbar on medium and up */
 @media (min-width: 1024px) {
   .scrollbar-toggle {
-    scrollbar-width: thin;       /* Firefox */
-    -ms-overflow-style: auto;    /* IE/Edge */
+    scrollbar-width: thin;
+    -ms-overflow-style: auto;
   }
 
   .scrollbar-toggle::-webkit-scrollbar {
@@ -175,7 +145,7 @@ input[type="number"] {
   }
 
   .scrollbar-toggle::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #d4d4d4;
     border-radius: 4px;
   }
 
@@ -184,12 +154,7 @@ input[type="number"] {
   }
 }
 
-
-
+/* Legacy .box class — kept during migration, will be removed in Phase 6 */
 .box {
   box-shadow: 0 5px 0 0 rgb(0, 0, 0);
-}
-
-iframe[src*="accounts.google.com"] {
-  display: none !important;
 }

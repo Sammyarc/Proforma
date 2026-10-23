@@ -1,5 +1,8 @@
+import { requireWorkspace } from "../middleware/requireWorkspace.js";
+import { publicUser } from "../utils/publicUser.js";
 import { Router } from 'express';
 const router = Router();
+router.use(requireWorkspace);
 import multer, { memoryStorage } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { verifyToken } from '../middleware/verifyToken.js';
@@ -65,19 +68,23 @@ router.put('/user-settings', verifyToken, async (req, res) => {
 
   // Build settings object
   const settingsFields = {};
-  if (businessName) settingsFields.businessName = businessName;
-  if (email) settingsFields.email = email;
-  if (city) settingsFields.city = city;
-  if (country) settingsFields.country = country;
-  if (state) settingsFields.state = state;
-  if (phoneNumber) settingsFields.phoneNumber = phoneNumber;
-  if (logoUrl !== undefined) settingsFields.logoUrl = logoUrl;
+  for (const [key, value] of Object.entries({ businessName, city, country, state, phoneNumber, logoUrl })) {
+    if (value === undefined) continue;
+    if (typeof value !== "string" || value.length > (key === "logoUrl" ? 2048 : 200)) {
+      return res.status(400).json({ message: `Invalid ${key}` });
+    }
+    settingsFields[key] = value.trim();
+  }
 
   try {
     let user = await User.findById(req.user.id);
     
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
+    }
+
+    if (email !== undefined && (typeof email !== "string" || email.trim().toLowerCase() !== user.email)) {
+      return res.status(400).json({ message: "Email changes require verification. Keep your current account email." });
     }
 
     // Update user
@@ -87,7 +94,7 @@ router.put('/user-settings', verifyToken, async (req, res) => {
       { new: true }
     );
 
-    res.json(user);
+    res.json(publicUser(user));
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -136,7 +143,7 @@ router.post('/upload-logo', [verifyToken, upload.single('logo')], async (req, re
 // @desc    Perform a soft delete on the user account
 // @access  Private
 router.patch('/soft-delete', async (req, res) => {
-  const { userId } = req.query;
+  const userId = req.user.id;
 
   if (!userId) return res.status(400).json({ error: "User ID is required" });
 

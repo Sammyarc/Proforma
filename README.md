@@ -30,6 +30,30 @@
 
 ## Getting Started
 
+### Local API address
+
+The frontend uses `VITE_API_URL` as the shared API origin for authentication,
+workspace data, usage, and billing. It must point to the Express server, not
+another application using the same port.
+
+For example, when port 3000 is occupied:
+
+```dotenv
+# server/.env
+PORT=3001
+BACKEND_URL=http://localhost:3001
+FRONTEND_URL=http://localhost:5173
+
+# frontend/.env.development.local
+VITE_API_URL=http://localhost:3001
+```
+
+Run `npm run dev` separately in `server/` and `frontend/`. Restart the backend
+after changing its environment; restart Vite if it does not reload the frontend
+environment automatically. `GET http://localhost:3001/api/health` should return
+`{"service":"proforma-api","status":"ok"}`. An HTML response means the request
+has reached a different application.
+
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn

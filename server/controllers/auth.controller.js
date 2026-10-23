@@ -1,3 +1,4 @@
+import { publicUser } from "../utils/publicUser.js";
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
 import {
@@ -33,7 +34,7 @@ export const signup = async (req, res) => {
 		const userAlreadyExists = await User.findOne({
 			email
 		});
-		console.log("userAlreadyExists", userAlreadyExists);
+
 
 		if (userAlreadyExists) {
 			return res.status(400).json({
@@ -63,10 +64,7 @@ export const signup = async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: "User created successfully",
-			user: {
-				...user._doc,
-				password: undefined,
-			},
+			user: publicUser(user),
 		});
 	} catch (error) {
 		res.status(400).json({
@@ -141,10 +139,7 @@ export const login = async (req, res) => {
 			message: wasRecovered ?
 				"Your account has been reactivated successfully." :
 				"Logged in successfully.",
-			user: {
-				...user._doc,
-				password: undefined, // Hide password
-			},
+			user: publicUser(user),
 		});
 	} catch (error) {
 		console.log("Error in login ", error);
@@ -223,10 +218,7 @@ export const googleSignIn = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Google sign-in successful",
-			user: {
-				...user._doc,
-				password: undefined, // Exclude password from the response
-			},
+			user: publicUser(user),
 		});
 	} catch (error) {
 		console.error("Error in googleSignIn:", error);
@@ -243,6 +235,7 @@ export const verifyEmail = async (req, res) => {
 	} = req.body;
 	try {
 		const user = await User.findOne({
+			_id: req.user.id,
 			verificationToken: code,
 			verificationTokenExpiresAt: {
 				$gt: Date.now()
@@ -266,10 +259,7 @@ export const verifyEmail = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Email verified successfully",
-			user: {
-				...user._doc,
-				password: undefined,
-			},
+			user: publicUser(user),
 		});
 	} catch (error) {
 		console.log("error in verifyEmail ", error);
@@ -371,8 +361,8 @@ export const checkAuth = async (req, res) => {
 	try {
 		const userId = req.user.id;
 		const user = await User.findById(userId).select("-password");
-		if (!user) {
-			return res.status(400).json({
+		if (!user || user.isDeleted) {
+			return res.status(401).json({
 				success: false,
 				message: "User not found"
 			});
@@ -381,7 +371,7 @@ export const checkAuth = async (req, res) => {
 		// Return the user's connection status (e.g., PayPal connection)
 		res.status(200).json({
 			success: true,
-			user,
+			user: publicUser(user),
 			connections: {
 				paypal: user.paypal && user.paypal.accessToken ? true : false,
 			}

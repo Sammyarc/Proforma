@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
+import PageMetadata from "./components/PageMetadata";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./hooks/ProtectedRoute";
@@ -16,10 +17,12 @@ import Upgrade from "./pages/Upgrade";
 import PaymentStatus from "./pages/PaymentStatus";
 import UpgradeSuccess from "./pages/UpgradeSuccess";
 import UpgradeCancel from "./pages/UpgradeCancel";
+import ResultPage from "./components/workspace/ResultPage";
 
 const App = () => {
   return (
     <Router>
+      <PageMetadata />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -35,7 +38,18 @@ const App = () => {
           }
         />
         {/* Error Pages */}
-        <Route path="*" element={<Home />} />
+        <Route
+          path="*"
+          element={
+            <ResultPage
+              tone="help"
+              title="Page not found"
+              description="This page does not exist or has moved. Return to the Proforma homepage."
+              action="Back to Proforma"
+              to="/"
+            />
+          }
+        />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
@@ -48,9 +62,10 @@ const App = () => {
           }
         />
         <Route path="/payment-success" element={<Success />} />
-        <Route path="/upgrade-success" element={<UpgradeSuccess/>} />
+        <Route path="/upgrade-success" element={<UpgradeSuccess />} />
 
         <Route path="/payment-error" element={<Cancel />} />
+        <Route path="/payment-cancelled" element={<Cancel />} />
         <Route path="/upgrade-error" element={<UpgradeCancel />} />
         <Route path="/account-deleted" element={<DeletedAccountPage />} />
         <Route path="/payment-status" element={<PaymentStatus />} />

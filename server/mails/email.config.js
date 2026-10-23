@@ -34,6 +34,9 @@ const createTransporter = async () => {
   const token = await accessToken();
   
   return nodemailer.createTransport({
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 60000,
     service: 'gmail',
     auth: {
       type: 'OAuth2',

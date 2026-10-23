@@ -1,388 +1,401 @@
-import { GrSend } from "react-icons/gr";
-import { SlOptions } from "react-icons/sl";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { IoIosArrowDown } from "react-icons/io";
-import axios from "axios";
-import { TbLoader3 } from "react-icons/tb";
-import { useAuthStore } from "../store/authStore";
-
-const API_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:3000/api/invoice"
-    : "https://proforma-sohi.vercel.app/api/invoice";
-
-axios.defaults.withCredentials = true;
-
-const useClickOutside = (handler) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        handler();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handler]);
-
-  return ref;
+﻿import { useState } from "react";
+import {
+  ArrowUpRight,
+  Mail,
+  Users,
+  Plus,
+  Pencil,
+  Archive,
+  RotateCcw,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Modal from "../components/ui/Modal";
+import {
+  api,
+  Empty,
+  ErrorState,
+  Loading,
+  PageHeading,
+  SearchField,
+  dateLabel,
+  initials,
+  useResource,
+  money,
+  Status,
+  InvoiceDetails,
+} from "../components/workspace/shared";
+const blank = {
+  name: "",
+  email: "",
+  company: "",
+  phone: "",
+  billingAddress: "",
+  notes: "",
 };
-
-const Clients = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Sort by: Latest");
-  const [showPageOption, setShowPageOption] = useState(false);
-  const [pageSelected, setPageSelected] = useState("5");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [clientData, setClientData] = useState([]);
-  const [displayClients, setDisplayClients] = useState([]);
-  const [totalClients, setTotalClients] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuthStore();
-
-  const navigate = useNavigate();
-
-  const sortDropdownRef = useClickOutside(() => setIsOpen(false));
-  const pageDropdownRef = useClickOutside(() => setShowPageOption(false));
-
-  // Animated ellipsis component
-  const AnimatedEllipsis = () => {
-    const [dots, setDots] = useState("");
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setDots((prevDots) => {
-          if (prevDots === "") return ".";
-          if (prevDots === ".") return "..";
-          if (prevDots === "..") return "...";
-          return "";
-        });
-      }, 600);
-
-      return () => clearInterval(interval);
-    }, []);
-
-    return <span className="animated-ellipsis">{dots}</span>;
+export default function Clients() {
+  const [search, setSearch] = useState("");
+  const [archived, setArchived] = useState(false),
+    [page, setPage] = useState(1);
+  const { data, loading, error, reload } = useResource("/api/clients", {
+    search,
+    archived,
+    page,
+  });
+  const [editing, setEditing] = useState(null),
+    [form, setForm] = useState(blank);
+  const [saving, setSaving] = useState(false),
+    [formError, setFormError] = useState("");
+  const [archiveTarget, setArchiveTarget] = useState(null),
+    [history, setHistory] = useState(null);
+  const openEditor = (client = {}) => {
+    setEditing(client);
+    setForm({ ...blank, ...client });
+    setFormError("");
   };
-
-  const userId = user?._id;
-
-  // Fetch once, populate BOTH states
-  useEffect(() => {
-    const fetchClientData = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`${API_URL}/invoices/clients`, {
-          params: { userId },
-        });
-
-        if (!data.success) throw new Error("Failed to fetch client data");
-
-        setClientData(data.clients);
-        setDisplayClients(data.clients); // ← initial display order
-        setTotalClients(data.totalClients);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchClientData();
-  }, [userId]);
-
-  // Sort ONLY the display state
-  useEffect(() => {
-    if (!clientData.length) return;
-
-    // Copy raw data each time we sort
-    const sorted = [...clientData];
-
-    if (selected === "Sort by: Latest") {
-      // Sort by lastInvoiceAt descending (newest first)
-      sorted.sort(
-        (a, b) => new Date(b.lastInvoiceAt) - new Date(a.lastInvoiceAt),
+  const save = async (event) => {
+    event.preventDefault();
+    setSaving(true);
+    setFormError("");
+    try {
+      if (editing._id) await api.patch(`/api/clients/${editing._id}`, form);
+      else await api.post("/api/clients", form);
+      toast.success(editing._id ? "Client updated." : "Client added.");
+      setEditing(null);
+      reload();
+    } catch (e) {
+      setFormError(
+        e.response?.data?.error ||
+          "Could not save this client. Your edits are still here.",
       );
-    } else if (selected === "Sort by: Oldest") {
-      // Sort by lastInvoiceAt ascending (oldest first)
-      sorted.sort(
-        (a, b) => new Date(a.lastInvoiceAt) - new Date(b.lastInvoiceAt),
+    } finally {
+      setSaving(false);
+    }
+  };
+  const archive = async () => {
+    setSaving(true);
+    setFormError("");
+    try {
+      await api.patch(`/api/clients/${archiveTarget._id}`, {
+        archived: !archiveTarget.archived,
+        revision: archiveTarget.revision,
+      });
+      toast.success(
+        archiveTarget.archived ? "Client restored." : "Client archived.",
       );
-    }
-
-    setDisplayClients(sorted);
-  }, [selected, clientData]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (activeDropdown !== null) {
-        const isClickOnButton = event.target.closest(
-          'button[class*="focus:outline"]',
-        );
-        const isClickOnDropdown = event.target.closest(
-          'div[class*="absolute right-0"]',
-        );
-
-        if (!isClickOnButton && !isClickOnDropdown) {
-          setActiveDropdown(null);
-        }
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [activeDropdown]);
-
-  const options = ["Sort by: Latest", "Sort by: Oldest"];
-  const pageOptions = ["5", "10", "15", "20"];
-
-  const handlePageSelect = (pageOption) => {
-    setPageSelected(pageOption);
-    setShowPageOption(false);
-  };
-
-  const handleSelect = (option) => {
-    setSelected(option);
-    setIsOpen(false);
-  };
-
-  const toggleDropdown = (id) => {
-    if (activeDropdown === id) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(id);
+      setArchiveTarget(null);
+      reload();
+    } catch (e) {
+      setFormError(e.response?.data?.error || "Could not update this client.");
+    } finally {
+      setSaving(false);
     }
   };
-
-  // Calculate pagination
-  const itemsPerPage = parseInt(pageSelected);
-  const totalPages = Math.ceil(displayClients.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = displayClients.slice(startIndex, endIndex);
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const formatInvoiceText = (count) => {
-    return `${count} invoice${count === 1 ? "" : "s"}`;
-  };
-
   return (
-    <div className="p-2 md:p-4 lg:p-6">
-      <div className="flex flex-col mb-6 space-y-5 md:flex-row md:justify-between md:items-center md:space-y-0">
+    <>
+      <PageHeading
+        eyebrow="YOUR CLIENT DIRECTORY"
+        title="Your clients"
+        description="Keep billing details together, follow invoice history, and start your next invoice in a click."
+      >
+        <button className="ws-button ws-primary" onClick={() => openEditor()}>
+          <Plus size={16} /> Add client
+        </button>
+      </PageHeading>
+      <div className="ws-client-toolbar">
+        <h2>
+          {archived ? "Archived clients" : "Active clients"}{" "}
+          <span className="ws-count">{data?.pagination?.total || 0}</span>
+        </h2>
         <div>
-          <h1 className="text-[6vw] font-satoshi font-bold md:text-[3vw] lg:text-[2.5vw]">
-            Clients
-          </h1>
-          <p className="text-base md:mt-2 font-satoshi">{totalClients} total</p>
-        </div>
-        <div className="flex justify-between gap-2 items-center md:justify-normal">
-          <button
-            onClick={() => navigate("/dashboard/invoices")}
-            className="py-[2vw] px-[5vw] flex items-center box font-satoshi border border-gray-400 rounded-xl md:mr-[1.5vw] md:py-[0.6vw] md:px-[1.5vw] lg:mr-[0.8vw]"
+          <SearchField
+            value={search}
+            onChange={(value) => {
+              setSearch(value);
+              setPage(1);
+            }}
+            placeholder="Find name, email or company…"
+          />
+          <select
+            aria-label="Client status"
+            value={String(archived)}
+            onChange={(e) => {
+              setArchived(e.target.value === "true");
+              setPage(1);
+            }}
           >
-            <span className="mr-2 font-satoshi text-[4vw] md:text-base lg:text-sm">Send Invoice</span>
-            <GrSend size={20} className="text-gray-700" />
-          </button>
-          <div
-            className="relative inline-block text-left"
-            ref={sortDropdownRef}
-          >
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center justify-between box w-full text-[4vw] font-satoshi py-[2vw] px-[5vw] rounded-xl bg-transparent text-black gap-2 border border-gray-500 md:text-base md:py-[0.6vw] md:px-[1.5vw] lg:text-sm"
-            >
-              <span className="border-r pr-[1.5vw] border-black h-full md:pr-[0.8vw]">
-                {selected}
-              </span>
-              <IoIosArrowDown
-                size={16}
-                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
-                  }`}
-              />
-            </button>
-
-            {isOpen && (
-              <ul className="absolute z-10 mt-3 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
-                {options.map((option, idx) => (
-                  <li
-                    key={idx}
-                    onClick={() => handleSelect(option)}
-                    className="cursor-pointer px-4 py-2 text-base font-satoshi hover:bg-gray-100 md:text-sm"
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+            <option value="false">Active</option>
+            <option value="true">Archived</option>
+          </select>
         </div>
       </div>
-
-      <div className="w-full">
-        {loading ? (
-          <div className="flex flex-col justify-center items-center space-y-3">
-            <TbLoader3 size={30} className="animate-spin text-teal-500" />
-            <p className="text-[4vw] font-satoshi md:text-sm lg:text-[1vw]">
-              Please wait while we load client&apos;s data
-              <AnimatedEllipsis />
-            </p>
-          </div>
-        ) : currentData.length === 0 ? (
-          <div className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]">
-            No Client Data Available.
-          </div>
-        ) : (
-          <>
-            <div className="w-full scrollbar-toggle overflow-auto">
-              <table className="w-full min-w-[1000px]">
-                <thead>
-                  <tr className="border-b border-gray-400">
-                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                      Client Name
-                    </th>
-                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                      Client Address
-                    </th>
-                    <th className="text-left py-4 px-3 font-satoshi font-semibold">
-                      No. of invoices sent
-                    </th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentData.map((client, index) => (
-                    <tr key={index} className="border-b border-gray-400">
-                      <td className="py-2 px-3 font-satoshi text-gray-600">
-                        {client.clientName}
-                      </td>
-                      <td className="py-2 px-3 font-satoshi text-gray-600">
-                        {client.clientAddress}
-                      </td>
-                      <td className="py-2 px-3 font-satoshi text-gray-600">
-                        {formatInvoiceText(client.invoiceCount)}
-                      </td>
-                      <td className="py-4 px-3 relative">
-                        <button
-                          className="focus:outline-1 p-2 rounded-md"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleDropdown(index);
-                          }}
-                        >
-                          <SlOptions />
-                        </button>
-                        {activeDropdown === index && (
-                          <div className="absolute right-0 top-10 mt-2 bg-white rounded-md shadow-lg z-10 min-w-32 animate-moveUp">
-                            <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-t">
-                              View
-                            </div>
-                            <div className="py-2 px-4 cursor-pointer font-satoshi hover:bg-gray-100 hover:rounded-b">
-                              Delete
-                            </div>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                  {currentData.length === 0 && !loading && (
-                    <tr>
-                      <td
-                        colSpan="4"
-                        className="text-[4vw] text-center py-10 text-gray-600 font-satoshi md:text-sm lg:text-[1vw]"
-                      >
-                        No clients found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="flex flex-col space-y-4 font-satoshi items-center mt-6 md:space-y-0 md:flex-row md:justify-between">
-              <div className="flex items-center">
-                <span>
-                  Page {currentPage} of {totalPages || 1}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorState message={error} onRetry={reload} />
+      ) : data?.clients?.length ? (
+        <div className="ws-client-grid">
+          {data.clients.map((client, i) => (
+            <article className="ws-client-card" key={client._id}>
+              <div className="ws-client-card-top">
+                <span className={`ws-avatar ws-avatar-large tone-${i % 4}`}>
+                  {initials(client.name)}
                 </span>
-                <span className="mx-3">•</span>
-                <span>Showing:</span>
-                <div
-                  className="relative inline-block text-left ml-3"
-                  ref={pageDropdownRef}
+                <button
+                  className="ws-icon-button"
+                  aria-label={`Edit ${client.name}`}
+                  onClick={() => openEditor(client)}
                 >
-                  <button
-                    onClick={() => setShowPageOption(!showPageOption)}
-                    className="flex items-center justify-between w-full text-[4vw]  font-satoshi px-2 py-1 rounded-md bg-transparent text-black gap-2 border border-gray-500 md:text-sm lg:text-base"
+                  <Pencil size={16} />
+                </button>
+              </div>
+              <h2>{client.name}</h2>
+              {client.company && <p>{client.company}</p>}
+              <a className="ws-client-email" href={`mailto:${client.email}`}>
+                <Mail size={14} />
+                {client.email}
+              </a>
+              <div className="ws-client-card-bottom">
+                <button
+                  className="ws-button"
+                  onClick={() => setHistory(client)}
+                >
+                  Invoice history
+                </button>
+                {!client.archived && (
+                  <Link
+                    className="ws-icon-button"
+                    aria-label={`Create invoice for ${client.name}`}
+                    to={`/dashboard/invoices/new?${new URLSearchParams({ clientId: client._id, client: client.name, email: client.email, address: client.billingAddress || "" })}`}
                   >
-                    <span className="border-r pr-[2vw] border-black h-full font-normal md:pr-[0.8vw]">
-                      {pageSelected}
-                    </span>
-                    <IoIosArrowDown
-                      size={16}
-                      className={`transition-transform duration-300 ${showPageOption ? "rotate-180" : "rotate-0"
-                        }`}
-                    />
-                  </button>
-
-                  {showPageOption && (
-                    <ul className="absolute z-10 bottom-10 w-full bg-white border rounded-lg shadow-lg animate-moveUp">
-                      {pageOptions.map((pageOption, idx) => (
-                        <li
-                          key={idx}
-                          onClick={() => handlePageSelect(pageOption)}
-                          className="cursor-pointer px-4 py-1 font-satoshi text-sm hover:bg-gray-100"
-                        >
-                          {pageOption}
-                        </li>
-                      ))}
-                    </ul>
+                    <ArrowUpRight size={19} />
+                  </Link>
+                )}
+                <button
+                  className="ws-icon-button"
+                  aria-label={`${client.archived ? "Restore" : "Archive"} ${client.name}`}
+                  onClick={() => {
+                    setArchiveTarget(client);
+                    setFormError("");
+                  }}
+                >
+                  {client.archived ? (
+                    <RotateCcw size={16} />
+                  ) : (
+                    <Archive size={16} />
                   )}
-                </div>
-              </div>
-              <div className="flex gap-3 md:gap-1 lg:gap-0">
-                <button
-                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  onClick={goToPreviousPage}
-                  disabled={currentPage === 1}
-                >
-                  ←
-                </button>
-                <button
-                  className={`w-8 h-8 flex items-center justify-center bg-transparent border border-gray-400 rounded mx-1 ${currentPage === totalPages
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                    }`}
-                  onClick={goToNextPage}
-                  disabled={currentPage === totalPages}
-                >
-                  →
                 </button>
               </div>
-            </div>
-          </>
-        )}
-      </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <section className="ws-panel">
+          <Empty
+            action={false}
+            icon={Users}
+            title={
+              search
+                ? "No matching clients."
+                : archived
+                  ? "No archived clients."
+                  : "Your next client starts here."
+            }
+            description={
+              search
+                ? "Try another name, email or company."
+                : archived
+                  ? "Archived clients stay available with their billing history."
+                  : "Add a client before creating an invoice. To view older invoice history, use the same billing email."
+            }
+          />
+        </section>
+      )}
+      <Pager page={page} pagination={data?.pagination} setPage={setPage} />
+      <Modal
+        open={editing !== null}
+        onClose={() => {
+          if (!saving) setEditing(null);
+        }}
+        title={editing?._id ? "Edit client" : "Add client"}
+        maxWidth="max-w-xl"
+      >
+        <form onSubmit={save}>
+          <div className="ws-form-grid">
+            {Object.entries({
+              name: "Client name",
+              email: "Billing email",
+              company: "Company (optional)",
+              phone: "Phone (optional)",
+            }).map(([key, label]) => (
+              <label className="ws-field" key={key}>
+                <span>{label}</span>
+                <input
+                  required={["name", "email"].includes(key)}
+                  maxLength={
+                    { name: 200, email: 254, company: 200, phone: 50 }[key]
+                  }
+                  type={
+                    key === "email" ? "email" : key === "phone" ? "tel" : "text"
+                  }
+                  value={form[key]}
+                  disabled={saving}
+                  onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                />
+              </label>
+            ))}
+          </div>
+          {[
+            ["billingAddress", "Billing address (optional)", 1000],
+            ["notes", "Private notes (optional)", 4000],
+          ].map(([key, label, maxLength]) => (
+            <label className="ws-field" key={key}>
+              <span>{label}</span>
+              <textarea
+                rows={3}
+                maxLength={maxLength}
+                value={form[key]}
+                disabled={saving}
+                onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+              />
+            </label>
+          ))}
+          <p>
+            Client updates apply to future invoices. Existing invoice details
+            stay unchanged.
+          </p>
+          {formError && <p role="alert">{formError}</p>}
+          <div className="ws-form-footer">
+            <button
+              type="button"
+              className="ws-button"
+              disabled={saving}
+              onClick={() => setEditing(null)}
+            >
+              Cancel
+            </button>
+            <button className="ws-button ws-primary" disabled={saving}>
+              {saving ? "Saving…" : "Save client"}
+            </button>
+          </div>
+        </form>
+      </Modal>
+      <Modal
+        open={!!archiveTarget}
+        onClose={() => {
+          if (!saving) setArchiveTarget(null);
+        }}
+        title={archiveTarget?.archived ? "Restore client?" : "Archive client?"}
+      >
+        <p>
+          {archiveTarget?.archived
+            ? "This client will be available for new invoices again."
+            : "This hides the client from active clients and new invoices. Invoice history stays available, and you can restore the client anytime."}
+        </p>
+        {formError && <p role="alert">{formError}</p>}
+        <div className="ws-form-footer">
+          <button
+            className="ws-button"
+            disabled={saving}
+            onClick={() => setArchiveTarget(null)}
+          >
+            Cancel
+          </button>
+          <button
+            className="ws-button ws-primary"
+            disabled={saving}
+            onClick={archive}
+          >
+            {saving
+              ? "Updating…"
+              : archiveTarget?.archived
+                ? "Restore client"
+                : "Archive client"}
+          </button>
+        </div>
+      </Modal>
+      {history && <History client={history} onClose={() => setHistory(null)} />}
+    </>
+  );
+}
+function Pager({ page, pagination, setPage }) {
+  if (!pagination || (pagination.pages <= 1 && page === 1)) return null;
+  return (
+    <div className="ws-form-footer">
+      <button
+        className="ws-button"
+        disabled={page === 1}
+        onClick={() => setPage(page - 1)}
+      >
+        Previous
+      </button>
+      <span>
+        Page {page} of {Math.max(page, pagination.pages)}
+      </span>
+      <button
+        className="ws-button"
+        disabled={page >= pagination.pages}
+        onClick={() => setPage(page + 1)}
+      >
+        Next
+      </button>
     </div>
   );
-};
-
-export default Clients;
+}
+function History({ client, onClose }) {
+  const [page, setPage] = useState(1),
+    [invoice, setInvoice] = useState(null);
+  const { data, loading, error, reload } = useResource(
+    `/api/clients/${client._id}/invoices`,
+    { page },
+  );
+  return (
+    <>
+      <Modal
+        open={!invoice}
+        onClose={onClose}
+        title={`${client.name} · Invoice history`}
+        maxWidth="max-w-2xl"
+      >
+        <p>
+          Older invoices without a saved client link are matched by the current
+          billing email.
+        </p>
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <ErrorState message={error} onRetry={reload} />
+        ) : data?.invoices?.length ? (
+          <div className="ws-client-history">
+            {data.invoices.map((item) => (
+              <button
+                className="ws-button"
+                key={item._id}
+                onClick={() => setInvoice(item)}
+              >
+                <span>
+                  {item.invoiceNumber}
+                  <small>{dateLabel(item.invoiceDate)}</small>
+                </span>
+                <span>{money(item.amountNumeric)}</span>
+                <Status status={item.status} />
+              </button>
+            ))}
+          </div>
+        ) : (
+          <Empty
+            action={false}
+            title="No invoices yet."
+            description="Invoices linked to this client will appear here."
+          />
+        )}
+        <Pager page={page} pagination={data?.pagination} setPage={setPage} />
+      </Modal>
+      <InvoiceDetails
+        invoice={invoice}
+        onClose={() => setInvoice(null)}
+        onDeleted={reload}
+      />
+    </>
+  );
+}

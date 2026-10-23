@@ -2,13 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/P.png" />
+    <link rel="icon" type="image/svg+xml" href="/brand/proforma-mark.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Proforma - Your AI enhanched invoice generator</title>
+    <meta
+      name="description"
+      content="Create branded invoices, download PDFs, email clients, and track payments with Proforma. Free invoicing software for freelancers and small businesses."
+    />
+    <meta name="theme-color" content="#193d32" />
+    <title>Free Invoice Generator for Small Businesses | Proforma</title>
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://proforma-gen.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Proforma" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:title"
+      content="Free Invoice Generator for Small Businesses | Proforma"
+    />
+    <meta
+      property="og:description"
+      content="Create branded invoices, download PDFs, email clients, and track payments. Start with a free Proforma account."
+    />
+    <meta property="og:url" content="https://proforma-gen.vercel.app/" />
+    <meta
+      property="og:image"
+      content="https://proforma-gen.vercel.app/images/studio.webp"
+    />
+    <meta
+      property="og:image:alt"
+      content="A sunlit studio workspace, the setting for Proforma's invoicing tools"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Free Invoice Generator for Small Businesses | Proforma"
+    />
+    <meta
+      name="twitter:description"
+      content="Create branded invoices, download PDFs, email clients, and track payments. Start with a free Proforma account."
+    />
+    <meta
+      name="twitter:image"
+      content="https://proforma-gen.vercel.app/images/studio.webp"
+    />
+    <script id="proforma-schema" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Proforma",
+        "url": "https://proforma-gen.vercel.app/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Online invoice generator for freelancers and small businesses. Create branded invoices, download PDFs, email clients, and track payment status.",
+        "featureList": [
+          "Customizable invoice templates",
+          "PDF, PNG and JPG invoice downloads",
+          "Invoice email delivery",
+          "PayPal payment links",
+          "Client invoice history",
+          "Invoice payment tracking"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free plan with 10 invoice emails per month"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <div id="modal-root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
